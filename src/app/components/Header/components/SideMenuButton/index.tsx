@@ -12,16 +12,16 @@ function SideMenuButton() {
             <button type="button" onClick={openSideMenu}>
                 <Image
                     src={
-                        process.env.NEXT_PUBLIC_LOGO_AVATAR_IMAGE ||
+                        process.env.NEXT_PUBLIC_AVATAR_IMAGE ||
                         "/avatar-placeholder.webp"
                     }
                     width={
-                        (process.env.NEXT_PUBLIC_LOGO_AVATAR_IMAGE_WIDTH as
+                        (process.env.NEXT_PUBLIC_AVATAR_IMAGE_WIDTH as
                             | number
                             | undefined) || 48
                     }
                     height={
-                        (process.env.NEXT_PUBLIC_LOGO_AVATAR_IMAGE_HEIGHT as
+                        (process.env.NEXT_PUBLIC_AVATAR_IMAGE_HEIGHT as
                             | number
                             | undefined) || 48
                     }
