@@ -65,7 +65,7 @@ function VerifyClient() {
     return (
         <>
             {user && !user?.isVerified && (
-                <main className=" grid justify-items-center py-[16vh] px-[2vw] gap-y-[1vh] text-center">
+                <main className=" grid gap-y-[3vh]  justify-items-center py-[4vh] md:py-[16vh] px-[2vw] text-center">
                     <div>
                         <MdOutlineMarkEmailRead color="green" size={72} />
                     </div>

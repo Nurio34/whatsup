@@ -21,7 +21,7 @@ function Hero() {
         <>
             {minHeight > 0 && (
                 <div
-                    className="grid justify-items-center items-center text-center overflow-hidden pt-[10vh]"
+                    className="grid justify-items-center items-center gap-[2vh] text-center overflow-hidden pt-[4vh] md:pt-[10vh]"
                     style={{ minHeight }}
                 >
                     <AnimatePresence mode="sync">

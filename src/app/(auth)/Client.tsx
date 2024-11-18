@@ -94,11 +94,11 @@ function AuthClient() {
     return (
         <>
             {!user && pathCondition && (
-                <main className="  grid place-content-start justify-center pt-[4vh]">
+                <main className="  grid place-content-start justify-center pt-[2vh] md:pt-[4vh]">
                     <WhatsupGifLogo />
                     <form onSubmit={handleSubmit}>
                         <fieldset>
-                            <legend className="py-[4vh] text-xl font-light tracking-wider text-center">
+                            <legend className="py-[2vh] text-xl font-light tracking-wider text-center">
                                 {path === "login" ? "Login" : "Signup"} to the{" "}
                                 <span className=" capitalize">
                                     {process.env.NEXT_PUBLIC_LOGO_NAME}
