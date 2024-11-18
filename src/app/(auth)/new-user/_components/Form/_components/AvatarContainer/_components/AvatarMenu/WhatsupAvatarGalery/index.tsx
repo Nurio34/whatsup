@@ -1,4 +1,4 @@
-import { Blob } from "buffer";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import {
     Dispatch,
@@ -14,17 +14,18 @@ function WhatsupAvatarGalery({
     setIsWhatsupAvatarGaleryVisible,
     setIsCameraButtonVisible,
     setAvatarFile,
+    setIsAvatarMenuVisible,
 }: {
     setAvatar: Dispatch<SetStateAction<string>>;
     setIsWhatsupAvatarGaleryVisible: Dispatch<SetStateAction<boolean>>;
     setIsCameraButtonVisible: Dispatch<SetStateAction<boolean>>;
     setAvatarFile: Dispatch<SetStateAction<File | null>>;
+    setIsAvatarMenuVisible: Dispatch<SetStateAction<boolean>>;
 }) {
     const AvatarRef = useRef<HTMLButtonElement | null>(null);
     const [indicatorSize, setIndicatorSize] = useState({ width: 0, height: 0 });
     const [indicatorPosition, setIndicatorPosition] = useState({ x: 0, y: 0 });
     const [selectedAvatar, setSelectedAvatar] = useState("/avatar/1.png");
-    console.log({ selectedAvatar });
 
     useEffect(() => {
         if (AvatarRef.current) {
@@ -43,32 +44,29 @@ function WhatsupAvatarGalery({
         });
     };
 
-    const convertImageToFile = async (
+    const onImageClick = async (
         e: MouseEvent<HTMLImageElement, globalThis.MouseEvent>,
     ) => {
         const imgElement = e.target as HTMLImageElement;
 
-        if (imgElement) {
-            const imageUrl = imgElement.src;
-            setSelectedAvatar(imageUrl);
-
-            const blob = await fetch(imageUrl).then((res) => res.blob());
-            const file = new File([blob], "image.png", { type: blob.type });
-            setAvatarFile(file);
-        } else {
-            console.log("No image found");
-        }
+        const imageUrl = imgElement.src;
+        setSelectedAvatar(imageUrl);
     };
 
     return (
-        <div
-            className=" fixed top-0 left-0 w-screen h-screen bg-[rgba(0,0,255,0.4)] z-50 py-[5vh] md:py-[10vh] px-[5vw] lg:px-[30vw]
-        "
+        <motion.div
+            className=" fixed top-0 left-0 w-screen h-screen bg-[rgba(0,0,255,0.4)] z-50 py-[5vh] md:py-[10vh] px-[5vw] lg:px-[30vw]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
         >
-            <div
+            <motion.div
                 className=" w-full  px-[2vw] py-[2vh]  bg-white rounded-lg border-2  border-[purple] shadow-lg shadow-[purple] overflow-hidden
                     grid grid-rows-[1fr,auto] 
                 "
+                initial={{ opacity: 0, x: "-50%" }}
+                animate={{ opacity: 1, x: "0" }}
+                exit={{ opacity: 0, x: "50%" }}
             >
                 <ul
                     className=" self-stretch relative isolate 
@@ -99,7 +97,7 @@ function WhatsupAvatarGalery({
                                                     alt={`whatsup avatar ${
                                                         index + 1
                                                     }`}
-                                                    onClick={convertImageToFile}
+                                                    onClick={onImageClick}
                                                 />
                                             </button>
                                         </li>
@@ -127,8 +125,9 @@ function WhatsupAvatarGalery({
                         type="button"
                         className="c-btn bg-[red] hover:bg-red-500 grow"
                         onClick={() => {
-                            setIsCameraButtonVisible(false);
+                            setAvatarFile(null);
                             setIsWhatsupAvatarGaleryVisible(false);
+                            setIsCameraButtonVisible(false);
                         }}
                     >
                         Cancel
@@ -137,16 +136,17 @@ function WhatsupAvatarGalery({
                         type="button"
                         className="c-btn bg-[green] hover:bg-green-500 grow"
                         onClick={() => {
-                            setIsWhatsupAvatarGaleryVisible(false);
                             setAvatar(selectedAvatar);
+                            setIsWhatsupAvatarGaleryVisible(false);
+                            setIsAvatarMenuVisible(false);
                             setIsCameraButtonVisible(false);
                         }}
                     >
                         Save
                     </button>
                 </div>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 

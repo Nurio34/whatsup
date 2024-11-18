@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
     ChangeEvent,
     Dispatch,
@@ -8,6 +8,7 @@ import {
     useState,
 } from "react";
 import WhatsupAvatarGalery from "./WhatsupAvatarGalery";
+import Camera from "./Camera";
 
 function AvatarMenu({
     setIsAvatarMenuVisible,
@@ -22,6 +23,7 @@ function AvatarMenu({
 }) {
     const [isWhatsupAvatarGaleryVisible, setIsWhatsupAvatarGaleryVisible] =
         useState(false);
+    const [isCameraOpen, setIsCameraOpen] = useState(false);
 
     useEffect(() => {
         const closeAvatarMenu = (e: globalThis.MouseEvent) => {
@@ -50,6 +52,10 @@ function AvatarMenu({
         { label: "Delete Avatar" },
     ];
 
+    const takePhoto = () => {
+        setIsCameraOpen(true);
+    };
+
     const whatsupAvatars = () => {
         setIsWhatsupAvatarGaleryVisible(true);
     };
@@ -67,6 +73,7 @@ function AvatarMenu({
 
     const deleteAvatar = () => {
         setAvatar(process.env.NEXT_PUBLIC_AVATAR_IMAGE!);
+        setAvatarFile(null);
     };
 
     const handleClick = (
@@ -75,6 +82,10 @@ function AvatarMenu({
             | ChangeEvent<HTMLInputElement>,
         label: string,
     ) => {
+        if (label === "Take Photo") {
+            takePhoto();
+        }
+
         if (label === "Whatsup Avatars") {
             whatsupAvatars();
         }
@@ -139,16 +150,27 @@ function AvatarMenu({
                     </motion.li>
                 ))}
             </motion.ul>
-            {isWhatsupAvatarGaleryVisible && (
-                <WhatsupAvatarGalery
-                    setAvatar={setAvatar}
-                    setIsWhatsupAvatarGaleryVisible={
-                        setIsWhatsupAvatarGaleryVisible
-                    }
-                    setIsCameraButtonVisible={setIsCameraButtonVisible}
-                    setAvatarFile={setAvatarFile}
-                />
-            )}
+            <AnimatePresence>
+                {isWhatsupAvatarGaleryVisible && (
+                    <WhatsupAvatarGalery
+                        setAvatar={setAvatar}
+                        setIsWhatsupAvatarGaleryVisible={
+                            setIsWhatsupAvatarGaleryVisible
+                        }
+                        setIsCameraButtonVisible={setIsCameraButtonVisible}
+                        setAvatarFile={setAvatarFile}
+                        setIsAvatarMenuVisible={setIsAvatarMenuVisible}
+                    />
+                )}
+                {isCameraOpen && (
+                    <Camera
+                        setAvatar={setAvatar}
+                        setIsCameraOpen={setIsCameraOpen}
+                        setIsAvatarMenuVisible={setIsAvatarMenuVisible}
+                        setIsCameraButtonVisible={setIsCameraButtonVisible}
+                    />
+                )}
+            </AnimatePresence>
         </>
     );
 }
