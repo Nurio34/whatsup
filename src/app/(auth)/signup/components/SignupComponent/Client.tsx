@@ -7,7 +7,7 @@ import {
     writeIsLoading,
     writeIsSubmitted,
 } from "@/store/slices/auth";
-import { setUser } from "@/store/slices/user";
+import { setOtpExpires, setUser } from "@/store/slices/user";
 import { SignupFormSchema } from "@/type/form";
 import { AxiosError } from "axios";
 import Link from "next/link";
@@ -46,6 +46,7 @@ function SignupClientComponent() {
                 if (response.data.status === "success") {
                     toast.success(response.data.message);
                     dispatch(setUser(response.data.user));
+                    dispatch(setOtpExpires(response.data.otpExpires));
                     dispatch(writeErrors(null));
                     router.push("/verify");
                     sessionStorage.setItem(

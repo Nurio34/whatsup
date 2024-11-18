@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { writeForm, writeIsSubmitted } from "@/store/slices/auth";
 import Link from "next/link";
 import FireLoginButtons from "./_components/FireLoginButtons";
+import WhatsupGifLogo from "./_components/WhatsupGifLogo";
 
 export const formControl = [
     {
@@ -97,12 +98,7 @@ function AuthClient() {
         <>
             {!user && pathCondition && (
                 <main className="  grid place-content-start justify-center pt-[4vh]">
-                    <Link
-                        href={"/"}
-                        className=" justify-self-center relative w-28 aspect-square rounded-full overflow-hidden"
-                    >
-                        <Image src={"/whatsapp.gif"} fill alt="logo" priority />
-                    </Link>
+                    <WhatsupGifLogo />
                     <form onSubmit={handleSubmit}>
                         <fieldset>
                             <legend className="py-[4vh] text-xl font-light tracking-wider text-center">

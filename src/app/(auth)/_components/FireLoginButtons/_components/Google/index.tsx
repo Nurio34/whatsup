@@ -25,12 +25,16 @@ function Google() {
                 email,
                 avatar,
             });
-            console.log(response);
 
             if (response.data.status === "success") {
                 dispatch(setUser(response.data.user));
                 toast.success(response.data.message);
-                router.push("/");
+
+                if (response.data.user.newUser) {
+                    router.push("/new-user");
+                } else {
+                    router.push("/");
+                }
             }
         } catch (error) {
             if (error instanceof AxiosError) {
