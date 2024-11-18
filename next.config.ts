@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
         domains: [
             "lh3.googleusercontent.com",
             "localhost",
-            "whatsup-o9bwr44yl-nurio34s-projects.vercel.app",
+            "whatsup-lime-rho.vercel.app",
         ],
     },
 };
