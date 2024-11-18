@@ -4,7 +4,7 @@ import { fireAuth } from "@/utils/firebaseConfig";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import axiosInstance from "@/axios";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/user";
 import { useRouter } from "next/navigation";
 

@@ -37,6 +37,7 @@ function Camera({
                 }
             } catch (error) {
                 setAnyCameraDevice(false);
+                console.log(error);
             }
         };
 

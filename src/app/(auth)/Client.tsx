@@ -4,14 +4,11 @@ import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { GiConfirmed } from "react-icons/gi";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { initialFormData, FormType } from "@/type/form";
-
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { writeForm, writeIsSubmitted } from "@/store/slices/auth";
-import Link from "next/link";
 import FireLoginButtons from "./_components/FireLoginButtons";
 import WhatsupGifLogo from "./_components/WhatsupGifLogo";
 

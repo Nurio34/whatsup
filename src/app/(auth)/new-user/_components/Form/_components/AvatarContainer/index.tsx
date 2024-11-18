@@ -1,9 +1,6 @@
-import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
+import { AnimatePresence } from "framer-motion";
 import { Dispatch, SetStateAction, useState } from "react";
-import { FaCamera } from "react-icons/fa";
 import AvatarMenu from "./_components/AvatarMenu";
-import CameraButton from "./_components/CameraButton";
 import AvatarPicture from "./_components/AvatarPicture";
 
 function AvatarContainer({

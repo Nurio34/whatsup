@@ -4,7 +4,6 @@ import axiosInstance from "@/axios";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setUser } from "@/store/slices/user";
 import { AxiosError } from "axios";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import WhatsupGifLogo from "../_components/WhatsupGifLogo";
@@ -15,7 +14,7 @@ function NewUserClientPage() {
     console.log(user);
 
     const dispatch = useAppDispatch();
-    const router = useRouter();
+    // const router = useRouter();
 
     // useEffect(() => {
     //     if (!user || !user.newUser) {
