@@ -9,13 +9,14 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import Inputs from "./_components/Inputs";
-import { setUser } from "@/store/slices/user";
+import { setOtpExpires, setUser } from "@/store/slices/user";
 
 function VerifyClient() {
-    const { user } = useAppSelector((s) => s.user);
-    const otpExpires = user?.otpExpires && new Date(user.otpExpires).getTime();
+    const { user, otpExpires } = useAppSelector((s) => s.user);
+
+    const otpExpiresRef = otpExpires && new Date(otpExpires).getTime();
     const time = new Date().getTime();
-    const timeDiff = otpExpires && (otpExpires - time) / 1000;
+    const timeDiff = otpExpiresRef && (otpExpiresRef - time) / 1000;
     const router = useRouter();
 
     const dispatch = useAppDispatch();
@@ -36,6 +37,7 @@ function VerifyClient() {
 
             if (response.data.status === "success") {
                 dispatch(setUser(response.data.user));
+                dispatch(setOtpExpires(response.data.otpExpires));
                 toast.success(response.data.message);
             }
         } catch (error) {
@@ -76,7 +78,7 @@ function VerifyClient() {
                             {pure(user?.email)}
                         </span>
                     </p>
-                    <Inputs timeDiff={timeDiff} />
+                    <Inputs timeDiff={timeDiff!} />
                     <div className="flex items-center gap-x-[1vw]">
                         <p>Did not get the code ?</p>
                         <button

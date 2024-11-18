@@ -24,21 +24,15 @@ function FooterClient() {
             ${classCondition && "fixed bottom-0 left-1/2 -translate-x-1/2"}
         `}
         >
-            <Link href={"/"} className="c-btn ">
+            <Link
+                href={"/"}
+                className="c-btn relative w-10 aspect-square rounded-full"
+            >
                 <Image
                     src={
                         process.env.NEXT_PUBLIC_LOGO || "/logo-placeholder.svg"
                     }
-                    width={
-                        (process.env.NEXT_PUBLIC_LOGO_WIDTH as
-                            | number
-                            | undefined) || 80
-                    }
-                    height={
-                        (process.env.NEXT_PUBLIC_LOGO_HEIGHT as
-                            | number
-                            | undefined) || 17
-                    }
+                    fill
                     priority
                     alt="logo link"
                 />

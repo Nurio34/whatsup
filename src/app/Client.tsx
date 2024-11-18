@@ -7,7 +7,13 @@ import HomeAuth from "./components/HomeAuth";
 function HomePageClient() {
     const { user } = useAppSelector((s) => s.user);
 
-    return !user ? <HomeUnauth /> : <HomeAuth />;
+    //     ! *** LOGOUT ***
+    // const dispatch = useAppDispatch();
+    // dispatch(logoutUser());
+    // persistor.purge();
+    // ! ***
+
+    return !user ? <HomeUnauth /> : <HomeAuth user={user} />;
 }
 
 export default HomePageClient;

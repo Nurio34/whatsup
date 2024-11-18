@@ -4,13 +4,13 @@ import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { GiConfirmed } from "react-icons/gi";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { initialFormData, FormType } from "@/type/form";
-
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { writeForm, writeIsSubmitted } from "@/store/slices/auth";
+import FireLoginButtons from "./_components/FireLoginButtons";
+import WhatsupGifLogo from "./_components/WhatsupGifLogo";
 
 export const formControl = [
     {
@@ -95,30 +95,14 @@ function AuthClient() {
         <>
             {!user && pathCondition && (
                 <main className="  grid place-content-start justify-center pt-[4vh]">
-                    <Image
-                        src={
-                            process.env.NEXT_PUBLIC_LOGO ||
-                            "/logo-placeholder.svg"
-                        }
-                        width={
-                            (process.env.NEXT_PUBLIC_LOGO_WIDTH as
-                                | number
-                                | undefined) || 80
-                        }
-                        height={
-                            (process.env.NEXT_PUBLIC_LOGO_HEIGHT as
-                                | number
-                                | undefined) || 17
-                        }
-                        alt="logo"
-                        priority
-                        className=" justify-self-center"
-                    />
+                    <WhatsupGifLogo />
                     <form onSubmit={handleSubmit}>
                         <fieldset>
                             <legend className="py-[4vh] text-xl font-light tracking-wider text-center">
-                                {path === "login" ? "Login" : "Signup"} to the
-                                App
+                                {path === "login" ? "Login" : "Signup"} to the{" "}
+                                <span className=" capitalize">
+                                    {process.env.NEXT_PUBLIC_LOGO_NAME}
+                                </span>
                             </legend>
                             <div
                                 className=" bg-blue-100 py-[2vh] px-[2vw] rounded-lg border-2 border-blue-200 shadow-lg shadow-blue-200
@@ -194,6 +178,7 @@ function AuthClient() {
                                         <span className="loading loading-spinner loading-md"></span>
                                     )}
                                 </button>
+                                <FireLoginButtons />
                             </div>
                         </fieldset>
                     </form>
