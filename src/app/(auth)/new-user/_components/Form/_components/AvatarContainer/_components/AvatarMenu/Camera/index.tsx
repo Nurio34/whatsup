@@ -3,19 +3,21 @@ import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { FcInfo } from "react-icons/fc";
+import { RiCameraOffFill } from "react-icons/ri";
 
 function Camera({
     setAvatar,
     setIsCameraOpen,
     setIsAvatarMenuVisible,
-    setIsCameraButtonVisible
+    setIsCameraButtonVisible,
 }: {
     setAvatar: Dispatch<SetStateAction<string>>;
     setIsCameraOpen: Dispatch<SetStateAction<boolean>>;
-    setIsAvatarMenuVisible: Dispatch<SetStateAction<boolean>>
-    setIsCameraButtonVisible: Dispatch<SetStateAction<boolean>>
+    setIsAvatarMenuVisible: Dispatch<SetStateAction<boolean>>;
+    setIsCameraButtonVisible: Dispatch<SetStateAction<boolean>>;
 }) {
     const VideoElement = useRef<HTMLVideoElement | null>(null);
+    const [anyCameraDevice, setAnyCameraDevice] = useState(true);
     const [videoSize, setVideoSize] = useState({ width: 0, height: 0 });
     const [capturedPhoto, setCapturedPhoto] = useState("");
 
@@ -34,7 +36,7 @@ function Camera({
                     VideoElement.current.srcObject = stream;
                 }
             } catch (error) {
-                console.error("Error starting camera:", error);
+                setAnyCameraDevice(false);
             }
         };
 
@@ -96,7 +98,7 @@ function Camera({
     }, [VideoElement.current]);
     //! ***********************************************
 
-    //! CLOSE CAMERA WHEN CLICK OUTSIDE OF BOZ ***
+    //! CLOSE CAMERA WHEN CLICK OUTSIDE OF BOX ***
     useEffect(() => {
         const closeCamera = (e: globalThis.MouseEvent) => {
             const CameraElement = document.querySelector("#Camera");
@@ -119,16 +121,22 @@ function Camera({
     //! *****************************************
 
     return (
-        <div
+        <motion.div
             className=" fixed top-0 left-0 w-screen h-screen bg-[rgba(0,0,255,0.4)] z-50 px-[2vw] md:px-0
                 flex justify-center items-center
             "
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
         >
-            <div
+            <motion.div
                 id="Camera"
-                className=" relative w-full md:w-1/2 aspect-square  px-[2vw] py-[2vh]  bg-white rounded-lg border-2  border-[purple] shadow-lg shadow-[purple] overflow-hidden
-                 grid grid-rows-[1fr,auto]
-             "
+                className=" relative w-full md:w-1/2 lg:w-1/3 aspect-square  px-[2vw] py-[2vh]  bg-white rounded-lg border-2  border-[purple] shadow-lg shadow-[purple] overflow-hidden
+                    grid grid-rows-[1fr,auto]
+                "
+                initial={{ x: "-50%", opacity: 0 }}
+                animate={{ x: "0", opacity: 1 }}
+                exit={{ x: "50%", opacity: 0 }}
             >
                 <div
                     className={`flex flex-col gap-y-[1vh] absolute top-0 left-0 w-full h-full py-[2vh] px-[2vw] z-10 ${
@@ -158,21 +166,28 @@ function Camera({
                             onClick={() => {
                                 setAvatar(capturedPhoto);
                                 setIsCameraOpen(false);
-                                setIsAvatarMenuVisible(false)
-                                setIsCameraButtonVisible(false)
+                                setIsAvatarMenuVisible(false);
+                                setIsCameraButtonVisible(false);
                             }}
                         >
                             Save This
                         </button>
                     </div>
                 </div>
-                <video
-                    autoPlay
-                    ref={VideoElement}
-                    className="w-full h-full rounded-md"
-                ></video>
-            </div>
-        </div>
+                {anyCameraDevice ? (
+                    <video
+                        autoPlay
+                        ref={VideoElement}
+                        className="w-full h-full rounded-md"
+                    ></video>
+                ) : (
+                    <div className="grid gap-[2vh]">
+                        <RiCameraOffFill className=" justify-self-center self-end text-7xl" />
+                        <p className=" text-2xl">No Camera Detected</p>
+                    </div>
+                )}
+            </motion.div>
+        </motion.div>
     );
 }
 
