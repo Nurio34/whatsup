@@ -16,7 +16,8 @@ function FooterClient() {
         (path === "forget-password" && user) ||
         (path === "reset-password" && user) ||
         (path === "verify" && user?.isVerified) ||
-        (path === "verify" && !user);
+        (path === "verify" && !user) ||
+        (path === "new-user" && !user?.newUser);
 
     return (
         <footer

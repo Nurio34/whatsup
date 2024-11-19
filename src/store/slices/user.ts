@@ -6,12 +6,14 @@ type UserSliceType = {
     isLoading: boolean;
     user: UserType | null;
     otpExpires: Date | null;
+    isUserDeletedFromFirebase: boolean;
 };
 
 const initialState: UserSliceType = {
     isLoading: false,
     user: null,
     otpExpires: null,
+    isUserDeletedFromFirebase: false,
 };
 
 export const userSlice = createSlice({
@@ -27,11 +29,19 @@ export const userSlice = createSlice({
         setOtpExpires: (state, action: PayloadAction<Date | null>) => {
             state.otpExpires = action.payload;
         },
+        deleteUserFromFirebaseAction: (state) => {
+            state.isUserDeletedFromFirebase = true;
+        },
         logoutUser: () => initialState,
     },
 });
 
-export const { setIsLoading, setUser, setOtpExpires, logoutUser } =
-    userSlice.actions;
+export const {
+    setIsLoading,
+    setUser,
+    setOtpExpires,
+    deleteUserFromFirebaseAction,
+    logoutUser,
+} = userSlice.actions;
 export const selectUser = (state: RootState) => state.user.user;
 export default userSlice.reducer;

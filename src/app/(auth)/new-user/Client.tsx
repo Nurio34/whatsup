@@ -1,54 +1,30 @@
 "use client";
 
-import axiosInstance from "@/axios";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { setUser } from "@/store/slices/user";
-import { AxiosError } from "axios";
-// import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import WhatsupGifLogo from "../_components/WhatsupGifLogo";
 import Form from "./_components/Form";
+import useDeleteUserFromFirebase from "@/hooks/useDeleteUserFromFirebase";
+import { useRouter } from "next/navigation";
 
 function NewUserClientPage() {
-    const { user } = useAppSelector((s) => s.user);
+    const { user, isUserDeletedFromFirebase } = useAppSelector((s) => s.user);
+    useDeleteUserFromFirebase(isUserDeletedFromFirebase);
     console.log(user);
 
     const dispatch = useAppDispatch();
-    // const router = useRouter();
 
-    // useEffect(() => {
-    //     if (!user || !user.newUser) {
-    //         router.push("/");
-    //     }
-    // }, []);
+    const router = useRouter();
 
     useEffect(() => {
-        const toggleNewUser = async () => {
-            console.log("toggleNewUser");
-
-            try {
-                const response = await axiosInstance.post(
-                    "/auth/toggle-new-user",
-                    { id: user?.id },
-                );
-                if (response.data.status === "success") {
-                    dispatch(setUser(response.data.user));
-                }
-            } catch (error) {
-                if (error instanceof AxiosError) {
-                    console.log(error);
-                }
-            }
-        };
-
-        if (user?.newUser) {
-            toggleNewUser();
+        if (!user || !user.newUser) {
+            router.push("/");
         }
-    }, [user?.newUser]);
+    }, [user]);
 
     return (
         <>
-            {user && (
+            {user && user.newUser && (
                 <main className=" grid gap-y-[2vh] place-content-center py-[10vh] text-center">
                     <WhatsupGifLogo />
                     <h1 className=" text-5xl">Whatsup</h1>

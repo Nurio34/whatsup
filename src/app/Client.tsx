@@ -5,15 +5,16 @@ import HomeUnauth from "./components/HomeUnauth";
 import HomeAuth from "./components/HomeAuth";
 
 function HomePageClient() {
-    const { user } = useAppSelector((s) => s.user);
+    const { user, isUserDeletedFromFirebase } = useAppSelector((s) => s.user);
 
-    //     ! *** LOGOUT ***
-    // const dispatch = useAppDispatch();
-    // dispatch(logoutUser());
-    // persistor.purge();
-    // ! ***
-
-    return !user ? <HomeUnauth /> : <HomeAuth user={user} />;
+    return !user ? (
+        <HomeUnauth />
+    ) : (
+        <HomeAuth
+            user={user}
+            isUserDeletedFromFirebase={isUserDeletedFromFirebase}
+        />
+    );
 }
 
 export default HomePageClient;

@@ -2,6 +2,7 @@ import { UserType } from "@/type/user";
 import { useEffect, useState } from "react";
 import AvatarContainer from "./_components/AvatarContainer";
 import FormControls from "./_components/FormControls";
+import CreateProfileButton from "./_components/CreateProfileButton";
 
 function Form({ user }: { user: UserType }) {
     const [name, setName] = useState(user.username);
@@ -29,7 +30,7 @@ function Form({ user }: { user: UserType }) {
 
     return (
         <form
-            className="grid grid-cols-2 gap-x-[1vw] border-2 shadow-lg rounded-lg px-[2vw] py-[2vh] mx-[5vw]"
+            className="grid grid-cols-2 gap-x-[2vw] gap-y-[2vh] border-2 shadow-lg rounded-lg px-[2vw] py-[2vh] mx-[5vw]"
             id="Form"
         >
             <AvatarContainer
@@ -42,6 +43,12 @@ function Form({ user }: { user: UserType }) {
                 setName={setName}
                 about={about}
                 setAbout={setAbout}
+            />
+            <CreateProfileButton
+                id={user.id}
+                name={name}
+                about={about}
+                avatarFile={avatarFile}
             />
         </form>
     );

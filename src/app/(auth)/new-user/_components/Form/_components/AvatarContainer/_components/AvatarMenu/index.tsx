@@ -73,7 +73,6 @@ function AvatarMenu({
 
     const deleteAvatar = () => {
         setAvatar(process.env.NEXT_PUBLIC_AVATAR_IMAGE!);
-        setAvatarFile(null);
     };
 
     const handleClick = (

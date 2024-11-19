@@ -1,24 +1,25 @@
-import { FcGoogle } from "react-icons/fc";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { fireAuth } from "@/utils/firebaseConfig";
-import { AxiosError } from "axios";
-import toast from "react-hot-toast";
-import axiosInstance from "@/axios";
 import { useAppDispatch } from "@/store/hooks";
-import { setUser } from "@/store/slices/user";
 import { useRouter } from "next/navigation";
+import { FaGithub } from "react-icons/fa";
+import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
+import { fireAuth } from "@/utils/firebaseConfig";
+import axiosInstance from "@/axios";
+import { setUser } from "@/store/slices/user";
+import toast from "react-hot-toast";
+import { AxiosError } from "axios";
 
-function Google() {
+function Github() {
     const dispatch = useAppDispatch();
 
     const router = useRouter();
 
-    const provider = new GoogleAuthProvider();
+    const provider = new GithubAuthProvider();
 
-    const handleGoogleLogin = async () => {
-        const { user: GoogleUser } = await signInWithPopup(fireAuth, provider);
-        const { displayName: username, email, photoURL: avatar } = GoogleUser;
-        const loginType = "Google";
+    const handleGithubLogin = async () => {
+        const { user: GithubUser } = await signInWithPopup(fireAuth, provider);
+
+        const { displayName: username, email, photoURL: avatar } = GithubUser;
+        const loginType = "Github";
 
         try {
             const response = await axiosInstance.post("/auth/firebase-login", {
@@ -49,12 +50,11 @@ function Google() {
         <button
             type="button"
             className="c-btn gap-[1vw] flex items-center justify-center w-full text-black border-2 border-white"
-            onClick={handleGoogleLogin}
+            onClick={handleGithubLogin}
         >
-            <FcGoogle />
-            Login with Google
+            <FaGithub /> Login with Github
         </button>
     );
 }
 
-export default Google;
+export default Github;

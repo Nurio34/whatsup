@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     images: {
         domains: [
             "lh3.googleusercontent.com",
+            "avatars.githubusercontent.com",
             "localhost",
             "whatsup-lime-rho.vercel.app",
         ],
