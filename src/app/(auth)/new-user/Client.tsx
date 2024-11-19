@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/store/hooks";
 import { useEffect } from "react";
 import WhatsupGifLogo from "../_components/WhatsupGifLogo";
 import Form from "./_components/Form";
@@ -11,8 +11,6 @@ function NewUserClientPage() {
     const { user, isUserDeletedFromFirebase } = useAppSelector((s) => s.user);
     useDeleteUserFromFirebase(isUserDeletedFromFirebase);
     console.log(user);
-
-    const dispatch = useAppDispatch();
 
     const router = useRouter();
 
