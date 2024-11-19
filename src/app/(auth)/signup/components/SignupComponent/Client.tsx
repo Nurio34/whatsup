@@ -72,7 +72,7 @@ function SignupClientComponent() {
     return (
         <>
             {!user && (
-                <section className="grid place-content-center py-[4vh]">
+                <section className="grid place-content-center py-[2vh]">
                     <div className="bg-blue-100 py-[1vh] px-[2vw] rounded-lg border-2 border-blue-200 shadow-md shadow-blue-200">
                         <article className="flex items-center gap-[1vw]">
                             <p>Already have an account ?</p>

@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
+import withPWA from "next-pwa";
 
 const nextConfig: NextConfig = {
-    /* config options here */
+    reactStrictMode: true,
+
     images: {
         domains: [
             "lh3.googleusercontent.com",
@@ -12,4 +14,12 @@ const nextConfig: NextConfig = {
     },
 };
 
-export default nextConfig;
+export default withPWA({
+    ...nextConfig,
+    pwa: {
+        dest: "public", // The output directory for the service worker and manifest
+        disable: process.env.NODE_ENV === "development", // Disable PWA in development
+        register: true, // Registers the service worker automatically
+        skipWaiting: true, // Activate the service worker immediately after installing
+    },
+});

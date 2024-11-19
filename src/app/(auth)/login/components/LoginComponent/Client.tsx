@@ -71,7 +71,10 @@ function LoginClientComponent() {
                             </Link>
                         </article>
                         <article className="flex items-center justify-center gap-[1vw]">
-                            <p>Are you new to MyApp ?</p>
+                            <p>
+                                Are you new to{" "}
+                                {process.env.NEXT_PUBLIC_LOGO_NAME || "MyApp"} ?
+                            </p>
                             <Link
                                 href={"/signup"}
                                 className="text-purple-400 underline underline-offset-4"

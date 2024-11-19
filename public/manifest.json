@@ -1,0 +1,22 @@
+{
+    "name": "WhatsUp",
+    "short_name": "Whatsup",
+    "description": "Whatsapp clone application",
+    "icons": [
+        {
+            "src": "/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#000000"
+}

@@ -8,9 +8,9 @@ function Form({ user }: { user: UserType }) {
     const [name, setName] = useState(user.username);
     const [about, setAbout] = useState("");
     const [avatar, setAvatar] = useState(
-        user.avatar.trim() === ""
-            ? process.env.NEXT_PUBLIC_AVATAR_IMAGE!
-            : user.avatar,
+        user.avatar ||
+            process.env.NEXT_PUBLIC_AVATAR_IMAGE ||
+            "/avatar-placeholder.webp",
     );
     const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
