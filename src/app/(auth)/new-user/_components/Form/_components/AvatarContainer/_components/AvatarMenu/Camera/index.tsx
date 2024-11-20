@@ -9,12 +9,10 @@ function Camera({
     setAvatar,
     setIsCameraOpen,
     setIsAvatarMenuVisible,
-    setIsCameraButtonVisible,
 }: {
     setAvatar: Dispatch<SetStateAction<string>>;
     setIsCameraOpen: Dispatch<SetStateAction<boolean>>;
     setIsAvatarMenuVisible: Dispatch<SetStateAction<boolean>>;
-    setIsCameraButtonVisible: Dispatch<SetStateAction<boolean>>;
 }) {
     const VideoElement = useRef<HTMLVideoElement | null>(null);
     const [anyCameraDevice, setAnyCameraDevice] = useState(true);
@@ -170,7 +168,6 @@ function Camera({
                                 setAvatar(capturedPhoto);
                                 setIsCameraOpen(false);
                                 setIsAvatarMenuVisible(false);
-                                setIsCameraButtonVisible(false);
                             }}
                         >
                             Save This

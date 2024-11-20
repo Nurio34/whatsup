@@ -4,7 +4,7 @@ import AvatarContainer from "./_components/AvatarContainer";
 import FormControls from "./_components/FormControls";
 import CreateProfileButton from "./_components/CreateProfileButton";
 
-function Form({ user }: { user: UserType }) {
+function Form({ user, isMobile }: { user: UserType; isMobile: boolean }) {
     const [name, setName] = useState(user.username);
     const [about, setAbout] = useState("");
     const [avatar, setAvatar] = useState(
@@ -37,6 +37,7 @@ function Form({ user }: { user: UserType }) {
                 avatar={avatar}
                 setAvatar={setAvatar}
                 setAvatarFile={setAvatarFile}
+                isMobile={isMobile}
             />
             <FormControls
                 name={name}

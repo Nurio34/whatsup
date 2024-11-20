@@ -6,7 +6,6 @@ import { useEffect } from "react";
 
 function DeviceDetectorClient() {
     const { isMobile } = useAppSelector((s) => s.user);
-    console.log(isMobile);
 
     const dispatch = useAppDispatch();
 

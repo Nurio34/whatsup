@@ -13,13 +13,11 @@ function WhatsupAvatarGalery({
     setAvatar,
     setIsWhatsupAvatarGaleryVisible,
     setIsCameraButtonVisible,
-    setAvatarFile,
     setIsAvatarMenuVisible,
 }: {
     setAvatar: Dispatch<SetStateAction<string>>;
     setIsWhatsupAvatarGaleryVisible: Dispatch<SetStateAction<boolean>>;
     setIsCameraButtonVisible: Dispatch<SetStateAction<boolean>>;
-    setAvatarFile: Dispatch<SetStateAction<File | null>>;
     setIsAvatarMenuVisible: Dispatch<SetStateAction<boolean>>;
 }) {
     const AvatarRef = useRef<HTMLButtonElement | null>(null);
@@ -55,22 +53,24 @@ function WhatsupAvatarGalery({
 
     return (
         <motion.div
-            className=" fixed top-0 left-0 w-screen h-screen bg-[rgba(0,0,255,0.4)] z-50 py-[5vh] md:py-[10vh] px-[5vw] lg:px-[30vw]"
+            className=" fixed top-0 left-0 w-screen h-screen bg-[rgba(0,0,255,0.4)] z-50 py-[5vh]  px-[5vw]
+                flex justify-center items-center
+            "
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
         >
             <motion.div
-                className=" w-full  px-[2vw] py-[2vh]  bg-white rounded-lg border-2  border-[purple] shadow-lg shadow-[purple] overflow-hidden
-                    grid grid-rows-[1fr,auto] 
+                className=" w-max   px-[2vw] py-[2vh]  bg-white rounded-lg border-2  border-[purple] shadow-lg shadow-[purple] overflow-hidden
+                    grid justify-center grid-rows-[1fr,auto] 
                 "
                 initial={{ opacity: 0, x: "-50%" }}
                 animate={{ opacity: 1, x: "0" }}
                 exit={{ opacity: 0, x: "50%" }}
             >
                 <ul
-                    className=" self-stretch relative isolate 
-                        grid grid-cols-[repeat(3,1fr)] gap-x-[2vw] gap-y-[2vh]
+                    className=" relative isolate 
+                        grid grid-cols-[repeat(3,minmax(1px,235px))] gap-x-[2vw] gap-y-[2vh]
                     "
                 >
                     <>
@@ -127,7 +127,6 @@ function WhatsupAvatarGalery({
                         type="button"
                         className="c-btn bg-[red] hover:bg-red-500 grow"
                         onClick={() => {
-                            setAvatarFile(null);
                             setIsWhatsupAvatarGaleryVisible(false);
                             setIsCameraButtonVisible(false);
                         }}
@@ -141,7 +140,6 @@ function WhatsupAvatarGalery({
                             setAvatar(selectedAvatar);
                             setIsWhatsupAvatarGaleryVisible(false);
                             setIsAvatarMenuVisible(false);
-                            setIsCameraButtonVisible(false);
                         }}
                     >
                         Save

@@ -15,11 +15,13 @@ function AvatarMenu({
     setAvatar,
     setIsCameraButtonVisible,
     setAvatarFile,
+    isMobile,
 }: {
     setIsAvatarMenuVisible: Dispatch<SetStateAction<boolean>>;
     setAvatar: Dispatch<SetStateAction<string>>;
     setIsCameraButtonVisible: Dispatch<SetStateAction<boolean>>;
     setAvatarFile: Dispatch<SetStateAction<File | null>>;
+    isMobile: boolean;
 }) {
     const [isWhatsupAvatarGaleryVisible, setIsWhatsupAvatarGaleryVisible] =
         useState(false);
@@ -72,7 +74,9 @@ function AvatarMenu({
     };
 
     const deleteAvatar = () => {
-        setAvatar(process.env.NEXT_PUBLIC_AVATAR_IMAGE!);
+        setAvatar(
+            process.env.NEXT_PUBLIC_AVATAR_IMAGE! || "/avatar-placeholder.webp",
+        );
     };
 
     const handleClick = (
@@ -140,6 +144,7 @@ function AvatarMenu({
                         ) : (
                             <button
                                 type="button"
+                                hidden={item.label === "Take Photo" && isMobile}
                                 className=" transition-all hover:scale-105 hover:text-[purple] hover:font-semibold hover:underline hover:underline-offset-4"
                                 onClick={(e) => handleClick(e, item.label)}
                             >
@@ -157,7 +162,6 @@ function AvatarMenu({
                             setIsWhatsupAvatarGaleryVisible
                         }
                         setIsCameraButtonVisible={setIsCameraButtonVisible}
-                        setAvatarFile={setAvatarFile}
                         setIsAvatarMenuVisible={setIsAvatarMenuVisible}
                     />
                 )}
@@ -166,7 +170,6 @@ function AvatarMenu({
                         setAvatar={setAvatar}
                         setIsCameraOpen={setIsCameraOpen}
                         setIsAvatarMenuVisible={setIsAvatarMenuVisible}
-                        setIsCameraButtonVisible={setIsCameraButtonVisible}
                     />
                 )}
             </AnimatePresence>

@@ -8,7 +8,9 @@ import useDeleteUserFromFirebase from "@/hooks/useDeleteUserFromFirebase";
 import { useRouter } from "next/navigation";
 
 function NewUserClientPage() {
-    const { user, isUserDeletedFromFirebase } = useAppSelector((s) => s.user);
+    const { user, isUserDeletedFromFirebase, isMobile } = useAppSelector(
+        (s) => s.user,
+    );
     useDeleteUserFromFirebase(isUserDeletedFromFirebase);
 
     const router = useRouter();
@@ -26,7 +28,7 @@ function NewUserClientPage() {
                     <WhatsupGifLogo />
                     <h1 className=" text-5xl">Whatsup</h1>
                     <h2 className=" text-2xl">Create Your Profile</h2>
-                    <Form user={user} />
+                    <Form user={user} isMobile={isMobile} />
                 </main>
             )}
         </>
