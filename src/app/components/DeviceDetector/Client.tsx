@@ -1,10 +1,12 @@
 "use client";
 
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setIsMobile } from "@/store/slices/user";
 import { useEffect } from "react";
 
 function DeviceDetectorClient() {
+    const { user } = useAppSelector((s) => s.user);
+
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -17,11 +19,13 @@ function DeviceDetectorClient() {
         checkScreenSize();
 
         window.addEventListener("resize", checkScreenSize);
+        window.addEventListener("DOMContentLoaded", checkScreenSize);
 
         return () => {
             window.removeEventListener("resize", checkScreenSize);
+            window.removeEventListener("DOMContentLoaded", checkScreenSize);
         };
-    }, [dispatch]);
+    }, [dispatch, user]);
 
     return <div className=" absolute -z-50"></div>;
 }

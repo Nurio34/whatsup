@@ -42,4 +42,7 @@ export const authSlice = createSlice({
 export const { writeForm, writeIsLoading, writeErrors, writeIsSubmitted } =
     authSlice.actions;
 export const selectForm = (state: RootState) => state.auth.form;
+export const selectIsLoading = (state: RootState) => state.auth.isLoading;
+export const selectErrors = (state: RootState) => state.auth.errors;
+export const selectIsSubmitted = (state: RootState) => state.auth.isSubmitted;
 export default authSlice.reducer;

@@ -49,5 +49,10 @@ export const {
     setIsMobile,
     logoutUser,
 } = userSlice.actions;
+export const selectIsLoading = (state: RootState) => state.user.isLoading;
 export const selectUser = (state: RootState) => state.user.user;
+export const selectOtpExpires = (state: RootState) => state.user.otpExpires;
+export const selectIsUserDeletedFromFirebase = (state: RootState) =>
+    state.user.isUserDeletedFromFirebase;
+export const selectIsMoile = (state: RootState) => state.user.isMobile;
 export default userSlice.reducer;

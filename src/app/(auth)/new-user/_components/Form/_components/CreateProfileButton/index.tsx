@@ -1,6 +1,6 @@
 import axiosInstance from "@/axios";
-import { useAppDispatch } from "@/store/hooks";
-import { setUser } from "@/store/slices/user";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { setIsLoading, setUser } from "@/store/slices/user";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 
@@ -15,6 +15,7 @@ function CreateProfileButton({
     about: string;
     avatarFile: File | null;
 }) {
+    const { isLoading } = useAppSelector((s) => s.user);
     const dispatch = useAppDispatch();
 
     const createProfile = async () => {
@@ -23,6 +24,8 @@ function CreateProfileButton({
         form.append("name", name);
         form.append("about", about);
         form.append("avatarFile", avatarFile!);
+
+        dispatch(setIsLoading(true));
 
         try {
             const response = await axiosInstance.post(
@@ -43,16 +46,23 @@ function CreateProfileButton({
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data.message);
             }
+        } finally {
+            dispatch(setIsLoading(false));
         }
     };
 
     return (
         <button
             type="button"
-            className="c-btn bg-green-500 hover:bg-[green] col-span-full"
+            className={`col-span-full flex justify-center items-center gap-x-[2vw]
+                ${isLoading ? "c-d-btn" : "c-btn bg-green-500 hover:bg-[green]"}
+            `}
             onClick={createProfile}
         >
-            Create Profile
+            {isLoading ? "Creating" : "Create Profile"}
+            {isLoading && (
+                <span className="loading loading-spinner loading-md"></span>
+            )}
         </button>
     );
 }

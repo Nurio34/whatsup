@@ -4,6 +4,7 @@ import Image from "next/image";
 
 function FloatingIcons() {
     const { isMobile } = useAppSelector((s) => s.user);
+    console.log({ isMobile });
 
     const icons = [
         {
