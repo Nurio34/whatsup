@@ -1,8 +1,9 @@
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setIsSideMenuOpen } from "@/store/slices/components";
 import Image from "next/image";
 
 function SideMenuButton() {
+    const { user } = useAppSelector((s) => s.user);
     const dispatch = useAppDispatch();
 
     const openSideMenu = () => dispatch(setIsSideMenuOpen(true));
@@ -10,24 +11,30 @@ function SideMenuButton() {
     return (
         <div className=" grid place-content-center">
             <button type="button" onClick={openSideMenu}>
-                <Image
-                    src={
-                        process.env.NEXT_PUBLIC_AVATAR_IMAGE ||
-                        "/avatar-placeholder.webp"
-                    }
-                    width={
-                        (process.env.NEXT_PUBLIC_AVATAR_IMAGE_WIDTH as
-                            | number
-                            | undefined) || 48
-                    }
-                    height={
-                        (process.env.NEXT_PUBLIC_AVATAR_IMAGE_HEIGHT as
-                            | number
-                            | undefined) || 48
-                    }
-                    alt="avatar image"
-                    priority
-                />
+                <figure
+                    className=" relative rounded-full overflow-hidden"
+                    style={{
+                        width:
+                            (process.env.NEXT_PUBLIC_AVATAR_IMAGE_WIDTH as
+                                | number
+                                | undefined) || 48,
+                        height:
+                            (process.env.NEXT_PUBLIC_AVATAR_IMAGE_WIDTH as
+                                | number
+                                | undefined) || 48,
+                    }}
+                >
+                    <Image
+                        src={
+                            user?.avatar ||
+                            process.env.NEXT_PUBLIC_AVATAR_IMAGE ||
+                            "/avatar-placeholder.webp"
+                        }
+                        fill
+                        priority
+                        alt="avatar"
+                    />
+                </figure>
             </button>
         </div>
     );
