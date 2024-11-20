@@ -2,7 +2,11 @@ export interface UserType {
     id: string;
     username: string;
     email: string;
-    avatar: string;
+    avatar: {
+        url: string;
+        public_id: string;
+        asset_id: string;
+    };
     newUser: boolean;
     isVerified: string;
     createdAt: Date;

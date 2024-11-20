@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/store/hooks";
 import { motion } from "framer-motion";
 import { Dispatch, SetStateAction } from "react";
 import { FaCamera } from "react-icons/fa";
@@ -7,7 +8,7 @@ function CameraButton({
 }: {
     setIsAvatarMenuVisible: Dispatch<SetStateAction<boolean>>;
 }) {
-    const isSmallScreen = window.innerWidth < 768;
+    const { isMobile } = useAppSelector((s) => s.user);
 
     return (
         <motion.button
@@ -22,7 +23,7 @@ function CameraButton({
             }}
             onClick={() => setIsAvatarMenuVisible(true)}
         >
-            <FaCamera size={isSmallScreen ? 50 : 100} />
+            <FaCamera size={isMobile ? 50 : 100} />
         </motion.button>
     );
 }

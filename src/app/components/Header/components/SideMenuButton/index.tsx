@@ -26,11 +26,12 @@ function SideMenuButton() {
                 >
                     <Image
                         src={
-                            user?.avatar ||
+                            user?.avatar.url ||
                             process.env.NEXT_PUBLIC_AVATAR_IMAGE ||
                             "/avatar-placeholder.webp"
                         }
                         fill
+                        sizes="(max-width: 768px) 50vw, 25vw"
                         priority
                         alt="avatar"
                     />

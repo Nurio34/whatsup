@@ -4,6 +4,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import Header from "./components/Header";
+import DeviceDetector from "./components/DeviceDetector";
 
 // const geistSans = localFont({
 //     src: "./fonts/GeistVF.woff",
@@ -39,6 +40,7 @@ export default function RootLayout({
               // //  antialiased
             `}
             >
+                <DeviceDetector />
                 <Header />
                 {children}
                 <Toaster />

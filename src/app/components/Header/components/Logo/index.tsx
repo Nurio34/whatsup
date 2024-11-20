@@ -12,8 +12,9 @@ function Logo() {
                         process.env.NEXT_PUBLIC_LOGO || "/logo-placeholder.svg"
                     }
                     fill
-                    alt="logo"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                     priority
+                    alt="logo"
                 />
             </figure>
             <p

@@ -94,6 +94,8 @@ function WhatsupAvatarGalery({
                                                         index + 1
                                                     }.png`}
                                                     fill
+                                                    sizes="(max-width: 768px) 50vw, 25vw"
+                                                    priority
                                                     alt={`whatsup avatar ${
                                                         index + 1
                                                     }`}

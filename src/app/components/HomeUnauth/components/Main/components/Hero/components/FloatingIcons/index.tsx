@@ -1,15 +1,16 @@
+import { useAppSelector } from "@/store/hooks";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
 function FloatingIcons() {
-    const isSmallScreen = window.innerWidth < 768;
+    const { isMobile } = useAppSelector((s) => s.user);
 
     const icons = [
         {
             src: "/icons/icon-1.webp",
             label: "icon-1",
             top: 30,
-            left: isSmallScreen ? 0 : -32,
+            left: isMobile ? 0 : -32,
             delay: "0s",
             duration: "6s",
         },
@@ -24,8 +25,8 @@ function FloatingIcons() {
         {
             src: "/icons/icon-3.webp",
             label: "icon-3",
-            top: isSmallScreen ? 150 : 180,
-            left: isSmallScreen ? 130 : 100,
+            top: isMobile ? 150 : 180,
+            left: isMobile ? 130 : 100,
             delay: "2s",
             duration: "8s",
         },
@@ -50,6 +51,7 @@ function FloatingIcons() {
                     src={icon.src}
                     width={120}
                     height={120}
+                    priority
                     alt={icon.label}
                     className={`Icon absolute `}
                     style={

@@ -34,6 +34,7 @@ function FooterClient() {
                         process.env.NEXT_PUBLIC_LOGO || "/logo-placeholder.svg"
                     }
                     fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
                     priority
                     alt="logo link"
                 />

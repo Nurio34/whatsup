@@ -149,6 +149,8 @@ function Camera({
                             <Image
                                 src={capturedPhoto}
                                 fill
+                                priority
+                                sizes="(max-width: 768px) 50vw, 25vw"
                                 alt="captured photo"
                             />
                         </figure>

@@ -18,14 +18,22 @@ function CreateProfileButton({
     const dispatch = useAppDispatch();
 
     const createProfile = async () => {
-        //todo *** WHEN YOU COMMIT THE PROFILE FORM, TOGGLE 'NEWUSER = FALSE' ALSO
+        const form = new FormData();
+        form.append("id", id);
+        form.append("name", name);
+        form.append("about", about);
+        form.append("avatarFile", avatarFile!);
+
         try {
-            const response = await axiosInstance.post("/auth/create-profile", {
-                id,
-                name,
-                about,
-                avatarFile,
-            });
+            const response = await axiosInstance.post(
+                "/auth/create-profile",
+                form,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                },
+            );
 
             if (response.data.status === "success") {
                 dispatch(setUser(response.data.user));

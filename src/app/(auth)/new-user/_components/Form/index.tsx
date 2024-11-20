@@ -8,19 +8,19 @@ function Form({ user }: { user: UserType }) {
     const [name, setName] = useState(user.username);
     const [about, setAbout] = useState("");
     const [avatar, setAvatar] = useState(
-        user.avatar ||
+        user.avatar.url ||
             process.env.NEXT_PUBLIC_AVATAR_IMAGE ||
             "/avatar-placeholder.webp",
     );
     const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
-    console.log({ avatarFile });
-
     useEffect(() => {
         if (Boolean(avatar)) {
             const convertImageToFile = async () => {
                 const blob = await fetch(avatar).then((res) => res.blob());
-                const file = new File([blob], "image.png", { type: blob.type });
+                const file = new File([blob], "avatar.png", {
+                    type: blob.type,
+                });
                 setAvatarFile(file);
             };
 

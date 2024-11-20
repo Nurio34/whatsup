@@ -23,7 +23,13 @@ function AvatarPicture({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
         >
-            <Image src={avatar} fill alt="Avatar" />
+            <Image
+                src={avatar}
+                fill
+                sizes="(max-width: 768px) 50vw, 25vw"
+                priority
+                alt="Avatar"
+            />
             <AnimatePresence>
                 {isCameraButtonVisible && (
                     <CameraButton

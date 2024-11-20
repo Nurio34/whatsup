@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 function NewUserClientPage() {
     const { user, isUserDeletedFromFirebase } = useAppSelector((s) => s.user);
     useDeleteUserFromFirebase(isUserDeletedFromFirebase);
-    console.log(user);
 
     const router = useRouter();
 
