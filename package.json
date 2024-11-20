@@ -17,14 +17,12 @@
         "firebase": "^11.0.2",
         "framer-motion": "^11.11.11",
         "next": "15.0.3",
-        "next-pwa": "^5.6.0",
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-hot-toast": "^2.4.1",
         "react-icons": "^5.3.0",
         "react-redux": "^9.1.2",
         "redux-persist": "^6.0.0",
-        "web-push": "^3.6.7",
         "zod": "^3.23.8"
     },
     "devDependencies": {

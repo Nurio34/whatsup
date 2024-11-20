@@ -1,12 +1,10 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch } from "@/store/hooks";
 import { setIsMobile } from "@/store/slices/user";
 import { useEffect } from "react";
 
 function DeviceDetectorClient() {
-    const { isMobile } = useAppSelector((s) => s.user);
-
     const dispatch = useAppDispatch();
 
     useEffect(() => {
