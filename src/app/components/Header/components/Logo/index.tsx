@@ -25,7 +25,7 @@ function Logo() {
             >
                 {process.env.NEXT_PUBLIC_LOGO_NAME || "my app"}
             </p>
-            <p className=" text-white">Update</p>
+            <p className=" text-white">New Update</p>
         </div>
     );
 }
