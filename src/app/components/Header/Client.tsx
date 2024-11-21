@@ -5,7 +5,6 @@ import { useEffect, useRef } from "react";
 import { getHeight } from "@/store/slices/components";
 import Logo from "./components/Logo";
 import LoginLinkButton from "./components/LoginLinkButton";
-import SideMenuButton from "./components/SideMenuButton";
 import { usePathname } from "next/navigation";
 
 function HeaderClient() {
@@ -15,7 +14,7 @@ function HeaderClient() {
     const dispatch = useAppDispatch();
 
     const path = usePathname().split("/")[1];
-    const isHomePage = path === "";
+    const isHomePage = path === "" && !user;
 
     useEffect(() => {
         if (HeaderElement.current) {
@@ -35,7 +34,6 @@ function HeaderClient() {
                 >
                     <Logo />
                     {!user && <LoginLinkButton />}
-                    {user && <SideMenuButton />}
                 </header>
             )}
         </>

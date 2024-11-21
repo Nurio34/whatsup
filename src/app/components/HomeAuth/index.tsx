@@ -1,30 +1,28 @@
-import { UserType } from "@/type/user";
-import SideMenu from "./components/SideMenu";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import useDeleteUserFromFirebase from "@/hooks/useDeleteUserFromFirebase";
+import { selectUser } from "@/store/slices/user";
+import { useAppSelector } from "@/store/hooks";
+import SideMenuNav from "./components/SideMenu";
+import Menu from "./components/Menu";
+import Screen from "./components/Screen";
 
-function HomeAuth({
-    user,
-    isUserDeletedFromFirebase,
-}: {
-    user: UserType;
-    isUserDeletedFromFirebase: boolean;
-}) {
-    useDeleteUserFromFirebase(isUserDeletedFromFirebase);
+function HomeAuth() {
+    const user = useAppSelector(selectUser);
     const router = useRouter();
 
     useEffect(() => {
-        if (user.newUser) {
+        if (user?.newUser) {
             router.push("/new-user");
             return;
         }
-    }, []);
+    }, [user]);
 
     return (
-        <div>
-            <SideMenu />
-        </div>
+        <main className="grid grid-cols-[auto,0.2fr,0.8fr]">
+            <SideMenuNav />
+            <Menu />
+            <Screen />
+        </main>
     );
 }
 
