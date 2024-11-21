@@ -9,11 +9,11 @@ function Form({ user, isMobile }: { user: UserType; isMobile: boolean }) {
     const [about, setAbout] = useState("");
     const [avatar, setAvatar] = useState(
         user.avatar.url ||
-            process.env.NEXT_PUBLIC_AVATAR_IMAGE ||
+            process.env.NEXT_PUBLIC_AVATAR_IMAGE! ||
             "/avatar-placeholder.webp",
     );
     const [avatarFile, setAvatarFile] = useState<File | null>(null);
-
+    
     useEffect(() => {
         if (Boolean(avatar)) {
             const convertImageToFile = async () => {

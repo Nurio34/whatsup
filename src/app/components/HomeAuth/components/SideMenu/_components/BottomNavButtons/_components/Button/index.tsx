@@ -31,7 +31,7 @@ function Button({
             >
                 {btn.name === "profile" ? (
                     <Image
-                        src={btn.icon as string}
+                        src={btn.icon as string || process.env.NEXT_PUBLIC_AVATAR_IMAGE || "/avatar-placeholder.webp"}
                         fill
                         sizes="(max-width: 768px) 50vw, 25vw"
                         alt="avatar"
