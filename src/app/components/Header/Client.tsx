@@ -8,36 +8,36 @@ import LoginLinkButton from "./components/LoginLinkButton";
 import { usePathname } from "next/navigation";
 
 function HeaderClient() {
-    const HeaderElement = useRef<HTMLElement | null>(null);
+  const HeaderElement = useRef<HTMLElement | null>(null);
 
-    const { user } = useAppSelector((s) => s.user);
-    const dispatch = useAppDispatch();
+  const { user } = useAppSelector((s) => s.user);
+  const dispatch = useAppDispatch();
 
-    const path = usePathname().split("/")[1];
-    const isHomePage = path === "" && !user;
+  const path = usePathname().split("/")[1];
+  const isHomePage = path === "" && !user;
 
-    useEffect(() => {
-        if (HeaderElement.current) {
-            const height = HeaderElement.current.getBoundingClientRect().height;
-            dispatch(getHeight(height));
-        }
-    }, [dispatch]);
+  useEffect(() => {
+    if (HeaderElement.current) {
+      const height = HeaderElement.current.getBoundingClientRect().height;
+      dispatch(getHeight(height));
+    }
+  }, [dispatch]);
 
-    return (
-        <>
-            {isHomePage && (
-                <header
-                    ref={HeaderElement}
-                    className={`flex items-center justify-between py-[1vh] px-[2vw]
+  return (
+    <>
+      {isHomePage && (
+        <header
+          ref={HeaderElement}
+          className={`flex items-center justify-between py-[1vh] px-[2vw]
                 ${user && "shadow-md"}    
             `}
-                >
-                    <Logo />
-                    {!user && <LoginLinkButton />}
-                </header>
-            )}
-        </>
-    );
+        >
+          <Logo />
+          {!user && <LoginLinkButton />}
+        </header>
+      )}
+    </>
+  );
 }
 
 export default HeaderClient;

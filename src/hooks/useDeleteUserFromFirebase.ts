@@ -5,30 +5,30 @@ import { deleteUser, getAuth } from "firebase/auth";
 import { useEffect } from "react";
 
 const useDeleteUserFromFirebase = (isUserDeletedFromFirebase: boolean) => {
-    const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        if (app) {
-            const auth = getAuth();
+  useEffect(() => {
+    if (app) {
+      const auth = getAuth();
 
-            const deleteCurrentUser = async () => {
-                const user = auth.currentUser;
+      const deleteCurrentUser = async () => {
+        const user = auth.currentUser;
 
-                if (user) {
-                    try {
-                        await deleteUser(user);
-                        dispatch(deleteUserFromFirebaseAction());
-                    } catch (error) {
-                        console.error("Error deleting user:", error);
-                    }
-                }
-            };
-
-            if (!isUserDeletedFromFirebase) {
-                deleteCurrentUser();
-            }
+        if (user) {
+          try {
+            await deleteUser(user);
+            dispatch(deleteUserFromFirebaseAction());
+          } catch (error) {
+            console.error("Error deleting user:", error);
+          }
         }
-    }, [isUserDeletedFromFirebase, dispatch, app]);
+      };
+
+      if (!isUserDeletedFromFirebase) {
+        deleteCurrentUser();
+      }
+    }
+  }, [isUserDeletedFromFirebase, dispatch]);
 };
 
 export default useDeleteUserFromFirebase;

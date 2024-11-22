@@ -1,21 +1,18 @@
-import { useAppSelector } from "@/store/hooks";
 import BottomNavButtons from "./_components/BottomNavButtons";
 import TopNavButtons from "./_components/TopNavButtons";
-import { selectIsMoile } from "@/store/slices/user";
+import { UserType } from "@/type/user";
 
-function SideMenuNav() {
-    const isMobile = useAppSelector(selectIsMoile);
-
-    return (
-        <nav
-            className={`h-screen py-[2vh] px-[2vw]
+async function SideMenuNav({ user }: { user: UserType }) {
+  return (
+    <nav
+      className={`h-screen py-[2vh] px-[1vw] min-w-[43.0312px] md:min-w-[69.1719px]
             grid items-center transition-all
             `}
-        >
-            <TopNavButtons isMobile={isMobile} />
-            <BottomNavButtons isMobile={isMobile} />
-        </nav>
-    );
+    >
+      <TopNavButtons user={user} />
+      <BottomNavButtons user={user} />
+    </nav>
+  );
 }
 
 export default SideMenuNav;
