@@ -5,18 +5,50 @@ import HomeUnauth from "./components/HomeUnauth";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-export default async function HomePage() {
+// export default async function HomePage() {
+//   const token = (await cookies()).get("auth-token")?.value;
+//   console.log({ token });
+
+//   if (token) {
+//     const { id } = jwt.verify(token, JWT_SECRET!) as JwtPayload;
+
+//     if (id) {
+//       return <HomeAuth id={id} />;
+//     } else {
+//       return <HomeUnauth />;
+//     }
+//   } else {
+//     return <HomeUnauth />;
+//   }
+// }
+
+async function HomePage() {
   const token = (await cookies()).get("auth-token")?.value;
 
-  if (token) {
-    const { id } = jwt.verify(token, JWT_SECRET!) as JwtPayload;
+  try {
+    if (token) {
+      const { id } = jwt.verify(token, JWT_SECRET!) as JwtPayload; // Verify the JWT
 
-    if (id) {
-      return <HomeAuth />;
-    } else {
-      return <HomeUnauth />;
+      if (id) {
+        return <HomeAuth />;
+      } else {
+        return <HomeUnauth />;
+      }
     }
-  } else {
+
+    // Token exists but is invalid/expired
+    console.log("Token is invalid or expired");
     return <HomeUnauth />;
+  } catch (error: unknown) {
+    // Handle expired JWT
+    if (error instanceof jwt.TokenExpiredError) {
+      console.error("JWT expired:", error.message);
+    } else if (error instanceof jwt.JsonWebTokenError) {
+      console.error("JWT error:", error.message);
+    } else {
+      console.error("Unexpected error:", error);
+    }
   }
 }
+
+export default HomePage;
