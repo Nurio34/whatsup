@@ -7,6 +7,7 @@ import DeleteUserFromFirebase from "./components/DeleteUserFromFirebase";
 
 async function HomeAuth() {
   const user = await getUser();
+  console.log({ user });
 
   if (user.newUser) return redirect("/new-user");
 
