@@ -1,12 +1,12 @@
 import ProviderComponent from "@/store/Provider";
-import HomeUnauthClient from "./Client";
+import LogoutClient from "./Client";
 
-function HomeUnauth() {
+function Logout() {
   return (
     <ProviderComponent>
-      <HomeUnauthClient />
+      <LogoutClient />
     </ProviderComponent>
   );
 }
 
-export default HomeUnauth;
+export default Logout;

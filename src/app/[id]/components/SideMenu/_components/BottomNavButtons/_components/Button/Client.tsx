@@ -8,14 +8,17 @@ import { selectIsMoile } from "@/store/slices/user";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { selectCurrentMenu, setCurrentMenu } from "@/store/slices/components";
+import { useRouter } from "next/navigation";
 
 function ButtonClient({ btn }: { user: UserType; btn: ButtonType }) {
   const isMobile = useAppSelector(selectIsMoile);
-  const { name, index } = useAppSelector(selectCurrentMenu);
+  const { name } = useAppSelector(selectCurrentMenu);
 
   const dispatch = useAppDispatch();
 
   const [isNameVisible, setIsNameVisible] = useState(false);
+
+  const router = useRouter();
 
   return (
     <li
@@ -38,10 +41,12 @@ function ButtonClient({ btn }: { user: UserType; btn: ButtonType }) {
         `}
         onMouseEnter={() => !isMobile && setIsNameVisible(true)}
         onMouseLeave={() => !isMobile && setIsNameVisible(false)}
-        onClick={() =>
-          dispatch(setCurrentMenu({ name: btn.name, index: btn.index }))
-        }
-        disabled={index === btn.index}
+        onClick={() => {
+          dispatch(setCurrentMenu({ name: btn.name, index: btn.index }));
+          if (btn.name === "profile") {
+            router.push("/logout");
+          }
+        }}
       >
         {btn.name === "profile" ? (
           <Image

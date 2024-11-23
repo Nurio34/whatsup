@@ -2,12 +2,19 @@ import SideMenuNav from "./components/SideMenu";
 import Menu from "./components/Menu";
 import Screen from "./components/Screen";
 import { redirect } from "next/navigation";
-import { getUser } from "./actions";
 import DeleteUserFromFirebase from "./components/DeleteUserFromFirebase";
+import { getUser } from "./actions";
 
-async function HomeAuth() {
-  const user = await getUser();
-  console.log({ user });
+type AsyncRouteContext = {
+  params: Promise<Record<string, string | string[]>>;
+  searchParams: Promise<URLSearchParams>;
+};
+
+async function HomeAuth(context: AsyncRouteContext) {
+  const { id } = await context.params;
+
+  const user = await getUser(id as string);
+  console.log(user);
 
   if (user.newUser) return redirect("/new-user");
 
