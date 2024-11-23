@@ -1,31 +1,24 @@
-import { UserType } from "@/type/user";
-import SideMenu from "./components/SideMenu";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import useDeleteUserFromFirebase from "@/hooks/useDeleteUserFromFirebase";
+import SideMenuNav from "./components/SideMenu";
+import Menu from "./components/Menu";
+import Screen from "./components/Screen";
+import { redirect } from "next/navigation";
+import { getUser } from "./actions";
+import DeleteUserFromFirebase from "./components/DeleteUserFromFirebase";
 
-function HomeAuth({
-    user,
-    isUserDeletedFromFirebase,
-}: {
-    user: UserType;
-    isUserDeletedFromFirebase: boolean;
-}) {
-    useDeleteUserFromFirebase(isUserDeletedFromFirebase);
-    const router = useRouter();
+async function HomeAuth() {
+  const user = await getUser();
+  console.log({ user });
 
-    useEffect(() => {
-        if (user.newUser) {
-            router.push("/new-user");
-            return;
-        }
-    }, []);
+  if (user.newUser) return redirect("/new-user");
 
-    return (
-        <div>
-            <SideMenu />
-        </div>
-    );
+  return (
+    <main className="flex">
+      <DeleteUserFromFirebase />
+      <SideMenuNav user={user} />
+      <Menu user={user} />
+      <Screen />
+    </main>
+  );
 }
 
 export default HomeAuth;

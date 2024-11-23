@@ -1,13 +1,12 @@
-import BackgroundImage from "./components/BackgroundImage";
-import Main from "./components/Main";
+import ProviderComponent from "@/store/Provider";
+import HomeUnauthClient from "./Client";
 
 function HomeUnauth() {
-    return (
-        <div className=" text-white">
-            <BackgroundImage />
-            <Main />
-        </div>
-    );
+  return (
+    <ProviderComponent>
+      <HomeUnauthClient />
+    </ProviderComponent>
+  );
 }
 
 export default HomeUnauth;

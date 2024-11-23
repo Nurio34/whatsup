@@ -1,0 +1,19 @@
+### *** FIREBASE AUTHENTICATION APPLICATION ***
+
+- /src/utils/firebaseConfig.ts
+- /src/app/(auth)/components/FireLoginButtons/index.tsx
+- /src/hooks/useDeleteUserFromFirebase.ts
+
+***********************************************
+
+
+### *** PWA Application  ***
+
+- /src/app/manifest.ts
+- /public/sw.js
+- /src/hooks/useServiceWorkes.ts
+- /src/app/_app.tsx
+
+****************************
+
+### 
