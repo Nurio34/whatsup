@@ -6,7 +6,10 @@ import HomeUnauth from "./components/HomeUnauth";
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export default async function HomePage() {
-  const token = (await cookies()).get("auth-token")?.value;
+  const _cookies = await cookies();
+  console.log({ _cookies });
+
+  const token = _cookies.get("auth-token")?.value;
   console.log({ token });
 
   if (token) {
