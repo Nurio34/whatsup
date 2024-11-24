@@ -20,16 +20,24 @@ function SearchUser({
 }) {
   const SearchInput = useRef<HTMLInputElement | null>(null);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [searchedUser, setSearchedUser] = useState("");
 
-  const searchUser = (e: KeyboardEvent<HTMLInputElement>) => {
+  const searchUserWithKeyboard = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      const value = e.currentTarget.value;
+      const anyUser = allUsers.find((user) => user.username === searchedUser);
 
-      const anyUser = allUsers.find((user) => user.username === value);
-
-      if (anyUser && value !== user.username) {
+      if (anyUser && searchedUser !== user.username) {
         setFoundUser(anyUser);
+        setSearchedUser("");
       }
+    }
+  };
+
+  const searchUserWithIconButton = () => {
+    const anyUser = allUsers.find((user) => user.username === searchedUser);
+    if (anyUser && searchedUser !== user.username) {
+      setFoundUser(anyUser);
+      setSearchedUser("");
     }
   };
 
@@ -40,7 +48,11 @@ function SearchUser({
         boxShadow: isSearchFocused ? "0 12px 5px -10px green" : "",
       }}
     >
-      <button type="button" className="px-[1vw]">
+      <button
+        type="button"
+        className="px-[1vw]"
+        onClick={searchUserWithIconButton}
+      >
         <LiaSearchSolid />
       </button>
       <input
@@ -53,7 +65,9 @@ function SearchUser({
         autoComplete="off"
         onFocus={() => setIsSearchFocused(true)}
         onBlur={() => setIsSearchFocused(false)}
-        onKeyDown={searchUser}
+        onKeyDown={searchUserWithKeyboard}
+        value={searchedUser}
+        onChange={(e) => setSearchedUser(e.target.value)}
       />
     </div>
   );

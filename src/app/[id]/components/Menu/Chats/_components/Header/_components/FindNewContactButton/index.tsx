@@ -49,7 +49,7 @@ function FindNewContactButton({
   }, [dispatch]);
 
   return (
-    <div id="FindNewContactButton">
+    <div id="FindNewContactButton" className=" ">
       <button
         type="button"
         className=" transition-all hover:bg-gray-200 p-[0.5vw] rounded-md"

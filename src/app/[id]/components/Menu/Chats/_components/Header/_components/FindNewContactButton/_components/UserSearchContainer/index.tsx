@@ -24,7 +24,9 @@ function UserSearchContainer({
     <AnimatePresence>
       {isUserSearchContainerVisible && (
         <motion.aside
-          className=" absolute bg-gray-100 py-[2vh] px-[2vw] rounded-lg shadow-lg"
+          className={`absolute bg-gray-100 py-[2vh] px-[2vw] rounded-lg shadow-lg w-96
+            ${isMobile && " top-0 left-0 z-10 w-full max-w-96"}  
+          `}
           initial={{ y: "-25%", opacity: 0 }}
           animate={{ y: "0", opacity: 1 }}
           exit={{ y: "-25%", opacity: 0 }}

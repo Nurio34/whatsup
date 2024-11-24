@@ -11,17 +11,10 @@ type AsyncRouteContext = {
 };
 
 async function HomeAuth(context: AsyncRouteContext) {
-  console.log(context);
-  const params = await context.params;
-  const searchParamas = await context.searchParams;
-  console.log(params);
-  console.log(searchParamas);
-
   const { token } = await context.searchParams;
 
   try {
     const response = await getUser(token);
-    console.log(response);
 
     if (response) {
       const { user } = response;
@@ -37,12 +30,10 @@ async function HomeAuth(context: AsyncRouteContext) {
         </main>
       );
     } else {
-      console.log("No response");
-
       redirect("/logout");
     }
   } catch (error) {
-    console.log("Error", error);
+    console.log(error);
 
     redirect("/logout");
   }
