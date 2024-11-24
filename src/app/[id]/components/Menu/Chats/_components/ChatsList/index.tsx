@@ -13,6 +13,7 @@ function ChatsList() {
   const user = useAppSelector(selectUser);
 
   const connectWith = useAppSelector(selectConnectWith);
+  console.log({ connectWith });
 
   const dispatch = useAppDispatch();
 
