@@ -2,9 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  background-color: #ffffff;
-  color: #000000;
+/* Prevent browsers from using their default dark mode */
+
+@media (prefers-color-scheme: dark) {
+  /* Explicitly set styles for dark mode */
+  :root {
+    color-scheme: light; /* Force light theme */
+    background-color: white; /* Background stays white */
+    color: black; /* Text stays black */
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  /* Explicitly set styles for light mode */
+  :root {
+    color-scheme: light; /* Reinforce light theme */
+    background-color: white;
+    color: black;
+  }
 }
 
 @layer components {
