@@ -20,7 +20,7 @@ function ButtonClient({ btn }: { user: UserType; btn: ButtonType }) {
     <li
       key={btn.name}
       className={`flex items-center gap-[3px] py-[3px] rounded-md 
-        ${name === btn.name ? "bg-gray-200" : "bg-white"}  
+        ${name === btn.name && "bg-gray-200"}  
       `}
     >
       <div className="w-[4px] h-full relative overflow-y-hidden ">

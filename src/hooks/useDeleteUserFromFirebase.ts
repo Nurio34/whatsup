@@ -28,7 +28,7 @@ const useDeleteUserFromFirebase = (isUserDeletedFromFirebase: boolean) => {
         deleteCurrentUser();
       }
     }
-  }, [isUserDeletedFromFirebase, dispatch]);
+  }, [isUserDeletedFromFirebase, dispatch, app]);
 };
 
 export default useDeleteUserFromFirebase;
