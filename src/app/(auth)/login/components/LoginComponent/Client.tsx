@@ -36,7 +36,6 @@ function LoginClientComponent() {
         const response = await axiosInstance.post("/auth/login", form);
 
         if (response.data.status === "success") {
-          console.log(response.data);
           toast.success(response.data.message);
           dispatch(setUser(response.data.user));
           dispatch(setToken(response.data.token));

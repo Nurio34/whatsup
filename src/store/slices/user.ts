@@ -9,6 +9,7 @@ type UserSliceType = {
   isUserDeletedFromFirebase: boolean;
   isMobile: boolean;
   token: string | null;
+  connectWith: string[] | null;
 };
 
 const initialState: UserSliceType = {
@@ -18,6 +19,7 @@ const initialState: UserSliceType = {
   isUserDeletedFromFirebase: false,
   isMobile: false,
   token: null,
+  connectWith: null,
 };
 
 export const userSlice = createSlice({
@@ -42,6 +44,9 @@ export const userSlice = createSlice({
     setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
     },
+    setConnectWith: (state, action: PayloadAction<string[]>) => {
+      state.connectWith = action.payload;
+    },
     logoutUser: () => initialState,
   },
 });
@@ -53,6 +58,7 @@ export const {
   deleteUserFromFirebaseAction,
   setIsMobile,
   setToken,
+  setConnectWith,
   logoutUser,
 } = userSlice.actions;
 export const selectIsLoading = (state: RootState) => state.user.isLoading;
@@ -62,4 +68,5 @@ export const selectIsUserDeletedFromFirebase = (state: RootState) =>
   state.user.isUserDeletedFromFirebase;
 export const selectIsMoile = (state: RootState) => state.user.isMobile;
 export const selectToken = (state: RootState) => state.user.token;
+export const selectConnectWith = (state: RootState) => state.user.connectWith;
 export default userSlice.reducer;

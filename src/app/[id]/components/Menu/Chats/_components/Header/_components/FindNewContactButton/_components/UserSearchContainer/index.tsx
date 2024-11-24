@@ -3,22 +3,28 @@ import { selectIsMoile } from "@/store/slices/user";
 import { AnimatePresence, motion } from "framer-motion";
 import SearchUser from "./SearchUser";
 import { ChatsUserType } from "../../../../../..";
-import AllUsersContainer from "./AllUsersContainer";
+import FoundUser from "./FoundUser";
+import { useState } from "react";
+import { UserType } from "@/type/user";
 
 function UserSearchContainer({
+  user,
   allUsers,
   isUserSearchContainerVisible,
 }: {
+  user: UserType;
   allUsers: ChatsUserType[];
   isUserSearchContainerVisible: boolean;
 }) {
   const isMobile = useAppSelector(selectIsMoile);
 
+  const [foundUser, setFoundUser] = useState<ChatsUserType | null>(null);
+
   return (
     <AnimatePresence>
       {isUserSearchContainerVisible && (
         <motion.aside
-          className=" absolute bg-gray-100 py-[2vh] px-[2vw] rounded-lg"
+          className=" absolute bg-gray-100 py-[2vh] px-[2vw] rounded-lg shadow-lg"
           initial={{ y: "-25%", opacity: 0 }}
           animate={{ y: "0", opacity: 1 }}
           exit={{ y: "-25%", opacity: 0 }}
@@ -37,8 +43,12 @@ function UserSearchContainer({
               </div>
             )}
           </div>
-          <SearchUser />
-          <AllUsersContainer allUsers={allUsers} />
+          <SearchUser
+            user={user}
+            allUsers={allUsers}
+            setFoundUser={setFoundUser}
+          />
+          <FoundUser foundUser={foundUser} />
         </motion.aside>
       )}
     </AnimatePresence>

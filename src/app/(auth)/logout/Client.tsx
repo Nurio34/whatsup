@@ -14,7 +14,6 @@ function LogoutClient() {
     const logout = async () => {
       try {
         const response = await axiosInstance.post("/auth/logout");
-        console.log(response);
 
         if (response.data.status === "success") {
           dispatch(logoutUser());

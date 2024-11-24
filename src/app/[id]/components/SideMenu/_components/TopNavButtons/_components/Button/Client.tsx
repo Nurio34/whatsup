@@ -7,14 +7,17 @@ import { ButtonType } from ".";
 import { AnimatePresence, motion } from "framer-motion";
 import { UserType } from "@/type/user";
 import { selectCurrentMenu, setCurrentMenu } from "@/store/slices/components";
+import { useRouter } from "next/navigation";
 
 function ButtonClient({ btn }: { user: UserType; btn: ButtonType }) {
   const isMobile = useAppSelector(selectIsMoile);
-  const { name, index } = useAppSelector(selectCurrentMenu);
+  const { name } = useAppSelector(selectCurrentMenu);
 
   const dispatch = useAppDispatch();
 
   const [isNameVisible, setIsNameVisible] = useState(false);
+
+  const router = useRouter();
 
   return (
     <li
@@ -35,12 +38,15 @@ function ButtonClient({ btn }: { user: UserType; btn: ButtonType }) {
         className={`relative w-7 aspect-square rounded-full overflow-hidden z-10 transition-all
             ${name === btn.name && " bg-gray-200"}  
         `}
-        disabled={index === btn.index}
         onMouseEnter={() => !isMobile && setIsNameVisible(true)}
         onMouseLeave={() => !isMobile && setIsNameVisible(false)}
-        onClick={() =>
-          dispatch(setCurrentMenu({ name: btn.name, index: btn.index }))
-        }
+        onClick={() => {
+          if (isMobile) {
+            router.push(`${btn.name}`);
+          } else {
+            dispatch(setCurrentMenu({ name: btn.name, index: btn.index }));
+          }
+        }}
       >
         {btn.icon}
       </button>

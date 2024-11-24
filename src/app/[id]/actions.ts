@@ -1,15 +1,40 @@
 "use server";
 
 import axiosInstance from "@/axios";
+import { UserType } from "@/type/user";
+import { redirect } from "next/navigation";
 
-export const getUser = async (id: string) => {
+// Define a response type for the API
+type GetUserResponse = {
+  status: string;
+  user: UserType;
+  token: string;
+};
+
+export const getUser = async (
+  token: string
+): Promise<{ user: UserType; refreshToken: string } | null> => {
   try {
-    const response = await axiosInstance.get(`/user/get-user/${id}`);
+    const response = await axiosInstance.get<GetUserResponse>(
+      `/user/get-user`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (response.data.status === "success") {
-      return response.data.user;
+      return { user: response.data.user, refreshToken: response.data.token };
+    } else {
+      console.error("Failed to fetch user data: Invalid response status");
+      return null;
     }
   } catch (error) {
-    console.log(error);
+    // Optional: Log the actual error for debugging
+    console.error("Error fetching user data:", error);
+
+    // Redirect if an error occurs
+    redirect("/logout");
   }
 };

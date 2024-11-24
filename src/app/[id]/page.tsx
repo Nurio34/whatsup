@@ -6,26 +6,37 @@ import DeleteUserFromFirebase from "./components/DeleteUserFromFirebase";
 import { getUser } from "./actions";
 
 type AsyncRouteContext = {
-  params: Promise<Record<string, string | string[]>>;
-  searchParams: Promise<URLSearchParams>;
+  params: Promise<{ username: string }>;
+  searchParams: Promise<{ token: string }>;
 };
 
 async function HomeAuth(context: AsyncRouteContext) {
-  const { id } = await context.params;
+  const { token } = await context.searchParams;
 
-  const user = await getUser(id as string);
-  console.log(user);
+  try {
+    const response = await getUser(token);
 
-  if (user.newUser) return redirect("/new-user");
+    if (response) {
+      const { user } = response;
 
-  return (
-    <main className="flex">
-      <DeleteUserFromFirebase />
-      <SideMenuNav user={user} />
-      <Menu user={user} />
-      <Screen />
-    </main>
-  );
+      if (user.newUser) return redirect("/new-user");
+
+      return (
+        <main className="flex">
+          <DeleteUserFromFirebase />
+          <SideMenuNav user={user} />
+          <Menu user={user} />
+          <Screen />
+        </main>
+      );
+    } else {
+      redirect("/logout");
+    }
+  } catch (error) {
+    console.log(error);
+
+    redirect("/logout");
+  }
 }
 
 export default HomeAuth;

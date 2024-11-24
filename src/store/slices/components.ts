@@ -48,9 +48,7 @@ export const componentsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(logoutUser, (state) => {
-      state.isSideMenuOpen = false;
-    });
+    builder.addCase(logoutUser, () => initialState); // Directly return initial state
   },
 });
 

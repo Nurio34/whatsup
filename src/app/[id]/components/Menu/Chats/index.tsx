@@ -1,6 +1,7 @@
 import ProviderComponent from "@/store/Provider";
 import ChatsClient from "./Client";
 import { getAllUsers } from "../actions";
+import { UserType } from "@/type/user";
 
 export type ChatsUserType = {
   avatar: {
@@ -8,14 +9,15 @@ export type ChatsUserType = {
   };
   username: string;
   _id: string;
+  about: string;
 };
 
-async function Chats() {
+async function Chats({ user }: { user: UserType }) {
   const allUsers: ChatsUserType[] = await getAllUsers();
 
   return (
     <ProviderComponent>
-      <ChatsClient allUsers={allUsers} />
+      <ChatsClient user={user} allUsers={allUsers} />
     </ProviderComponent>
   );
 }
