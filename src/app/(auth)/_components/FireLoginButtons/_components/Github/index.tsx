@@ -1,7 +1,7 @@
 import { useAppDispatch } from "@/store/hooks";
 import { useRouter } from "next/navigation";
 import { FaGithub } from "react-icons/fa";
-import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
+import { GithubAuthProvider, signInWithRedirect } from "firebase/auth";
 import { fireAuth } from "@/utils/firebaseConfig";
 import axiosInstance from "@/axios";
 import { setToken, setUser } from "@/store/slices/user";
@@ -16,7 +16,7 @@ function Github() {
   const provider = new GithubAuthProvider();
 
   const handleGithubLogin = async () => {
-    const { user: GithubUser } = await signInWithPopup(fireAuth, provider);
+    const { user: GithubUser } = await signInWithRedirect(fireAuth, provider);
 
     const { displayName: username, email, photoURL: avatar } = GithubUser;
     const loginType = "Github";
