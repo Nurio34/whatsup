@@ -16,35 +16,58 @@ function Google() {
   const provider = new GoogleAuthProvider();
 
   const handleGoogleLogin = async () => {
-    const { user: GoogleUser } = await signInWithPopup(fireAuth, provider);
-    const { displayName: username, email, photoURL: avatar } = GoogleUser;
-    const loginType = "Google";
+    signInWithPopup(fireAuth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        console.log({ token });
 
-    try {
-      const response = await axiosInstance.post("/auth/firebase-login", {
-        username,
-        email,
-        avatar,
-        loginType,
+        const GoogleUser = result.user;
+        const { displayName: username, email, photoURL: avatar } = GoogleUser;
+        const loginType = "Google";
+
+        const login = async () => {
+          try {
+            const response = await axiosInstance.post("/auth/firebase-login", {
+              username,
+              email,
+              avatar,
+              loginType,
+            });
+
+            if (response.data.status === "success") {
+              dispatch(setUser(response.data.user));
+              dispatch(setToken(response.data.token));
+
+              toast.success(response.data.message);
+
+              if (response.data.user.newUser) {
+                router.push("/new-user");
+              } else {
+                router.push("/");
+              }
+            }
+          } catch (error) {
+            if (error instanceof AxiosError) {
+              toast.error(error.response?.data.message);
+            }
+          }
+        };
+
+        login();
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+        console.log({ errorCode, errorMessage, credential });
       });
-
-      if (response.data.status === "success") {
-        dispatch(setUser(response.data.user));
-        dispatch(setToken(response.data.token));
-
-        toast.success(response.data.message);
-
-        if (response.data.user.newUser) {
-          router.push("/new-user");
-        } else {
-          router.push("/");
-        }
-      }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message);
-      }
-    }
   };
 
   return (
