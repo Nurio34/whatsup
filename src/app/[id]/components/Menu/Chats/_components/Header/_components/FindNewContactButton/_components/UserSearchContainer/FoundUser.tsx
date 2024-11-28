@@ -9,9 +9,16 @@ import {
   setConnectWith,
 } from "@/store/slices/user";
 import toast from "react-hot-toast";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { setIsUserSearchContainerVisible } from "@/store/slices/components";
 
-function FoundUser({ foundUser }: { foundUser: ChatsUserType | null }) {
+function FoundUser({
+  foundUser,
+  setFoundUser,
+}: {
+  foundUser: ChatsUserType | null;
+  setFoundUser: Dispatch<SetStateAction<ChatsUserType | null>>;
+}) {
   const user = useAppSelector(selectUser);
   const connectWith = useAppSelector(selectConnectWith);
   const dispatch = useAppDispatch();
@@ -37,6 +44,8 @@ function FoundUser({ foundUser }: { foundUser: ChatsUserType | null }) {
 
       if (response.data.status === "success") {
         dispatch(setConnectWith(response.data.connectWith));
+        dispatch(setIsUserSearchContainerVisible(false));
+        setFoundUser(null);
         toast.success(response.data.message);
       }
     } catch (error) {
@@ -50,7 +59,7 @@ function FoundUser({ foundUser }: { foundUser: ChatsUserType | null }) {
     <>
       {foundUser && (
         <div className=" flex justify-center items-center gap-x-[1vw]">
-          <figure className=" grow relative aspect-square">
+          <figure className=" grow relative aspect-square max-w-36">
             <Image
               src={foundUser.avatar.url}
               fill

@@ -24,12 +24,17 @@ function UserSearchContainer({
     <AnimatePresence>
       {isUserSearchContainerVisible && (
         <motion.aside
-          className={`absolute bg-gray-100 py-[2vh] px-[2vw] rounded-lg shadow-lg w-96
+          className={`fixed z-50 left-1/2 bg-gray-100 py-[2vh] px-[2vw] rounded-lg shadow-lg w-96
             ${isMobile && " top-0 left-0 z-10 w-full max-w-96"}  
           `}
-          initial={{ y: "-25%", opacity: 0 }}
-          animate={{ y: "0", opacity: 1 }}
-          exit={{ y: "-25%", opacity: 0 }}
+          initial={{ y: "-25%", opacity: 0, translateX: "-50%" }}
+          animate={{ y: "0", opacity: 1, translateX: "-50%" }}
+          exit={{
+            y: "-12.5%",
+            opacity: 0,
+            translateX: "-50%",
+            transition: { duration: 0.1 },
+          }}
         >
           <h2 className=" font-semibold text-xl">New Contact</h2>
           <div className=" text-sm">
@@ -50,7 +55,7 @@ function UserSearchContainer({
             allUsers={allUsers}
             setFoundUser={setFoundUser}
           />
-          <FoundUser foundUser={foundUser} />
+          <FoundUser foundUser={foundUser} setFoundUser={setFoundUser} />
         </motion.aside>
       )}
     </AnimatePresence>

@@ -1,5 +1,12 @@
+import ProviderComponent from "@/store/Provider";
+import ScreenClient from "./Client";
+
 function Screen() {
-  return <div>Screen</div>;
+  return (
+    <ProviderComponent>
+      <ScreenClient />
+    </ProviderComponent>
+  );
 }
 
 export default Screen;
