@@ -17,34 +17,33 @@ import DeviceDetector from "./components/DeviceDetector";
 //     weight: "100 900",
 // });
 const font = Roboto({
-    weight: ["100", "300", "400", "500", "700", "900"],
-    subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-    title: process.env.NEXT_PUBLIC_APP_NAME || "My App",
-    description:
-        process.env.NEXT_PUBLIC_APP_DESCRIPTION || "My devestating app",
-    icons: { icon: process.env.NEXT_PUBLIC_FAVICON || "/favicon.ico" },
+  title: process.env.NEXT_PUBLIC_APP_NAME || "My App",
+  description: process.env.NEXT_PUBLIC_APP_DESCRIPTION || "My devestating app",
+  icons: { icon: process.env.NEXT_PUBLIC_FAVICON || "/favicon.ico" },
 };
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <html lang="en">
-            <body
-                className={`${font.className}
+  return (
+    <html lang="en">
+      <body
+        className={`${font.className}
               // //  antialiased
             `}
-            >
-                <DeviceDetector />
-                <Header />
-                {children}
-                <Toaster />
-            </body>
-        </html>
-    );
+      >
+        <DeviceDetector />
+        <Header />
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  );
 }

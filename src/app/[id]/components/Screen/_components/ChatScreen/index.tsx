@@ -1,5 +1,14 @@
 function ChatScreen() {
-  return <div>ChatScreen</div>;
+  return (
+    <section
+      className="grow"
+      style={{
+        backgroundImage: "url('/chat-bg.jpg')",
+      }}
+    >
+      ChatScreen
+    </section>
+  );
 }
 
 export default ChatScreen;

@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import Connection from "./Connection";
 import { Hourglass } from "react-loader-spinner";
 import { BiSolidErrorCircle } from "react-icons/bi";
+import { AxiosError } from "axios";
 
 function ChatsList() {
   const user = useAppSelector(selectUser);
@@ -31,9 +32,15 @@ function ChatsList() {
         dispatch(setConnectWith(response.data.connectWith));
       }
     } catch (error) {
-      setError(
-        "Something went wrong while getting your connection. Push the button to try to get your connections again !"
-      );
+      if (
+        error instanceof AxiosError &&
+        error.response?.data.status === "error"
+      ) {
+        setError(
+          "Something went wrong while getting your connection. Push the button to try to get your connections again !"
+        );
+        return;
+      }
       console.log(error);
     } finally {
       setIsLoading(false);

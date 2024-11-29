@@ -4,31 +4,41 @@ import { AnimatePresence, motion } from "framer-motion";
 import SearchUser from "./SearchUser";
 import { ChatsUserType } from "../../../../../..";
 import FoundUser from "./FoundUser";
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { UserType } from "@/type/user";
 
 function UserSearchContainer({
   user,
   allUsers,
   isUserSearchContainerVisible,
+  foundUser,
+  setFoundUser,
 }: {
   user: UserType;
   allUsers: ChatsUserType[];
   isUserSearchContainerVisible: boolean;
+  foundUser: ChatsUserType | null;
+  setFoundUser: Dispatch<SetStateAction<ChatsUserType | null>>;
 }) {
   const isMobile = useAppSelector(selectIsMoile);
-
-  const [foundUser, setFoundUser] = useState<ChatsUserType | null>(null);
 
   return (
     <AnimatePresence>
       {isUserSearchContainerVisible && (
         <motion.aside
-          className={`fixed z-50 left-1/2 bg-gray-100 py-[2vh] px-[2vw] rounded-lg shadow-lg w-96
-            ${isMobile && " top-0 left-0 z-10 w-full max-w-96"}  
+          className={`z-50 bg-gray-100 py-[2vh] px-[2vw] rounded-lg shadow-lg
+            ${
+              isMobile
+                ? "fixed top-0 left-1/2 w-80"
+                : "absolute left-0 min-w-96"
+            }  
           `}
-          initial={{ y: "-25%", opacity: 0, translateX: "-50%" }}
-          animate={{ y: "0", opacity: 1, translateX: "-50%" }}
+          initial={{
+            y: "-25%",
+            opacity: 0,
+            translateX: isMobile ? "-50%" : "0%",
+          }}
+          animate={{ y: "0", opacity: 1, translateX: isMobile ? "-50%" : "0%" }}
           exit={{
             y: "-12.5%",
             opacity: 0,
@@ -37,19 +47,15 @@ function UserSearchContainer({
           }}
         >
           <h2 className=" font-semibold text-xl">New Contact</h2>
-          <div className=" text-sm">
+          <ul className=" text-sm list-disc list-inside">
             {isMobile ? (
-              <div>
-                <p>Type the username and click Search Button.</p>
-                <p>You have to know exact username fo find it.</p>
-              </div>
+              <li>Type the username and click Search Button.</li>
             ) : (
-              <div>
-                <p>Type the username and press Enter.</p>
-                <p>You have to know exact username fo find it.</p>
-              </div>
+              <li>Type the username and press Enter.</li>
             )}
-          </div>
+            <li>You have to know exact username fo find it.</li>
+            <li>It is case sensetive</li>
+          </ul>
           <SearchUser
             user={user}
             allUsers={allUsers}

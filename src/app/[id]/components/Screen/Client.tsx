@@ -6,7 +6,7 @@ import MessageBar from "./_components/MessageBar";
 
 function ScreenClient() {
   return (
-    <section className=" grow">
+    <section className="grow flex flex-col">
       <Header />
       <ChatScreen />
       <MessageBar />

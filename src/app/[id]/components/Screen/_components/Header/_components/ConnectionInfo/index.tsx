@@ -1,5 +1,5 @@
-function ConnectionInfo() {
-  return <div className=" grow">ConnectionInfo</div>;
+function ConnectionInfo({ username }: { username: string }) {
+  return <div className=" grow font-bold">{username}</div>;
 }
 
 export default ConnectionInfo;

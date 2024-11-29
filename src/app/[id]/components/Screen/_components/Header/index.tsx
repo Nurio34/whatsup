@@ -6,15 +6,20 @@ import Actions from "./_components/Actions";
 
 function Header() {
   const selectedConnection = useAppSelector(selectSelectedConnection);
-  console.log({ selectedConnection });
 
-  return (
-    <header className="flex justify-start gap-x-[2vw] items-center">
-      <Avatar />
-      <ConnectionInfo />
-      <Actions />
-    </header>
-  );
+  if (selectedConnection) {
+    const { _id: id, username, about, avatar } = selectedConnection;
+    console.log({ selectedConnection });
+    console.log({ id, about });
+
+    return (
+      <header className="flex justify-start gap-x-[1vw] items-center py-[1vh] px-[1vw]">
+        <Avatar avatar={avatar.url} />
+        <ConnectionInfo username={username} />
+        <Actions />
+      </header>
+    );
+  }
 }
 
 export default Header;

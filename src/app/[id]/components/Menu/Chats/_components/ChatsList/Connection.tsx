@@ -1,19 +1,24 @@
 import { useEffect, useState } from "react";
-import { ChatsUserType } from "../..";
 import axiosInstance from "@/axios";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setSelectedConnection } from "@/store/slices/chat";
+import { addToContacts, selectContacts } from "@/store/slices/user";
 
 function Connection({ connectionId }: { connectionId: string }) {
-  const [connection, setConnection] = useState<ChatsUserType | null>(null);
+  const contacts = useAppSelector(selectContacts);
+
+  const thisContact = contacts.find(
+    (connection) => connection._id === connectionId
+  );
+
+  const dispatch = useAppDispatch();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const [isSecondAnimation, setIsSecondAnimation] = useState(false);
   const [isThirdAnimation, setIsThirdAnimation] = useState(false);
-
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const getConnection = async () => {
@@ -24,7 +29,7 @@ function Connection({ connectionId }: { connectionId: string }) {
         );
 
         if (response.data.status === "success") {
-          setConnection(response.data.connection);
+          dispatch(addToContacts(response.data.connection));
         }
       } catch (error) {
         console.log(error);
@@ -32,13 +37,14 @@ function Connection({ connectionId }: { connectionId: string }) {
         setIsLoading(false);
       }
     };
-
-    getConnection();
-  }, [connectionId]);
+    if (!Boolean(thisContact)) {
+      getConnection();
+    }
+  }, [connectionId, thisContact, dispatch]);
 
   const handleSelectConnection = () => {
-    if (connection) {
-      dispatch(setSelectedConnection(connection));
+    if (thisContact) {
+      dispatch(setSelectedConnection(thisContact));
     }
   };
 
@@ -48,21 +54,23 @@ function Connection({ connectionId }: { connectionId: string }) {
 
   return (
     <>
-      {connection && (
+      {thisContact && (
         <motion.li
           className=" bg-gray-100 border-2 shadow-md  rounded-md px-[1vw] py-[1vh]"
-          initial={{ x: "-25%" }}
+          initial={{ x: "-5%", opacity: 0 }}
           animate={
             !isSecondAnimation
-              ? { x: "0" }
+              ? { x: "0%", opacity: 1 }
               : isSecondAnimation && !isThirdAnimation
               ? {
-                  filter:
-                    "drop-shadow(0 0 4px blue) drop-shadow(0 0 8px blue) drop-shadow(0 0 12px blue)",
+                  x: "0%",
+                  opacity: 1,
+                  filter: "drop-shadow(0 0 6px blue) ",
                   transition: { type: "tween", ease: "easeOut" },
                 }
               : {
-                  x: 0,
+                  x: "0%",
+                  opacity: 1,
                   filter: "drop-shadow(0 0 0 transparent)",
                   transition: { type: "tween", duration: 1.6 },
                 }
@@ -85,19 +93,19 @@ function Connection({ connectionId }: { connectionId: string }) {
           >
             <figure className=" relative min-w-20 aspect-square rounded-full overflow-hidden">
               <Image
-                src={connection.avatar.url}
+                src={thisContact.avatar.url}
                 fill
                 sizes="(max-width: 768px) 50vw, 25vw"
-                alt={`Avatar of ${connection.username}`}
+                alt={`Avatar of ${thisContact.username}`}
                 priority
               />
             </figure>
             <div className="grow grid justify-items-start">
               <p className=" font-semibold text-lg text-gray-800">
-                {connection.username}
+                {thisContact.username}
               </p>
               <p className=" truncate text-sm text-gray-500">
-                {connection.about || `Hey it's ${connection.username} `}
+                {thisContact.about || `Hey it's ${thisContact.username} `}
               </p>
             </div>
           </button>

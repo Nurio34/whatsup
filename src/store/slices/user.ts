@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
-import { UserType } from "@/type/user";
+import { ContactType, UserType } from "@/type/user";
 
 type UserSliceType = {
   isLoading: boolean;
@@ -10,6 +10,7 @@ type UserSliceType = {
   isMobile: boolean;
   token: string | null;
   connectWith: string[] | null;
+  contacts: ContactType[];
 };
 
 const initialState: UserSliceType = {
@@ -20,6 +21,7 @@ const initialState: UserSliceType = {
   isMobile: false,
   token: null,
   connectWith: null,
+  contacts: [] as ContactType[],
 };
 
 export const userSlice = createSlice({
@@ -47,6 +49,9 @@ export const userSlice = createSlice({
     setConnectWith: (state, action: PayloadAction<string[]>) => {
       state.connectWith = action.payload;
     },
+    addToContacts: (state, action: PayloadAction<ContactType>) => {
+      state.contacts.push(action.payload);
+    },
     logoutUser: () => initialState,
   },
 });
@@ -59,6 +64,7 @@ export const {
   setIsMobile,
   setToken,
   setConnectWith,
+  addToContacts,
   logoutUser,
 } = userSlice.actions;
 export const selectIsLoading = (state: RootState) => state.user.isLoading;
@@ -69,4 +75,5 @@ export const selectIsUserDeletedFromFirebase = (state: RootState) =>
 export const selectIsMoile = (state: RootState) => state.user.isMobile;
 export const selectToken = (state: RootState) => state.user.token;
 export const selectConnectWith = (state: RootState) => state.user.connectWith;
+export const selectContacts = (state: RootState) => state.user.contacts;
 export default userSlice.reducer;

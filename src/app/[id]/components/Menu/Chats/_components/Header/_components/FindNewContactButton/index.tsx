@@ -7,7 +7,9 @@ import {
 } from "@/store/slices/components";
 import { ChatsUserType } from "../../../..";
 import { UserType } from "@/type/user";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import "./index.css";
+import { selectConnectWith } from "@/store/slices/user";
 
 function FindNewContactButton({
   user,
@@ -19,11 +21,14 @@ function FindNewContactButton({
   const isUserSearchContainerVisible = useAppSelector(
     selectIsUserSearchContainerVisible
   );
+  const connectWith = useAppSelector(selectConnectWith);
 
   const dispatch = useAppDispatch();
 
   const openUserSearchContainer = () =>
     dispatch(setIsUserSearchContainerVisible(!isUserSearchContainerVisible));
+
+  const [foundUser, setFoundUser] = useState<ChatsUserType | null>(null);
 
   useEffect(() => {
     const close = (e: MouseEvent) => {
@@ -38,6 +43,7 @@ function FindNewContactButton({
         return;
       } else {
         dispatch(setIsUserSearchContainerVisible(false));
+        setFoundUser(null);
       }
     };
 
@@ -49,7 +55,12 @@ function FindNewContactButton({
   }, [dispatch]);
 
   return (
-    <div id="FindNewContactButton" className=" ">
+    <div
+      id="FindNewContactButton"
+      className={`relative rounded-md
+      ${!Boolean(connectWith) && "highlighted"}
+    `}
+    >
       <button
         type="button"
         className=" transition-all hover:bg-gray-200 p-[0.5vw] rounded-md"
@@ -61,6 +72,8 @@ function FindNewContactButton({
         user={user}
         allUsers={allUsers}
         isUserSearchContainerVisible={isUserSearchContainerVisible}
+        foundUser={foundUser}
+        setFoundUser={setFoundUser}
       />
     </div>
   );

@@ -1,0 +1,10 @@
+#FindNewContactButton.highlighted {
+  animation: highlighted 1s ease-in-out infinite;
+  box-shadow: 0 0 0 green;
+}
+
+@keyframes highlighted {
+  50% {
+    box-shadow: 0 0 10px green;
+  }
+}

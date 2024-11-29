@@ -1,4 +1,6 @@
 import { ChatsUserType } from "@/app/[id]/components/Menu/Chats";
+import { useAppSelector } from "@/store/hooks";
+import { selectIsMoile } from "@/store/slices/user";
 import { UserType } from "@/type/user";
 import {
   Dispatch,
@@ -7,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { ImSearch } from "react-icons/im";
 import { LiaSearchSolid } from "react-icons/lia";
 
 function SearchUser({
@@ -18,6 +21,8 @@ function SearchUser({
   allUsers: ChatsUserType[];
   setFoundUser: Dispatch<SetStateAction<ChatsUserType | null>>;
 }) {
+  const isMobile = useAppSelector(selectIsMoile);
+
   const SearchInput = useRef<HTMLInputElement | null>(null);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchedUser, setSearchedUser] = useState("");
@@ -50,17 +55,25 @@ function SearchUser({
     >
       <button
         type="button"
-        className="px-[1vw]"
+        className={`px-[2.6vw] md:px-[0.5vw] 
+          ${isMobile && "order-1"}  
+        `}
         onClick={searchUserWithIconButton}
       >
-        <LiaSearchSolid />
+        {isMobile ? (
+          <ImSearch style={{ filter: "drop-shadow(0 0 1px  black)" }} />
+        ) : (
+          <LiaSearchSolid />
+        )}
       </button>
       <input
         ref={SearchInput}
         type="text"
         name="search"
         id="search"
-        className="grow py-1 outline-none"
+        className={`grow py-1 outline-none
+          ${isMobile && "pl-[3vw]"}  
+        `}
         placeholder="Find a chat ..."
         autoComplete="off"
         onFocus={() => setIsSearchFocused(true)}
@@ -68,6 +81,7 @@ function SearchUser({
         onKeyDown={searchUserWithKeyboard}
         value={searchedUser}
         onChange={(e) => setSearchedUser(e.target.value)}
+        autoFocus
       />
     </div>
   );

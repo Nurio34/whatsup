@@ -20,7 +20,7 @@ function ChatsClient({
   return (
     <>
       {name === "chats" && (
-        <div className=" py-[2vh] px-[2vw] overflow-x-hidden">
+        <div className=" py-[2vh] px-[2vw]">
           <Header user={user} allUsers={allUsers} />
           <SearchChat />
           <ChatsList />
