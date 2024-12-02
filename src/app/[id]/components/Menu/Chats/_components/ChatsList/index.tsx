@@ -7,13 +7,14 @@ import {
 } from "@/store/slices/user";
 import { useEffect, useState } from "react";
 import Connection from "./Connection";
-import { Hourglass } from "react-loader-spinner";
 import { BiSolidErrorCircle } from "react-icons/bi";
 import { AxiosError } from "axios";
+import Loading from "@/app/components/Loading";
 
 function ChatsList() {
   const user = useAppSelector(selectUser);
   const connectWith = useAppSelector(selectConnectWith);
+
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -48,19 +49,13 @@ function ChatsList() {
   };
 
   useEffect(() => {
-    if (user?.id) {
+    if (user?.id && !Boolean(connectWith)) {
       getConnections();
     }
   }, [user]);
 
   if (isLoading) {
-    return (
-      <div className="w-full min-h-96 grid place-content-center justify-items-center gap-y-[1vh]">
-        <Hourglass ariaLabel="hourglass-loading" />
-        <p>Please wait ...</p>
-        <p>Getting your Connections.</p>
-      </div>
-    );
+    return <Loading message="Connections" />;
   }
 
   if (error) {

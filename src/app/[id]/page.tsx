@@ -24,7 +24,7 @@ async function HomeAuth(context: AsyncRouteContext) {
       return (
         <main className="flex">
           <DeleteUserFromFirebase />
-          <SideMenuNav user={user} />
+          <SideMenuNav />
           <Menu user={user} />
           <Screen />
         </main>

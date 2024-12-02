@@ -4,9 +4,15 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setSelectedConnection } from "@/store/slices/chat";
-import { addToContacts, selectContacts } from "@/store/slices/user";
+import {
+  addToContacts,
+  selectContacts,
+  selectIsMoile,
+} from "@/store/slices/user";
+import { useRouter } from "next/navigation";
 
 function Connection({ connectionId }: { connectionId: string }) {
+  const isMobile = useAppSelector(selectIsMoile);
   const contacts = useAppSelector(selectContacts);
 
   const thisContact = contacts.find(
@@ -14,6 +20,8 @@ function Connection({ connectionId }: { connectionId: string }) {
   );
 
   const dispatch = useAppDispatch();
+
+  const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -45,6 +53,9 @@ function Connection({ connectionId }: { connectionId: string }) {
   const handleSelectConnection = () => {
     if (thisContact) {
       dispatch(setSelectedConnection(thisContact));
+      if (isMobile) {
+        router.push(`/screen`);
+      }
     }
   };
 
@@ -82,7 +93,7 @@ function Connection({ connectionId }: { connectionId: string }) {
               setIsSecondAnimation(false);
               setIsThirdAnimation(true);
             } else {
-              console.log("finish");
+              return;
             }
           }}
         >

@@ -1,5 +1,4 @@
 import ProviderComponent from "@/store/Provider";
-import { UserType } from "@/type/user";
 import ButtonClient from "./Client";
 
 export type ButtonType = {
@@ -8,10 +7,10 @@ export type ButtonType = {
   icon: JSX.Element;
 };
 
-function Button({ user, btn }: { user: UserType; btn: ButtonType }) {
+function Button({ btn }: { btn: ButtonType }) {
   return (
     <ProviderComponent>
-      <ButtonClient user={user} btn={btn} />
+      <ButtonClient btn={btn} />
     </ProviderComponent>
   );
 }

@@ -12,7 +12,7 @@ function Header({
 }) {
   return (
     <header className=" flex justify-between items-center ">
-      <h1 className=" font-semibold text-2xl">Chats</h1>
+      <h1 className=" font-semibold text-2xl pl-[5vw] md:pl-0">Chats</h1>
       <div className="flex items-center gap-x-[1vw]">
         <FindNewContactButton user={user} allUsers={allUsers} />
         <button

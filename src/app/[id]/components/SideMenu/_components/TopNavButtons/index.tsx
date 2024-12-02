@@ -1,9 +1,8 @@
 import { GiMatterStates } from "react-icons/gi";
 import { PiChatCircleText, PiPhoneCall } from "react-icons/pi";
 import Button from "./_components/Button";
-import { UserType } from "@/type/user";
 
-function TopNavButtons({ user }: { user: UserType }) {
+function TopNavButtons() {
   const topNavButtons = [
     {
       name: "chats",
@@ -24,7 +23,7 @@ function TopNavButtons({ user }: { user: UserType }) {
   return (
     <ul className={`self-start min-w-max md:self-center grid  gap-y-[3px]`}>
       {topNavButtons.map((btn) => (
-        <Button key={btn.name} user={user} btn={btn} />
+        <Button key={btn.name} btn={btn} />
       ))}
     </ul>
   );

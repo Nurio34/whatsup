@@ -1,16 +1,16 @@
 "use client";
 
-import { UserType } from "@/type/user";
 import { ButtonType } from ".";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { selectIsMoile } from "@/store/slices/user";
+import { selectIsMoile, selectUser } from "@/store/slices/user";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { selectCurrentMenu, setCurrentMenu } from "@/store/slices/components";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
-function ButtonClient({ btn }: { user: UserType; btn: ButtonType }) {
+function ButtonClient({ btn }: { btn: ButtonType }) {
+  const user = useAppSelector(selectUser);
   const isMobile = useAppSelector(selectIsMoile);
   const { name } = useAppSelector(selectCurrentMenu);
 
@@ -19,6 +19,7 @@ function ButtonClient({ btn }: { user: UserType; btn: ButtonType }) {
   const [isNameVisible, setIsNameVisible] = useState(false);
 
   const router = useRouter();
+  const path = usePathname().split("/")[1];
 
   return (
     <li
@@ -46,12 +47,15 @@ function ButtonClient({ btn }: { user: UserType; btn: ButtonType }) {
           if (btn.name === "profile") {
             router.push("/logout");
           }
+          if (isMobile && path === "screen" && btn.name !== "profile") {
+            router.back();
+          }
         }}
       >
         {btn.name === "profile" ? (
           <Image
             src={
-              (btn.icon as string) ||
+              user?.avatar.url ||
               process.env.NEXT_PUBLIC_AVATAR_IMAGE ||
               "/avatar-placeholder.webp"
             }

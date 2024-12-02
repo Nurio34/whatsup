@@ -5,11 +5,14 @@ import { selectIsMoile } from "@/store/slices/user";
 import { useState } from "react";
 import { ButtonType } from ".";
 import { AnimatePresence, motion } from "framer-motion";
-import { UserType } from "@/type/user";
-import { selectCurrentMenu, setCurrentMenu } from "@/store/slices/components";
-import { useRouter } from "next/navigation";
+import {
+  selectCurrentMenu,
+  setCurrentMenu,
+  setIsSideMenuOpen,
+} from "@/store/slices/components";
+import { usePathname, useRouter } from "next/navigation";
 
-function ButtonClient({ btn }: { user: UserType; btn: ButtonType }) {
+function ButtonClient({ btn }: { btn: ButtonType }) {
   const isMobile = useAppSelector(selectIsMoile);
   const { name } = useAppSelector(selectCurrentMenu);
 
@@ -18,6 +21,7 @@ function ButtonClient({ btn }: { user: UserType; btn: ButtonType }) {
   const [isNameVisible, setIsNameVisible] = useState(false);
 
   const router = useRouter();
+  const path = usePathname().split("/")[1];
 
   return (
     <li
@@ -41,10 +45,10 @@ function ButtonClient({ btn }: { user: UserType; btn: ButtonType }) {
         onMouseEnter={() => !isMobile && setIsNameVisible(true)}
         onMouseLeave={() => !isMobile && setIsNameVisible(false)}
         onClick={() => {
-          if (isMobile) {
-            router.push(`${btn.name}`);
-          } else {
-            dispatch(setCurrentMenu({ name: btn.name, index: btn.index }));
+          dispatch(setCurrentMenu({ name: btn.name, index: btn.index }));
+          dispatch(setIsSideMenuOpen(false));
+          if (isMobile && path === "screen") {
+            router.back();
           }
         }}
       >

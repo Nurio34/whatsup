@@ -11,6 +11,7 @@ import {
 import toast from "react-hot-toast";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { setIsUserSearchContainerVisible } from "@/store/slices/components";
+import { getChat } from "@/store/slices/chat";
 
 function FoundUser({
   foundUser,
@@ -47,6 +48,13 @@ function FoundUser({
         dispatch(setIsUserSearchContainerVisible(false));
         setFoundUser(null);
         toast.success(response.data.message);
+
+        dispatch(
+          getChat({
+            connectionId: foundUser!._id,
+            messages: [],
+          })
+        );
       }
     } catch (error) {
       if (error instanceof AxiosError) {

@@ -1,11 +1,10 @@
 import { LiaArchiveSolid, LiaStar } from "react-icons/lia";
 import { TfiSettings } from "react-icons/tfi";
 import Button from "./_components/Button";
-import { UserType } from "@/type/user";
 import { Suspense } from "react";
 import Skeleton from "./_components/Button/Skeleton";
 
-function BottomNavButtons({ user }: { user: UserType }) {
+function BottomNavButtons() {
   const bottomNavButtons = [
     {
       name: "stared-messages",
@@ -25,7 +24,7 @@ function BottomNavButtons({ user }: { user: UserType }) {
     {
       name: "profile",
       index: 7,
-      icon: user.avatar.url,
+      icon: <TfiSettings size={0} />,
     },
   ];
 
@@ -33,7 +32,7 @@ function BottomNavButtons({ user }: { user: UserType }) {
     <ul className={` self-end md:self-center grid gap-y-[3px]`}>
       {bottomNavButtons.map((btn) => (
         <Suspense key={btn.name} fallback={<Skeleton />}>
-          <Button user={user} btn={btn} />
+          <Button btn={btn} />
         </Suspense>
       ))}
     </ul>

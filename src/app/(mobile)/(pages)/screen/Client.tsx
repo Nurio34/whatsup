@@ -6,18 +6,12 @@ import Header from "./_components/Header";
 import MessageBar from "./_components/MessageBar";
 import { selectSelectedConnection } from "@/store/slices/chat";
 import WelcomeScreen from "./_components/WelcomeScreen";
-import { selectIsMoile } from "@/store/slices/user";
-import { usePathname } from "next/navigation";
 
 function ScreenClient() {
   const selectedConnection = useAppSelector(selectSelectedConnection);
-  const isMobile = useAppSelector(selectIsMoile);
-
-  const path = usePathname().split("/")[1];
-  const mobileCondition = isMobile && path !== "screen";
 
   return (
-    <section className={`${mobileCondition ? "hidden" : "grow"}`}>
+    <section>
       {selectedConnection ? (
         <div className=" w-full h-screen flex flex-col">
           <Header selectedConnection={selectedConnection} />

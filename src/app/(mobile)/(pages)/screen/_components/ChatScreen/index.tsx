@@ -1,21 +1,18 @@
 import { useEffect, useState } from "react";
-import { ChatsUserType } from "../../../Menu/Chats";
 import axiosInstance from "@/axios";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { selectIsMoile, selectUser } from "@/store/slices/user";
+import { selectUser } from "@/store/slices/user";
 import { getChat, selectChat } from "@/store/slices/chat";
 import Loading from "@/app/components/Loading";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-import SideMenuNav from "../../../SideMenu";
+import { ChatsUserType } from "@/app/[id]/components/Menu/Chats";
 
 function ChatScreen({
   selectedConnection,
 }: {
   selectedConnection: ChatsUserType;
 }) {
-  const isMobile = useAppSelector(selectIsMoile);
-
   const user = useAppSelector(selectUser);
   const userId = user?.id;
 
@@ -55,7 +52,7 @@ function ChatScreen({
     if (!Boolean(chatOfSelectedConnection)) {
       getChatOfSelectedConnection();
     }
-  }, [connectionId]);
+  }, [connectionId, userId, dispatch]);
 
   if (isLoading) {
     return (
@@ -72,12 +69,11 @@ function ChatScreen({
 
   return (
     <section
-      className="grow relative"
+      className="grow"
       style={{
         backgroundImage: "url('/chat-bg.jpg')",
       }}
     >
-      {isMobile && <SideMenuNav />}
       <ul>
         {chatOfSelectedConnection?.messages.map((message, index) => (
           <li
