@@ -3,7 +3,6 @@
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setIsSideMenuOpen } from "@/store/slices/components";
 import { setIsMobile } from "@/store/slices/user";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 function DeviceDetectorClient() {
@@ -11,7 +10,7 @@ function DeviceDetectorClient() {
 
   const dispatch = useAppDispatch();
 
-  const router = useRouter();
+  // const router = useRouter();
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -20,7 +19,6 @@ function DeviceDetectorClient() {
       dispatch(setIsMobile(isMobile));
 
       if (!isMobile) {
-        router.push("/");
         dispatch(setIsSideMenuOpen(true));
       } else {
         dispatch(setIsSideMenuOpen(false));

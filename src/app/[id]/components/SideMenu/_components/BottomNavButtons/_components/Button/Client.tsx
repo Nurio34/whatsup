@@ -11,7 +11,7 @@ import {
   setCurrentMenu,
   setIsSideMenuOpen,
 } from "@/store/slices/components";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 function ButtonClient({ btn }: { btn: ButtonType }) {
   const user = useAppSelector(selectUser);
@@ -23,7 +23,6 @@ function ButtonClient({ btn }: { btn: ButtonType }) {
   const [isNameVisible, setIsNameVisible] = useState(false);
 
   const router = useRouter();
-  const path = usePathname().split("/")[1];
 
   return (
     <li
@@ -55,9 +54,6 @@ function ButtonClient({ btn }: { btn: ButtonType }) {
           }
           if (isMobile) {
             dispatch(setIsSideMenuOpen(false));
-          }
-          if (isMobile && path === "screen" && btn.name !== "profile") {
-            router.back();
           }
         }}
       >

@@ -12,6 +12,7 @@ type ComponentsType = {
   isSideMenuOpen: boolean;
   currentMenu: CurrentMenuType;
   isUserSearchContainerVisible: boolean;
+  renderedComponent: string;
 };
 
 const initialState: ComponentsType = {
@@ -22,6 +23,7 @@ const initialState: ComponentsType = {
     index: 1,
   },
   isUserSearchContainerVisible: false,
+  renderedComponent: "menu",
 };
 
 export const componentsSlice = createSlice({
@@ -46,6 +48,9 @@ export const componentsSlice = createSlice({
     ) => {
       state.isUserSearchContainerVisible = action.payload;
     },
+    setRenderedComponent: (state, action: PayloadAction<string>) => {
+      state.renderedComponent = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(logoutUser, () => initialState); // Directly return initial state
@@ -57,6 +62,7 @@ export const {
   setIsSideMenuOpen,
   setCurrentMenu,
   setIsUserSearchContainerVisible,
+  setRenderedComponent,
 } = componentsSlice.actions;
 export default componentsSlice.reducer;
 
@@ -68,3 +74,5 @@ export const selectCurrentMenu = (state: RootState) =>
   state.components.currentMenu;
 export const selectIsUserSearchContainerVisible = (state: RootState) =>
   state.components.isUserSearchContainerVisible;
+export const selectRenderedComponent = (state: RootState) =>
+  state.components.renderedComponent;

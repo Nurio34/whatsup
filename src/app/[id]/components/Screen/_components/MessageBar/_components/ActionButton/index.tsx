@@ -6,13 +6,17 @@ import { AxiosError } from "axios";
 import { Dispatch, SetStateAction } from "react";
 import toast from "react-hot-toast";
 import { TbSend2 } from "react-icons/tb";
+import { Socket } from "socket.io-client";
+import { DefaultEventsMap } from "@socket.io/component-emitter";
 
 function ActionButton({
   message,
   setMessage,
+  socketState,
 }: {
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
+  socketState: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
 }) {
   const user = useAppSelector(selectUser);
 
@@ -21,34 +25,45 @@ function ActionButton({
   const dispatch = useAppDispatch();
 
   const sendMessage = async () => {
+    //! *** SEND MESSAGE REALTIME ***
+    socketState?.emit("send-message", {
+      senderId: user!.id,
+      reciverId: selectedConnection!._id,
+      message,
+      type: "text",
+    });
+
+    dispatch(
+      saveSentMessage({
+        connectionId: selectedConnection!._id,
+        message: {
+          type: "text",
+          message,
+          status: "sent",
+          senderId: user!.id,
+        },
+      })
+    );
+    //! *******************************
+
+    //! *** SAVE MESSAGE TO DATABASE ***
     try {
       const response = await axiosInstance.post("/chat/send-message", {
         senderId: user!.id,
         reciverId: selectedConnection!._id,
         message,
         type: "text",
-        status: "sent",
       });
 
       if (response.data.status === "success") {
         setMessage("");
-        dispatch(
-          saveSentMessage({
-            connectionId: selectedConnection!._id,
-            message: {
-              type: "text",
-              message,
-              status: "sent",
-              senderId: user!.id,
-            },
-          })
-        );
       }
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message);
       }
     }
+    //! *******************************
   };
 
   return (

@@ -3,18 +3,15 @@ import { RootState } from "..";
 import { ChatsUserType } from "@/app/[id]/components/Menu/Chats";
 import { logoutUser } from "./user";
 import { ChatType } from "@/type/message";
-import { Socket } from "socket.io-client";
 
 type ChatSliceType = {
   selectedConnection: ChatsUserType | null;
   chat: ChatType[];
-  socket: Socket | undefined;
 };
 
 const initialState: ChatSliceType = {
   selectedConnection: null,
   chat: [] as ChatType[],
-  socket: undefined,
 };
 
 export const chatSlice = createSlice({
@@ -54,12 +51,6 @@ export const chatSlice = createSlice({
     getChat: (state, action: PayloadAction<ChatType>) => {
       state.chat.push(action.payload);
     },
-    setSocket: (state, action: PayloadAction<Socket | undefined>) => {
-      return {
-        ...state,
-        socket: action.payload,
-      };
-    },
   },
 
   extraReducers: (builder) => {
@@ -67,10 +58,9 @@ export const chatSlice = createSlice({
   },
 });
 
-export const { setSelectedConnection, saveSentMessage, getChat, setSocket } =
+export const { setSelectedConnection, saveSentMessage, getChat } =
   chatSlice.actions;
 export const selectSelectedConnection = (state: RootState) =>
   state.chat.selectedConnection;
 export const selectChat = (state: RootState) => state.chat.chat;
-export const selectSocket = (state: RootState) => state.chat.socket;
 export default chatSlice.reducer;

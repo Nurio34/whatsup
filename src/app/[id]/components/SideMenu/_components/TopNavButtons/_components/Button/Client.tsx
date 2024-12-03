@@ -9,8 +9,8 @@ import {
   selectCurrentMenu,
   setCurrentMenu,
   setIsSideMenuOpen,
+  setRenderedComponent,
 } from "@/store/slices/components";
-import { usePathname, useRouter } from "next/navigation";
 
 function ButtonClient({ btn }: { btn: ButtonType }) {
   const isMobile = useAppSelector(selectIsMoile);
@@ -19,9 +19,6 @@ function ButtonClient({ btn }: { btn: ButtonType }) {
   const dispatch = useAppDispatch();
 
   const [isNameVisible, setIsNameVisible] = useState(false);
-
-  const router = useRouter();
-  const path = usePathname().split("/")[1];
 
   return (
     <li
@@ -46,11 +43,10 @@ function ButtonClient({ btn }: { btn: ButtonType }) {
         onMouseLeave={() => !isMobile && setIsNameVisible(false)}
         onClick={() => {
           dispatch(setCurrentMenu({ name: btn.name, index: btn.index }));
+          dispatch(setRenderedComponent("menu"));
+
           if (isMobile) {
             dispatch(setIsSideMenuOpen(false));
-          }
-          if (isMobile && path === "screen") {
-            router.back();
           }
         }}
       >

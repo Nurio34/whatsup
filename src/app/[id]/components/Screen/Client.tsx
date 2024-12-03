@@ -1,34 +1,96 @@
 "use client";
 
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import ChatScreen from "./_components/ChatScreen";
 import Header from "./_components/Header";
 import MessageBar from "./_components/MessageBar";
-import { selectChat, selectSelectedConnection } from "@/store/slices/chat";
+import {
+  saveSentMessage,
+  selectChat,
+  selectSelectedConnection,
+} from "@/store/slices/chat";
 import WelcomeScreen from "./_components/WelcomeScreen";
-import { selectIsMoile } from "@/store/slices/user";
-import { usePathname } from "next/navigation";
+import { selectIsMoile, selectUser } from "@/store/slices/user";
+import { useEffect, useState } from "react";
+import { io, Socket } from "socket.io-client";
+import { DefaultEventsMap } from "@socket.io/component-emitter";
+import { RealtimeMessageType } from "@/type/message";
+import { selectRenderedComponent } from "@/store/slices/components";
 
 function ScreenClient() {
+  const user = useAppSelector(selectUser);
+  const userId = user?.id;
+
   const selectedConnection = useAppSelector(selectSelectedConnection);
   const isMobile = useAppSelector(selectIsMoile);
   const chat = useAppSelector(selectChat);
+  console.log(chat);
+  const renderedComponent = useAppSelector(selectRenderedComponent);
 
-  const path = usePathname().split("/")[1];
-  const mobileCondition = isMobile && path !== "screen";
+  const dispatch = useAppDispatch();
+
+  const [socketState, setSocketState] = useState<
+    Socket<DefaultEventsMap, DefaultEventsMap> | undefined
+  >(undefined);
+  console.log(socketState);
+
+  useEffect(() => {
+    if (userId && !isMobile && !socketState) {
+      const socket = io(process.env.NEXT_PUBLIC_SERVER_SOCKET_URL);
+
+      socket.on("connect", () => {
+        socket.emit("add-user", userId); // Add user when socket connects
+      });
+
+      socket.on("get-message", (message: RealtimeMessageType) => {
+        console.log({ message });
+        dispatch(
+          saveSentMessage({
+            connectionId: message.senderId,
+            message: {
+              type: message.type,
+              message: message.message,
+              status: message.status,
+              senderId: message.senderId,
+            },
+          })
+        );
+      });
+
+      console.log("Desktop socket connected successfully ...");
+      setSocketState(socket);
+    }
+
+    // Cleanup on component unmount
+    return () => {
+      if (socketState) {
+        socketState.disconnect();
+        setSocketState(undefined);
+        console.log("Desktop socket disconnected on unmount !");
+      }
+    };
+  }, [userId, isMobile, socketState, setSocketState, dispatch]);
+
+  const mobileCondition =
+    (isMobile && renderedComponent === "screen") || !isMobile;
+  const desktopCondition = !isMobile;
 
   return (
-    <section className={`${mobileCondition ? "hidden" : "grow"}`}>
-      {selectedConnection ? (
-        <div className=" w-full h-screen flex flex-col">
-          <Header selectedConnection={selectedConnection} />
-          <ChatScreen selectedConnection={selectedConnection} />
-          <MessageBar />
-        </div>
-      ) : (
-        <WelcomeScreen />
+    <>
+      {mobileCondition && (
+        <section className={`grow `}>
+          {selectedConnection ? (
+            <div className=" w-full h-screen flex flex-col">
+              <Header selectedConnection={selectedConnection} />
+              <ChatScreen selectedConnection={selectedConnection} />
+              <MessageBar socketState={socketState} />
+            </div>
+          ) : (
+            <WelcomeScreen />
+          )}
+        </section>
       )}
-    </section>
+    </>
   );
 }
 

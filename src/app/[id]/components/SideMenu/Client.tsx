@@ -35,7 +35,7 @@ function SideMenuNavClient() {
         document.removeEventListener("click", closeSideMenuNav);
       }
     };
-  }, [dispatch]);
+  }, [dispatch, isMobile]);
 
   return (
     <nav
