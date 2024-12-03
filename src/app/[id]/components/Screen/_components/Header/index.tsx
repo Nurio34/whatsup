@@ -5,10 +5,13 @@ import { ChatsUserType } from "../../../Menu/Chats";
 
 function Header({ selectedConnection }: { selectedConnection: ChatsUserType }) {
   const { _id: id, username, about, avatar } = selectedConnection;
-  console.log({ id, about });
 
   return (
     <header className="flex justify-start gap-x-[1vw] items-center py-[1vh] px-[1vw]">
+      <p className=" hidden">
+        {id}
+        {about}
+      </p>
       <Avatar avatar={avatar.url} />
       <ConnectionInfo username={username} />
       <Actions />

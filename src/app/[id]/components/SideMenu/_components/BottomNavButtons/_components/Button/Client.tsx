@@ -6,7 +6,11 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectIsMoile, selectUser } from "@/store/slices/user";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { selectCurrentMenu, setCurrentMenu } from "@/store/slices/components";
+import {
+  selectCurrentMenu,
+  setCurrentMenu,
+  setIsSideMenuOpen,
+} from "@/store/slices/components";
 import { usePathname, useRouter } from "next/navigation";
 
 function ButtonClient({ btn }: { btn: ButtonType }) {
@@ -44,8 +48,13 @@ function ButtonClient({ btn }: { btn: ButtonType }) {
         onMouseLeave={() => !isMobile && setIsNameVisible(false)}
         onClick={() => {
           dispatch(setCurrentMenu({ name: btn.name, index: btn.index }));
+          dispatch(setIsSideMenuOpen(true));
+
           if (btn.name === "profile") {
             router.push("/logout");
+          }
+          if (isMobile) {
+            dispatch(setIsSideMenuOpen(false));
           }
           if (isMobile && path === "screen" && btn.name !== "profile") {
             router.back();

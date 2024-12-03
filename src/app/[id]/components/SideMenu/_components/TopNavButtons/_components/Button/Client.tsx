@@ -46,7 +46,9 @@ function ButtonClient({ btn }: { btn: ButtonType }) {
         onMouseLeave={() => !isMobile && setIsNameVisible(false)}
         onClick={() => {
           dispatch(setCurrentMenu({ name: btn.name, index: btn.index }));
-          dispatch(setIsSideMenuOpen(false));
+          if (isMobile) {
+            dispatch(setIsSideMenuOpen(false));
+          }
           if (isMobile && path === "screen") {
             router.back();
           }

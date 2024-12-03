@@ -9,8 +9,10 @@ import {
   setIsSideMenuOpen,
 } from "@/store/slices/components";
 import { useEffect } from "react";
+import { selectIsMoile } from "@/store/slices/user";
 
 function SideMenuNavClient() {
+  const isMobile = useAppSelector(selectIsMoile);
   const isSideMenuOpen = useAppSelector(selectIsSideMenuOpen);
   const dispatch = useAppDispatch();
 
@@ -24,10 +26,14 @@ function SideMenuNavClient() {
       }
     };
 
-    document.addEventListener("click", closeSideMenuNav);
+    if (isMobile) {
+      document.addEventListener("click", closeSideMenuNav);
+    }
 
     return () => {
-      document.removeEventListener("click", closeSideMenuNav);
+      if (isMobile) {
+        document.removeEventListener("click", closeSideMenuNav);
+      }
     };
   }, [dispatch]);
 
