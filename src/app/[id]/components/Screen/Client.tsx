@@ -32,10 +32,9 @@ function ScreenClient() {
   const [socketState, setSocketState] = useState<
     Socket<DefaultEventsMap, DefaultEventsMap> | undefined
   >(undefined);
-  console.log(socketState);
 
   useEffect(() => {
-    if (userId && !isMobile && !socketState) {
+    if (userId && !socketState) {
       const socket = io(process.env.NEXT_PUBLIC_SERVER_SOCKET_URL);
 
       socket.on("connect", () => {
@@ -44,14 +43,19 @@ function ScreenClient() {
 
       socket.on("get-message", (message: RealtimeMessageType) => {
         console.log({ message });
+
         dispatch(
           saveSentMessage({
-            connectionId: message.senderId,
+            connectionId:
+              userId === message.senderId
+                ? message.reciverId
+                : message.senderId,
             message: {
               type: message.type,
               message: message.message,
               status: message.status,
               senderId: message.senderId,
+              createdAt: message.createdAt,
             },
           })
         );
@@ -69,28 +73,23 @@ function ScreenClient() {
         console.log("Desktop socket disconnected on unmount !");
       }
     };
-  }, [userId, isMobile, socketState, setSocketState, dispatch]);
+  }, [userId, socketState, setSocketState, dispatch]);
 
   const mobileCondition =
     (isMobile && renderedComponent === "screen") || !isMobile;
-  const desktopCondition = !isMobile;
 
   return (
-    <>
-      {mobileCondition && (
-        <section className={`grow `}>
-          {selectedConnection ? (
-            <div className=" w-full h-screen flex flex-col">
-              <Header selectedConnection={selectedConnection} />
-              <ChatScreen selectedConnection={selectedConnection} />
-              <MessageBar socketState={socketState} />
-            </div>
-          ) : (
-            <WelcomeScreen />
-          )}
-        </section>
+    <section className={`grow ${!mobileCondition && "hidden"}`}>
+      {selectedConnection ? (
+        <div className={`w-full h-screen flex flex-col`}>
+          <Header selectedConnection={selectedConnection} />
+          <ChatScreen selectedConnection={selectedConnection} />
+          <MessageBar socketState={socketState} />
+        </div>
+      ) : (
+        <WelcomeScreen />
       )}
-    </>
+    </section>
   );
 }
 

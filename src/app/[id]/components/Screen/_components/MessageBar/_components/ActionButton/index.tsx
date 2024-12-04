@@ -1,6 +1,6 @@
 import axiosInstance from "@/axios";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { saveSentMessage, selectSelectedConnection } from "@/store/slices/chat";
+import { useAppSelector } from "@/store/hooks";
+import { selectSelectedConnection } from "@/store/slices/chat";
 import { selectUser } from "@/store/slices/user";
 import { AxiosError } from "axios";
 import { Dispatch, SetStateAction } from "react";
@@ -22,8 +22,6 @@ function ActionButton({
 
   const selectedConnection = useAppSelector(selectSelectedConnection);
 
-  const dispatch = useAppDispatch();
-
   const sendMessage = async () => {
     //! *** SEND MESSAGE REALTIME ***
     socketState?.emit("send-message", {
@@ -31,19 +29,8 @@ function ActionButton({
       reciverId: selectedConnection!._id,
       message,
       type: "text",
+      createdAt: new Date(),
     });
-
-    dispatch(
-      saveSentMessage({
-        connectionId: selectedConnection!._id,
-        message: {
-          type: "text",
-          message,
-          status: "sent",
-          senderId: user!.id,
-        },
-      })
-    );
     //! *******************************
 
     //! *** SAVE MESSAGE TO DATABASE ***

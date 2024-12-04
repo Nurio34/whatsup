@@ -28,15 +28,15 @@ function ChatsClient({
     (name === "chats" && !isMobile);
 
   return (
-    <>
-      {mobileCondition && (
-        <div className={`py-[2vh] px-[2vw]  border-x-4 w-full md:w-96`}>
-          <Header user={user} allUsers={allUsers} />
-          <SearchChat />
-          <ChatsList />
-        </div>
-      )}
-    </>
+    <div
+      className={`py-[2vh] px-[2vw]  border-x-4 w-full md:w-96
+          ${!mobileCondition && "hidden"}
+        `}
+    >
+      <Header user={user} allUsers={allUsers} />
+      <SearchChat />
+      <ChatsList />
+    </div>
   );
 }
 

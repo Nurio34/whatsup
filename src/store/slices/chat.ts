@@ -30,6 +30,7 @@ export const chatSlice = createSlice({
           message: string;
           status: string;
           senderId: string;
+          createdAt: Date;
         };
       }>
     ) => {

@@ -3,6 +3,7 @@ export type MessageType = {
   type: string;
   message: string;
   status: string;
+  createdAt: Date;
 };
 
 export type ChatType = {
@@ -16,4 +17,5 @@ export type RealtimeMessageType = {
   message: string;
   type: string;
   status: string;
+  createdAt: Date;
 };
