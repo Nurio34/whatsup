@@ -79,7 +79,7 @@ function ChatScreen({
       }}
     >
       {isMobile && <SideMenuNav />}
-      <ul className=" grid px-[2vw] py-[1vh]">
+      <ul className=" grid gap-y-[2vh] px-[2vw] py-[1vh]">
         {chatOfSelectedConnection?.messages.map((message, index) => (
           <Message key={index} message={message} userId={userId!} />
         ))}

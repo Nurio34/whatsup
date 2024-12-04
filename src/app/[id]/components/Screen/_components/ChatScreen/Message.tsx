@@ -10,38 +10,39 @@ function Message({
   userId: string;
 }) {
   const MessageElement = useRef<HTMLParagraphElement | null>(null);
-  const TimeElemenet = useRef<HTMLParagraphElement | null>(null);
-  const [shapeOfMessageContainer, setShapeOfMessageContainer] =
-    useState<number>(1);
-  console.log({ shapeOfMessageContainer });
+  const [shapeOfContainer, setShapeOfContainer] = useState(1);
+  console.log({ shapeOfContainer });
 
   useEffect(() => {
-    if (MessageElement.current && TimeElemenet.current) {
-      const heightOfMessage =
+    if (MessageElement.current) {
+      const heightOfMessageElement =
         MessageElement.current.getBoundingClientRect().height;
-      const heightOfTime = TimeElemenet.current.getBoundingClientRect().height;
+      console.log({ heightOfMessageElement });
 
-      setShapeOfMessageContainer(heightOfMessage === heightOfTime ? 1 : 2);
+      setShapeOfContainer(heightOfMessageElement <= 29 ? 1 : 2);
     }
   }, []);
 
   return (
     <li
-      className={`py-1 px-[1vw] rounded-md
-        ${
-          message.senderId === userId
-            ? "justify-self-end bg-green-100"
-            : "justify-self-start bg-blue-100"
-        }
-        ${shapeOfMessageContainer === 1 ? "flex gap-[1vw] h-[150%]" : ""}
+      className={` rounded-md py-1 px-[1vw] ${
+        userId === message.senderId
+          ? "justify-self-end bg-green-200"
+          : "justify-self-start bg-blue-200"
+      }
+      ${shapeOfContainer === 1 ? "flex gap-x-[1vh]" : ""}
       `}
     >
-      <p ref={MessageElement}>{message.message}</p>
       <p
-        ref={TimeElemenet}
-        className={` ${
-          shapeOfMessageContainer === 1 ? "flex items-end text-sm" : ""
-        } `}
+        ref={MessageElement}
+        className={`${shapeOfContainer === 1 ? "" : "float-left"}`}
+      >
+        {message.message}
+      </p>
+      <p
+        className={` text-xs text-gray-500 font-bold ${
+          shapeOfContainer === 1 ? "pt-3" : " float-right"
+        }`}
       >
         {time(message.createdAt)}
       </p>
