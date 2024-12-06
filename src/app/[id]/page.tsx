@@ -22,7 +22,7 @@ async function HomeAuth(context: AsyncRouteContext) {
       if (user.newUser) return redirect("/new-user");
 
       return (
-        <main className="flex">
+        <main className="flex overflow-y-hidden">
           <DeleteUserFromFirebase />
           <SideMenuNav />
           <Menu user={user} />

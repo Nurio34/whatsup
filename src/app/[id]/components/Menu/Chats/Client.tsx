@@ -29,7 +29,7 @@ function ChatsClient({
 
   return (
     <div
-      className={`py-[2vh] px-[2vw]  border-x-4 w-full md:w-96
+      className={`py-[2vh] px-[2vw]  border-x-4 w-full md:w-96 
           ${!mobileCondition && "hidden"}
         `}
     >

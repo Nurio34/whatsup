@@ -52,6 +52,21 @@ export const chatSlice = createSlice({
     getChat: (state, action: PayloadAction<ChatType>) => {
       state.chat.push(action.payload);
     },
+    messagesSeen: (state, action: PayloadAction<string>) => {
+      const chat = state.chat.find(
+        (item) => item.connectionId === action.payload
+      );
+      if (chat) {
+        let hasUnseenMessages = false;
+
+        for (const msg of chat.messages) {
+          if (msg.status !== "seen") {
+            msg.status = "seen";
+            hasUnseenMessages = true;
+          }
+        }
+      }
+    },
   },
 
   extraReducers: (builder) => {
@@ -59,7 +74,7 @@ export const chatSlice = createSlice({
   },
 });
 
-export const { setSelectedConnection, saveSentMessage, getChat } =
+export const { setSelectedConnection, saveSentMessage, getChat, messagesSeen } =
   chatSlice.actions;
 export const selectSelectedConnection = (state: RootState) =>
   state.chat.selectedConnection;

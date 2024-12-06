@@ -73,13 +73,13 @@ function ChatScreen({
 
   return (
     <section
-      className="grow relative"
+      className="grow relative overflow-y-auto customScrollbar"
       style={{
         backgroundImage: "url('/chat-bg.jpg')",
       }}
     >
       {isMobile && <SideMenuNav />}
-      <ul className=" grid gap-y-[2vh] px-[2vw] py-[1vh]">
+      <ul className=" grid gap-y-[2vh] px-[2vw] py-[1vh] ">
         {chatOfSelectedConnection?.messages.map((message, index) => (
           <Message key={index} message={message} userId={userId!} />
         ))}

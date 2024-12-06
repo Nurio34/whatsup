@@ -5,6 +5,7 @@ import ChatScreen from "./_components/ChatScreen";
 import Header from "./_components/Header";
 import MessageBar from "./_components/MessageBar";
 import {
+  messagesSeen,
   saveSentMessage,
   selectChat,
   selectSelectedConnection,
@@ -61,7 +62,16 @@ function ScreenClient() {
         );
       });
 
-      console.log("Desktop socket connected successfully ...");
+      socket.emit("messages-seen", {
+        userId: userId,
+        connectionId: selectedConnection?._id,
+      });
+
+      socket.on("message-seen", (userId) => {
+        console.log("Message seen event received:", userId);
+        dispatch(messagesSeen(userId));
+      });
+
       setSocketState(socket);
     }
 
@@ -70,10 +80,9 @@ function ScreenClient() {
       if (socketState) {
         socketState.disconnect();
         setSocketState(undefined);
-        console.log("Desktop socket disconnected on unmount !");
       }
     };
-  }, [userId, socketState, setSocketState, dispatch]);
+  }, [userId, socketState, setSocketState, dispatch, selectedConnection]);
 
   const mobileCondition =
     (isMobile && renderedComponent === "screen") || !isMobile;

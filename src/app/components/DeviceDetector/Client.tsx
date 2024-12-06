@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { setIsSideMenuOpen } from "@/store/slices/components";
+import { setIsSideMenuOpen, setScreenHeight } from "@/store/slices/components";
 import { setIsMobile } from "@/store/slices/user";
 import { useEffect } from "react";
 
@@ -14,9 +14,12 @@ function DeviceDetectorClient() {
 
   useEffect(() => {
     const checkScreenSize = () => {
-      const screenSize = window.innerWidth;
-      const isMobile = screenSize <= 768;
+      const screenWidth = window.innerWidth;
+      const isMobile = screenWidth <= 768;
       dispatch(setIsMobile(isMobile));
+
+      const screenHeight = window.innerHeight;
+      dispatch(setScreenHeight(screenHeight));
 
       if (!isMobile) {
         dispatch(setIsSideMenuOpen(true));
