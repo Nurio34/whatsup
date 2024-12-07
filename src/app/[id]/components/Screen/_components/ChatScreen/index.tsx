@@ -5,6 +5,7 @@ import { selectChat } from "@/store/slices/chat";
 import SideMenuNav from "../../../SideMenu";
 import Message from "./Message";
 import { ChatsUserType } from "@/type/user";
+import { useEffect, useRef, useState } from "react";
 
 function ChatScreen({
   selectedConnection,
@@ -23,14 +24,33 @@ function ChatScreen({
     (item) => item.connectionId === connectionId
   )!;
 
+  const [sectionHeight, setSectionHeight] = useState(0);
+  const SectionElement = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const handleSectionHeight = () => {
+      if (SectionElement.current) {
+        const height = SectionElement.current.getBoundingClientRect().height;
+        setSectionHeight(height);
+      }
+    };
+
+    window.addEventListener("resize", handleSectionHeight);
+
+    return () => {
+      window.removeEventListener("resize", handleSectionHeight);
+    };
+  }, []);
+
   return (
     <section
+      ref={SectionElement}
       className="grow relative overflow-y-auto customScrollbar"
       style={{
         backgroundImage: "url('/chat-bg.jpg')",
       }}
     >
-      {isMobile && <SideMenuNav />}
+      {isMobile && <SideMenuNav desktop={false} height={sectionHeight} />}
       <ul className=" grid gap-y-[2vh] px-[2vw] py-[1vh] ">
         {chatOfSelectedConnection?.messages.map((message, index) => (
           <Message

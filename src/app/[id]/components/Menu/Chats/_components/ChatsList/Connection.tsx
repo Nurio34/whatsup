@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   getChat,
+  saveLostMessages,
   selectChat,
   selectSelectedConnection,
   setSelectedConnection,
@@ -25,6 +26,7 @@ function Connection({ connectionId }: { connectionId: string }) {
   const selectedConnection = useAppSelector(selectSelectedConnection);
 
   const chat = useAppSelector(selectChat);
+  const currentChat = chat.find((item) => item.connectionId === connectionId);
 
   const dispatch = useAppDispatch();
 
@@ -73,11 +75,38 @@ function Connection({ connectionId }: { connectionId: string }) {
       }
     };
 
-    const currentChat = chat.find((item) => item.connectionId === connectionId);
-
     if (userId && connectionId && !currentChat)
       getChatOfConnection(userId, connectionId);
   }, [userId, connectionId]);
+
+  useEffect(() => {
+    if (selectedConnection?._id === connectionId) {
+      const currentChatTotalMesagesOfConnection = currentChat?.messages.filter(
+        (message) => message.senderId === connectionId
+      ).length;
+
+      const fetchLostMessages = async () => {
+        try {
+          const response = await axiosInstance.post(
+            `/chat/fetch-lost-messages/${userId}/${connectionId}`,
+            { totalMessages: currentChatTotalMesagesOfConnection }
+          );
+          if (response.data.status === "success") {
+            dispatch(
+              saveLostMessages({
+                connectionId,
+                messages: response.data.messages,
+              })
+            );
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      fetchLostMessages();
+    }
+  }, [selectedConnection]);
 
   useEffect(() => {
     const messagesDelivered = async (userId: string, connectionId: string) => {

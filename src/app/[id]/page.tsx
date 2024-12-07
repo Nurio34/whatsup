@@ -24,7 +24,7 @@ async function HomeAuth(context: AsyncRouteContext) {
       return (
         <main className="flex overflow-y-hidden">
           <DeleteUserFromFirebase />
-          <SideMenuNav />
+          <SideMenuNav desktop={true} />
           <Menu user={user} />
           <Screen />
         </main>

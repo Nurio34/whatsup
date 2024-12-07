@@ -1,10 +1,16 @@
 import ProviderComponent from "@/store/Provider";
 import SideMenuNavClient from "./Client";
 
-function SideMenuNav() {
+function SideMenuNav({
+  desktop,
+  height,
+}: {
+  desktop: boolean;
+  height?: number;
+}) {
   return (
     <ProviderComponent>
-      <SideMenuNavClient />
+      <SideMenuNavClient desktop={desktop} height={height} />
     </ProviderComponent>
   );
 }

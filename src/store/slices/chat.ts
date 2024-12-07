@@ -46,6 +46,25 @@ export const chatSlice = createSlice({
         });
       });
     },
+    saveLostMessages: (
+      state,
+      action: PayloadAction<{ connectionId: string; messages: MessageType[] }>
+    ) => {
+      const { connectionId, messages } = action.payload;
+
+      const currentChat = state.chat.find(
+        (chat) => chat.connectionId === connectionId
+      );
+
+      if (currentChat) {
+        messages.forEach((message) => {
+          // Add only if no message with the same _id exists
+          if (!currentChat.messages.some((msg) => msg._id === message._id)) {
+            currentChat.messages.push(message);
+          }
+        });
+      }
+    },
   },
 
   extraReducers: (builder) => {
@@ -53,8 +72,13 @@ export const chatSlice = createSlice({
   },
 });
 
-export const { setSelectedConnection, saveSentMessage, getChat, messageSeen } =
-  chatSlice.actions;
+export const {
+  setSelectedConnection,
+  saveSentMessage,
+  getChat,
+  messageSeen,
+  saveLostMessages,
+} = chatSlice.actions;
 export const selectSelectedConnection = (state: RootState) =>
   state.chat.selectedConnection;
 export const selectChat = (state: RootState) => state.chat.chat;
