@@ -1,7 +1,7 @@
 import Avatar from "./_components/Avatar";
 import ConnectionInfo from "./_components/ConnectionInfo";
 import Actions from "./_components/Actions";
-import { ChatsUserType } from "../../../Menu/Chats";
+import { ChatsUserType } from "@/type/user";
 
 function Header({ selectedConnection }: { selectedConnection: ChatsUserType }) {
   const { _id: id, username, about, avatar } = selectedConnection;

@@ -5,8 +5,7 @@ import {
   selectIsUserSearchContainerVisible,
   setIsUserSearchContainerVisible,
 } from "@/store/slices/components";
-import { ChatsUserType } from "../../../..";
-import { UserType } from "@/type/user";
+import { ChatsUserType, UserType } from "@/type/user";
 import { useEffect, useState } from "react";
 import "./index.css";
 import { selectConnectWith } from "@/store/slices/user";

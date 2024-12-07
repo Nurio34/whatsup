@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
-import { ContactType, UserType } from "@/type/user";
+import { ContactType, StatusType, UserType } from "@/type/user";
 
 type UserSliceType = {
   isLoading: boolean;
@@ -52,6 +52,9 @@ export const userSlice = createSlice({
     addToContacts: (state, action: PayloadAction<ContactType>) => {
       state.contacts.push(action.payload);
     },
+    setStatus: (state, action: PayloadAction<StatusType>) => {
+      state.user!.status = action.payload;
+    },
     logoutUser: () => initialState,
   },
 });
@@ -65,6 +68,7 @@ export const {
   setToken,
   setConnectWith,
   addToContacts,
+  setStatus,
   logoutUser,
 } = userSlice.actions;
 export const selectIsLoading = (state: RootState) => state.user.isLoading;

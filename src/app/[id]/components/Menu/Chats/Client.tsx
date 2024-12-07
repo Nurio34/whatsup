@@ -7,8 +7,7 @@ import {
 } from "@/store/slices/components";
 import Header from "./_components/Header";
 import SearchChat from "./_components/SearchChat";
-import { ChatsUserType } from ".";
-import { UserType } from "@/type/user";
+import { ChatsUserType, UserType } from "@/type/user";
 import ChatsList from "./_components/ChatsList";
 import { selectIsMoile } from "@/store/slices/user";
 

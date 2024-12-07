@@ -23,4 +23,16 @@ export interface UserType {
   otpExpires?: Date;
   resetPasswordOtpExpires?: Date;
   about: string;
+  status: StatusType;
 }
+
+export type ChatsUserType = {
+  avatar: {
+    url: string;
+  };
+  username: string;
+  _id: string;
+  about: string;
+};
+
+export type StatusType = "online" | "offline";

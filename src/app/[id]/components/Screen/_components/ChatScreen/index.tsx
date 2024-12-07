@@ -1,14 +1,10 @@
-import { useEffect, useState } from "react";
-import { ChatsUserType } from "../../../Menu/Chats";
-import axiosInstance from "@/axios";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/store/hooks";
 import { selectIsMoile, selectUser } from "@/store/slices/user";
-import { getChat, selectChat } from "@/store/slices/chat";
-import Loading from "@/app/components/Loading";
-import toast from "react-hot-toast";
-import { AxiosError } from "axios";
+import { selectChat } from "@/store/slices/chat";
+
 import SideMenuNav from "../../../SideMenu";
 import Message from "./Message";
+import { ChatsUserType } from "@/type/user";
 
 function ChatScreen({
   selectedConnection,
@@ -25,51 +21,7 @@ function ChatScreen({
   const chat = useAppSelector(selectChat);
   const chatOfSelectedConnection = chat.find(
     (item) => item.connectionId === connectionId
-  );
-
-  const dispatch = useAppDispatch();
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const getChatOfSelectedConnection = async () => {
-      setIsLoading(true);
-
-      try {
-        const response = await axiosInstance.get(
-          `/chat/get-chat/${userId}/${connectionId}`
-        );
-
-        if (response.data.status === "success") {
-          dispatch(getChat(response.data.chat));
-        }
-      } catch (error) {
-        console.log(error);
-        if (error instanceof AxiosError) {
-          toast.error(error.response?.data.message);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    if (!Boolean(chatOfSelectedConnection)) {
-      getChatOfSelectedConnection();
-    }
-  }, [connectionId]);
-
-  if (isLoading) {
-    return (
-      <div
-        className="w-full h-full"
-        style={{
-          backgroundImage: "url('/chat-bg.jpg')",
-        }}
-      >
-        <Loading message="Chat" />
-      </div>
-    );
-  }
+  )!;
 
   return (
     <section
@@ -81,7 +33,13 @@ function ChatScreen({
       {isMobile && <SideMenuNav />}
       <ul className=" grid gap-y-[2vh] px-[2vw] py-[1vh] ">
         {chatOfSelectedConnection?.messages.map((message, index) => (
-          <Message key={index} message={message} userId={userId!} />
+          <Message
+            key={index}
+            index={index}
+            message={message}
+            userId={userId!}
+            chatOfSelectedConnection={chatOfSelectedConnection}
+          />
         ))}
       </ul>
     </section>

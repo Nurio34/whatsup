@@ -1,7 +1,6 @@
 import { IoFilter } from "react-icons/io5";
 import FindNewContactButton from "./_components/FindNewContactButton";
-import { ChatsUserType } from "../..";
-import { UserType } from "@/type/user";
+import { ChatsUserType, UserType } from "@/type/user";
 import { useAppDispatch } from "@/store/hooks";
 import { setChatsMenuHeaderHeight } from "@/store/slices/components";
 

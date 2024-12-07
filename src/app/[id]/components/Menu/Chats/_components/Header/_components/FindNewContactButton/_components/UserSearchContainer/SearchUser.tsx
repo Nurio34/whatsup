@@ -1,7 +1,6 @@
-import { ChatsUserType } from "@/app/[id]/components/Menu/Chats";
 import { useAppSelector } from "@/store/hooks";
 import { selectIsMoile } from "@/store/slices/user";
-import { UserType } from "@/type/user";
+import { ChatsUserType, UserType } from "@/type/user";
 import {
   Dispatch,
   KeyboardEvent,

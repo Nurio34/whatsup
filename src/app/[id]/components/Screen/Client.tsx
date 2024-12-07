@@ -5,18 +5,18 @@ import ChatScreen from "./_components/ChatScreen";
 import Header from "./_components/Header";
 import MessageBar from "./_components/MessageBar";
 import {
-  messagesSeen,
+  messageSeen,
   saveSentMessage,
-  selectChat,
   selectSelectedConnection,
 } from "@/store/slices/chat";
 import WelcomeScreen from "./_components/WelcomeScreen";
-import { selectIsMoile, selectUser } from "@/store/slices/user";
+import { selectIsMoile, selectUser, setStatus } from "@/store/slices/user";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { DefaultEventsMap } from "@socket.io/component-emitter";
-import { RealtimeMessageType } from "@/type/message";
+import { MessageType } from "@/type/message";
 import { selectRenderedComponent } from "@/store/slices/components";
+import axiosInstance from "@/axios";
 
 function ScreenClient() {
   const user = useAppSelector(selectUser);
@@ -24,8 +24,6 @@ function ScreenClient() {
 
   const selectedConnection = useAppSelector(selectSelectedConnection);
   const isMobile = useAppSelector(selectIsMoile);
-  const chat = useAppSelector(selectChat);
-  console.log(chat);
   const renderedComponent = useAppSelector(selectRenderedComponent);
 
   const dispatch = useAppDispatch();
@@ -39,50 +37,84 @@ function ScreenClient() {
       const socket = io(process.env.NEXT_PUBLIC_SERVER_SOCKET_URL);
 
       socket.on("connect", () => {
-        socket.emit("add-user", userId); // Add user when socket connects
+        socket.emit("add-user", userId);
+        setSocketState(socket);
       });
-
-      socket.on("get-message", (message: RealtimeMessageType) => {
-        console.log({ message });
-
-        dispatch(
-          saveSentMessage({
-            connectionId:
-              userId === message.senderId
-                ? message.reciverId
-                : message.senderId,
-            message: {
-              type: message.type,
-              message: message.message,
-              status: message.status,
-              senderId: message.senderId,
-              createdAt: message.createdAt,
-            },
-          })
-        );
-      });
-
-      socket.emit("messages-seen", {
-        userId: userId,
-        connectionId: selectedConnection?._id,
-      });
-
-      socket.on("message-seen", (userId) => {
-        console.log("Message seen event received:", userId);
-        dispatch(messagesSeen(userId));
-      });
-
-      setSocketState(socket);
     }
 
-    // Cleanup on component unmount
     return () => {
       if (socketState) {
         socketState.disconnect();
         setSocketState(undefined);
       }
     };
-  }, [userId, socketState, setSocketState, dispatch, selectedConnection]);
+  }, [userId, socketState]);
+
+  useEffect(() => {
+    if (socketState && selectedConnection) {
+      const handleMessage = (message: MessageType) => {
+        const connectionId =
+          message.senderId === userId
+            ? selectedConnection._id
+            : message.senderId;
+
+        dispatch(saveSentMessage({ connectionId, message }));
+
+        if (message.senderId === selectedConnection._id) {
+          const messagesSeen = async (userId: string, connectionId: string) => {
+            console.log("messageSeen function");
+
+            try {
+              await axiosInstance(
+                `/chat/messages-seen/${userId}/${connectionId}`
+              );
+            } catch (error) {
+              console.log(error);
+            }
+          };
+
+          messagesSeen(userId!, selectedConnection._id);
+        }
+      };
+
+      // Add the event listener
+      socketState.on("new-message", handleMessage);
+
+      // Clean up the listener when selectedConnection changes
+      return () => {
+        socketState.off("new-message", handleMessage);
+      };
+    }
+  }, [socketState, selectedConnection, userId, dispatch]);
+
+  useEffect(() => {
+    if (socketState) {
+      socketState.on("message-seen", (message: MessageType) => {
+        dispatch(messageSeen(message));
+      });
+    }
+  }, [socketState]);
+
+  useEffect(() => {
+    if (socketState) {
+      const updateStatusOnline = async () => {
+        try {
+          const response = await axiosInstance.patch(
+            `/user/update-status-online/${userId}`
+          );
+          if (response.data.status === "success") {
+            dispatch(setStatus(response.data.userStatus));
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      if (user && user.status === "offline") {
+        updateStatusOnline();
+      }
+    }
+    //TODO : USER'A WATCHER KOYUP ONLINE-OFFLINE STATUS TAKIP ET
+  }, [user, socketState]);
 
   const mobileCondition =
     (isMobile && renderedComponent === "screen") || !isMobile;
@@ -93,7 +125,7 @@ function ScreenClient() {
         <div className={`w-full h-screen flex flex-col`}>
           <Header selectedConnection={selectedConnection} />
           <ChatScreen selectedConnection={selectedConnection} />
-          <MessageBar socketState={socketState} />
+          <MessageBar />
         </div>
       ) : (
         <WelcomeScreen />

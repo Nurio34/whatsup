@@ -1,4 +1,5 @@
 export type MessageType = {
+  _id: string;
   senderId: string;
   type: string;
   message: string;

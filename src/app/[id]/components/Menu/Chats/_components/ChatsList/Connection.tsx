@@ -3,16 +3,28 @@ import axiosInstance from "@/axios";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { setSelectedConnection } from "@/store/slices/chat";
-import { addToContacts, selectContacts } from "@/store/slices/user";
+import {
+  getChat,
+  selectChat,
+  selectSelectedConnection,
+  setSelectedConnection,
+} from "@/store/slices/chat";
+import { addToContacts, selectContacts, selectUser } from "@/store/slices/user";
 import { setRenderedComponent } from "@/store/slices/components";
 
 function Connection({ connectionId }: { connectionId: string }) {
+  const user = useAppSelector(selectUser);
+  const userId = user?.id;
+
   const contacts = useAppSelector(selectContacts);
 
   const thisContact = contacts.find(
     (connection) => connection._id === connectionId
   );
+
+  const selectedConnection = useAppSelector(selectSelectedConnection);
+
+  const chat = useAppSelector(selectChat);
 
   const dispatch = useAppDispatch();
 
@@ -43,10 +55,62 @@ function Connection({ connectionId }: { connectionId: string }) {
     }
   }, [connectionId, thisContact, dispatch]);
 
+  useEffect(() => {
+    const getChatOfConnection = async (
+      userId: string,
+      connectionId: string
+    ) => {
+      try {
+        const response = await axiosInstance.get(
+          `/chat/get-chat/${userId}/${connectionId}`
+        );
+
+        if (response.data.status === "success") {
+          dispatch(getChat(response.data.chat));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const currentChat = chat.find((item) => item.connectionId === connectionId);
+
+    if (userId && connectionId && !currentChat)
+      getChatOfConnection(userId, connectionId);
+  }, [userId, connectionId]);
+
+  useEffect(() => {
+    const messagesDelivered = async (userId: string, connectionId: string) => {
+      try {
+        await axiosInstance(
+          `/chat/messages-delivered/${userId}/${connectionId}`
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (userId && connectionId) {
+      messagesDelivered(userId, connectionId);
+    }
+  }, [userId, connectionId]);
+
   const handleSelectConnection = () => {
     if (thisContact) {
       dispatch(setSelectedConnection(thisContact));
       dispatch(setRenderedComponent("screen"));
+    }
+
+    const messagesSeen = async (userId: string, connectionId: string) => {
+      try {
+        await axiosInstance(`/chat/messages-seen/${userId}/${connectionId}`);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (connectionId !== selectedConnection?._id) {
+      messagesSeen(userId!, connectionId);
     }
   };
 

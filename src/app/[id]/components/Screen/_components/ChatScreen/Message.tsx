@@ -1,17 +1,22 @@
-import { MessageType } from "@/type/message";
+import { ChatType, MessageType } from "@/type/message";
 import { time } from "@/utils/time";
 import { useEffect, useRef, useState } from "react";
 import MessageStatus from "./MessageStatus";
 
 function Message({
+  index,
   message,
   userId,
+  chatOfSelectedConnection,
 }: {
+  index: number;
   message: MessageType;
   userId: string;
+  chatOfSelectedConnection: ChatType;
 }) {
   const MessageElement = useRef<HTMLParagraphElement | null>(null);
   const [shapeOfContainer, setShapeOfContainer] = useState(1);
+  const LastMessageElement = useRef<HTMLLIElement | null>(null);
 
   useEffect(() => {
     if (MessageElement.current) {
@@ -22,8 +27,19 @@ function Message({
     }
   }, []);
 
+  useEffect(() => {
+    if (LastMessageElement.current) {
+      LastMessageElement.current.scrollIntoView({ behavior: "instant" });
+    }
+  }, [message]);
+
   return (
     <li
+      ref={
+        chatOfSelectedConnection.messages.length - 1 === index
+          ? LastMessageElement
+          : null
+      }
       className={` rounded-md py-1 px-[1vw] ${
         userId === message.senderId
           ? "justify-self-end bg-[rgba(220,252,231,0.5)]"

@@ -2,10 +2,9 @@ import { useAppSelector } from "@/store/hooks";
 import { selectIsMoile } from "@/store/slices/user";
 import { AnimatePresence, motion } from "framer-motion";
 import SearchUser from "./SearchUser";
-import { ChatsUserType } from "../../../../../..";
 import FoundUser from "./FoundUser";
 import { Dispatch, SetStateAction } from "react";
-import { UserType } from "@/type/user";
+import { ChatsUserType, UserType } from "@/type/user";
 
 function UserSearchContainer({
   user,

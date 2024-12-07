@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ChatsUserType } from "../../../../../..";
 import { AxiosError } from "axios";
 import axiosInstance from "@/axios";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -12,6 +11,7 @@ import toast from "react-hot-toast";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { setIsUserSearchContainerVisible } from "@/store/slices/components";
 import { getChat } from "@/store/slices/chat";
+import { ChatsUserType } from "@/type/user";
 
 function FoundUser({
   foundUser,
