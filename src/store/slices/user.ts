@@ -49,6 +49,13 @@ export const userSlice = createSlice({
     setConnectWith: (state, action: PayloadAction<string[]>) => {
       state.connectWith = action.payload;
     },
+    addToConnectWith: (state, action: PayloadAction<string>) => {
+      if (state.connectWith) {
+        state.connectWith.push(action.payload);
+      } else {
+        state.connectWith = [action.payload];
+      }
+    },
     addToContacts: (state, action: PayloadAction<ContactType>) => {
       state.contacts.push(action.payload);
     },
@@ -67,6 +74,7 @@ export const {
   setIsMobile,
   setToken,
   setConnectWith,
+  addToConnectWith,
   addToContacts,
   setStatus,
   logoutUser,

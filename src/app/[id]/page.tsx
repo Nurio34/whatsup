@@ -13,28 +13,22 @@ type AsyncRouteContext = {
 async function HomeAuth(context: AsyncRouteContext) {
   const { token } = await context.searchParams;
 
-  try {
-    const response = await getUser(token);
+  const response = await getUser(token);
 
-    if (response) {
-      const { user } = response;
+  if (response) {
+    const { user } = response;
 
-      if (user.newUser) return redirect("/new-user");
+    if (user.newUser) return redirect("/new-user");
 
-      return (
-        <main className="flex overflow-y-hidden">
-          <DeleteUserFromFirebase />
-          <SideMenuNav desktop={true} />
-          <Menu user={user} />
-          <Screen />
-        </main>
-      );
-    } else {
-      redirect("/logout");
-    }
-  } catch (error) {
-    console.log(error);
-
+    return (
+      <main className="flex overflow-y-hidden">
+        <DeleteUserFromFirebase />
+        <SideMenuNav desktop={true} />
+        <Menu />
+        <Screen />
+      </main>
+    );
+  } else {
     redirect("/logout");
   }
 }

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 function Avatar({ avatar }: { avatar: string }) {
   return (
-    <figure className=" relative w-10 aspect-square">
+    <figure className=" relative w-10 aspect-square rounded-full overflow-hidden">
       <Image
         src={avatar}
         fill

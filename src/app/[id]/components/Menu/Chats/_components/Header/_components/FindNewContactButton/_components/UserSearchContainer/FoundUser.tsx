@@ -66,8 +66,8 @@ function FoundUser({
   return (
     <>
       {foundUser && (
-        <div className=" flex justify-center items-center gap-x-[1vw]">
-          <figure className=" grow relative aspect-square max-w-36">
+        <div className=" flex justify-start items-center gap-x-[1vw]">
+          <figure className=" grow relative aspect-square max-w-16 rounded-full overflow-hidden">
             <Image
               src={foundUser.avatar.url}
               fill
@@ -78,7 +78,7 @@ function FoundUser({
           <p>{foundUser.username}</p>
           <button
             type="button"
-            className={`c-btn ${
+            className={`c-btn ml-auto ${
               isFoundUserAlreadyConnected
                 ? "bg-[green] hover:bg-green-500"
                 : "bg-[blue] hover:bg-blue-500"

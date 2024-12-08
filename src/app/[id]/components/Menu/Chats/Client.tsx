@@ -7,17 +7,10 @@ import {
 } from "@/store/slices/components";
 import Header from "./_components/Header";
 import SearchChat from "./_components/SearchChat";
-import { ChatsUserType, UserType } from "@/type/user";
 import ChatsList from "./_components/ChatsList";
 import { selectIsMoile } from "@/store/slices/user";
 
-function ChatsClient({
-  user,
-  allUsers,
-}: {
-  user: UserType;
-  allUsers: ChatsUserType[];
-}) {
+function ChatsClient() {
   const { name } = useAppSelector(selectCurrentMenu);
   const isMobile = useAppSelector(selectIsMoile);
   const renderedComponent = useAppSelector(selectRenderedComponent);
@@ -32,7 +25,7 @@ function ChatsClient({
           ${!mobileCondition && "hidden"}
         `}
     >
-      <Header user={user} allUsers={allUsers} />
+      <Header />
       <SearchChat />
       <ChatsList />
     </div>

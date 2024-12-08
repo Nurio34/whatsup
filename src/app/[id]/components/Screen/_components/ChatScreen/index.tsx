@@ -6,6 +6,8 @@ import SideMenuNav from "../../../SideMenu";
 import Message from "./Message";
 import { ChatsUserType } from "@/type/user";
 import { useEffect, useRef, useState } from "react";
+import { date } from "@/utils/date";
+import { time } from "@/utils/time";
 
 function ChatScreen({
   selectedConnection,
@@ -35,6 +37,8 @@ function ChatScreen({
       }
     };
 
+    handleSectionHeight();
+
     window.addEventListener("resize", handleSectionHeight);
 
     return () => {
@@ -51,6 +55,11 @@ function ChatScreen({
       }}
     >
       {isMobile && <SideMenuNav desktop={false} height={sectionHeight} />}
+      <p className=" text-center text-sm font-semibold py-[1vh] text-gray-800">
+        {date(chatOfSelectedConnection.messages[0].createdAt)}
+        {" / "}
+        {time(chatOfSelectedConnection.messages[0].createdAt)}
+      </p>
       <ul className=" grid gap-y-[2vh] px-[2vw] py-[1vh] ">
         {chatOfSelectedConnection?.messages.map((message, index) => (
           <Message

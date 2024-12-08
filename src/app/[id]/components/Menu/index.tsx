@@ -1,10 +1,9 @@
-import { UserType } from "@/type/user";
 import Chats from "./Chats";
 
-function Menu({ user }: { user: UserType }) {
+function Menu() {
   return (
     <>
-      <Chats user={user} />
+      <Chats />
     </>
   );
 }

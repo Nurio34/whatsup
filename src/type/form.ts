@@ -33,8 +33,8 @@ export type FormType = {
 };
 
 export const initialFormData: FormType = {
-  username: "nurio34",
-  email: "ahmet@gmail.com",
+  username: "hacerkaya",
+  email: "hacerkaya1968a@gmail.com",
   password: "Cameuaifucan6_",
   passwordConfirm: "Cameuaifucan6_",
 };

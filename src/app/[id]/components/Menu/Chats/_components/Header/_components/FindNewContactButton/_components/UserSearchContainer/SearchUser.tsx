@@ -1,6 +1,7 @@
+import axiosInstance from "@/axios";
 import { useAppSelector } from "@/store/hooks";
-import { selectIsMoile } from "@/store/slices/user";
-import { ChatsUserType, UserType } from "@/type/user";
+import { selectIsMoile, selectUser } from "@/store/slices/user";
+import { ChatsUserType } from "@/type/user";
 import {
   Dispatch,
   KeyboardEvent,
@@ -12,37 +13,47 @@ import { ImSearch } from "react-icons/im";
 import { LiaSearchSolid } from "react-icons/lia";
 
 function SearchUser({
-  user,
-  allUsers,
   setFoundUser,
 }: {
-  user: UserType;
-  allUsers: ChatsUserType[];
   setFoundUser: Dispatch<SetStateAction<ChatsUserType | null>>;
 }) {
   const isMobile = useAppSelector(selectIsMoile);
+  const user = useAppSelector(selectUser);
 
   const SearchInput = useRef<HTMLInputElement | null>(null);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchedUser, setSearchedUser] = useState("");
 
-  const searchUserWithKeyboard = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      const anyUser = allUsers.find((user) => user.username === searchedUser);
+  const findUser = async () => {
+    console.log("findUser");
 
-      if (anyUser && searchedUser !== user.username) {
-        setFoundUser(anyUser);
-        setSearchedUser("");
+    try {
+      const response = await axiosInstance(`/user/find-user/${searchedUser}`);
+      if (
+        response.data.status === "success" &&
+        response.data.user.username !== user?.username
+      ) {
+        return response.data.user;
       }
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const searchUserWithIconButton = () => {
-    const anyUser = allUsers.find((user) => user.username === searchedUser);
-    if (anyUser && searchedUser !== user.username) {
+  const searchUserWithKeyboard = async (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      const anyUser = await findUser();
+
       setFoundUser(anyUser);
       setSearchedUser("");
     }
+  };
+
+  const searchUserWithIconButton = async () => {
+    const anyUser = await findUser();
+
+    setFoundUser(anyUser);
+    setSearchedUser("");
   };
 
   return (

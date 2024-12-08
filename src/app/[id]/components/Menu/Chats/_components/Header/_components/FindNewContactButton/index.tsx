@@ -5,18 +5,12 @@ import {
   selectIsUserSearchContainerVisible,
   setIsUserSearchContainerVisible,
 } from "@/store/slices/components";
-import { ChatsUserType, UserType } from "@/type/user";
+import { ChatsUserType } from "@/type/user";
 import { useEffect, useState } from "react";
 import "./index.css";
 import { selectConnectWith } from "@/store/slices/user";
 
-function FindNewContactButton({
-  user,
-  allUsers,
-}: {
-  user: UserType;
-  allUsers: ChatsUserType[];
-}) {
+function FindNewContactButton() {
   const isUserSearchContainerVisible = useAppSelector(
     selectIsUserSearchContainerVisible
   );
@@ -68,8 +62,6 @@ function FindNewContactButton({
         <GrUserAdd size={24} />
       </button>
       <UserSearchContainer
-        user={user}
-        allUsers={allUsers}
         isUserSearchContainerVisible={isUserSearchContainerVisible}
         foundUser={foundUser}
         setFoundUser={setFoundUser}

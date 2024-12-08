@@ -4,17 +4,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import SearchUser from "./SearchUser";
 import FoundUser from "./FoundUser";
 import { Dispatch, SetStateAction } from "react";
-import { ChatsUserType, UserType } from "@/type/user";
+import { ChatsUserType } from "@/type/user";
 
 function UserSearchContainer({
-  user,
-  allUsers,
   isUserSearchContainerVisible,
   foundUser,
   setFoundUser,
 }: {
-  user: UserType;
-  allUsers: ChatsUserType[];
   isUserSearchContainerVisible: boolean;
   foundUser: ChatsUserType | null;
   setFoundUser: Dispatch<SetStateAction<ChatsUserType | null>>;
@@ -55,11 +51,7 @@ function UserSearchContainer({
             <li>You have to know exact username fo find it.</li>
             <li>It is case sensetive</li>
           </ul>
-          <SearchUser
-            user={user}
-            allUsers={allUsers}
-            setFoundUser={setFoundUser}
-          />
+          <SearchUser setFoundUser={setFoundUser} />
           <FoundUser foundUser={foundUser} setFoundUser={setFoundUser} />
         </motion.aside>
       )}
