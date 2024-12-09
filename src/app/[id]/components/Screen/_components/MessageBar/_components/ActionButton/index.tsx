@@ -1,11 +1,10 @@
-import axiosInstance from "@/axios";
 import { useAppSelector } from "@/store/hooks";
 import { selectSelectedConnection } from "@/store/slices/chat";
 import { selectUser } from "@/store/slices/user";
-import { AxiosError } from "axios";
 import { Dispatch, SetStateAction } from "react";
-import toast from "react-hot-toast";
 import { TbSend2 } from "react-icons/tb";
+import { useSendMessage } from "../../useSendMessage";
+import { PiTimerBold } from "react-icons/pi";
 
 function ActionButton({
   message,
@@ -18,33 +17,27 @@ function ActionButton({
 
   const selectedConnection = useAppSelector(selectSelectedConnection);
 
-  const sendMessage = async () => {
-    //! *** SAVE MESSAGE TO DATABASE ***
-    try {
-      const response = await axiosInstance.post("/chat/send-message", {
-        senderId: user!.id,
-        reciverId: selectedConnection!._id,
-        message,
-        type: "text",
-      });
+  const { isLoading, send } = useSendMessage(
+    user!.id,
+    selectedConnection!._id,
+    message
+  );
 
-      if (response.data.status === "success") {
+  const sendMessage = async () => {
+    if (Boolean(message)) {
+      const response = await send();
+      if (response?.data.status === "success") {
         setMessage("");
       }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message);
-      }
     }
-    //! *******************************
   };
 
   return (
     <button
-      onClick={Boolean(message) ? sendMessage : undefined}
+      onClick={sendMessage}
       className=" transition-all hover:scale-110 active:scale-95"
     >
-      <TbSend2 size={20} />
+      {isLoading ? <PiTimerBold size={20} /> : <TbSend2 size={20} />}
     </button>
   );
 }

@@ -87,8 +87,6 @@ function ScreenClient() {
               userId: string,
               connectionId: string
             ) => {
-              console.log("messageSeen function");
-
               try {
                 await axiosInstance(
                   `/chat/messages-seen/${userId}/${connectionId}`

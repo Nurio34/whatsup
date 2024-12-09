@@ -25,6 +25,7 @@ function ChatScreen({
   const chatOfSelectedConnection = chat.find(
     (item) => item.connectionId === connectionId
   )!;
+  console.log({ chatOfSelectedConnection });
 
   const [sectionHeight, setSectionHeight] = useState(0);
   const SectionElement = useRef<HTMLElement | null>(null);

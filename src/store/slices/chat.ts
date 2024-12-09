@@ -41,7 +41,14 @@ export const chatSlice = createSlice({
       state.chat.forEach((item) => {
         item.messages.forEach((message) => {
           if (message._id === action.payload._id) {
-            message.status = action.payload.status;
+            if (
+              message.status === "sent" &&
+              action.payload.status === "delivered"
+            ) {
+              message.status = action.payload.status;
+            } else if (action.payload.status === "seen") {
+              message.status = action.payload.status;
+            }
           }
         });
       });

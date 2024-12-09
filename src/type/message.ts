@@ -1,3 +1,13 @@
+export type MediaType = {
+  asset_id: string;
+  public_id: string;
+  width: number;
+  height: number;
+  resource_type: string;
+  url: string;
+  format: string;
+};
+
 export type MessageType = {
   _id: string;
   senderId: string;
@@ -5,18 +15,10 @@ export type MessageType = {
   message: string;
   status: string;
   createdAt: Date;
+  medias: MediaType[];
 };
 
 export type ChatType = {
   connectionId: string;
   messages: MessageType[];
-};
-
-export type RealtimeMessageType = {
-  senderId: string;
-  reciverId: string;
-  message: string;
-  type: string;
-  status: string;
-  createdAt: Date;
 };
