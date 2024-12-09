@@ -3,7 +3,7 @@ import { selectIsMoile, selectUser } from "@/store/slices/user";
 import { selectChat } from "@/store/slices/chat";
 
 import SideMenuNav from "../../../SideMenu";
-import Message from "./Message";
+import Message from "./_components/Message";
 import { ChatsUserType } from "@/type/user";
 import { useEffect, useRef, useState } from "react";
 import { date } from "@/utils/date";
@@ -25,7 +25,6 @@ function ChatScreen({
   const chatOfSelectedConnection = chat.find(
     (item) => item.connectionId === connectionId
   )!;
-  console.log({ chatOfSelectedConnection });
 
   const [sectionHeight, setSectionHeight] = useState(0);
   const SectionElement = useRef<HTMLElement | null>(null);

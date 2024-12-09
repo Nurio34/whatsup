@@ -20,7 +20,12 @@ function MultipleMediaPreview({
     <div className="min-w-80 md:min-w-96 aspect-square space-y-[1vh]">
       <div className=" relative aspect-square flex justify-center overflow-hidden rounded-lg">
         {currentMedia.type === "image" && (
-          <Image src={currentMedia.url} fill alt="image" />
+          <Image
+            src={currentMedia.url}
+            fill
+            sizes="(max-width: 768px) 50vw, 25vw"
+            alt="image"
+          />
         )}
         {currentMedia.type === "video" && (
           <video
@@ -37,10 +42,15 @@ function MultipleMediaPreview({
           ></audio>
         )}
         {currentMedia.type === "application" && (
-          <Image src={"/application_placeholder.webp"} fill alt="image" />
+          <Image
+            src={"/application_placeholder.webp"}
+            fill
+            sizes="(max-width: 768px) 50vw, 25vw"
+            alt="image"
+          />
         )}
       </div>
-      <ul className="flex gap-[1vw] flex-wrap">
+      <ul className="flex gap-[3vw] md:gap-[1vw] flex-wrap py-[2vh]">
         {mediaPreview.map((media, index) => (
           <MediaItem
             key={media.url}

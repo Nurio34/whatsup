@@ -1,38 +1,25 @@
 import { ChatType, MessageType } from "@/type/message";
-import { time } from "@/utils/time";
-import { useEffect, useRef, useState } from "react";
+import { MutableRefObject } from "react";
 import MessageStatus from "./MessageStatus";
+import { time } from "@/utils/time";
 
-function Message({
-  index,
+function TextMessage({
   message,
   userId,
   chatOfSelectedConnection,
+  LastMessageElement,
+  index,
+  shapeOfContainer,
+  MessageElement,
 }: {
-  index: number;
   message: MessageType;
   userId: string;
   chatOfSelectedConnection: ChatType;
+  LastMessageElement: MutableRefObject<HTMLLIElement | null>;
+  index: number;
+  shapeOfContainer: number;
+  MessageElement: MutableRefObject<HTMLParagraphElement | null>;
 }) {
-  const MessageElement = useRef<HTMLParagraphElement | null>(null);
-  const [shapeOfContainer, setShapeOfContainer] = useState(1);
-  const LastMessageElement = useRef<HTMLLIElement | null>(null);
-
-  useEffect(() => {
-    if (MessageElement.current) {
-      const heightOfMessageElement =
-        MessageElement.current.getBoundingClientRect().height;
-
-      setShapeOfContainer(heightOfMessageElement <= 32 ? 1 : 2);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (LastMessageElement.current) {
-      LastMessageElement.current.scrollIntoView({ behavior: "instant" });
-    }
-  }, [message]);
-
   return (
     <li
       ref={
@@ -45,8 +32,8 @@ function Message({
           ? "justify-self-end bg-[rgba(220,252,231,0.5)]"
           : "justify-self-start bg-[rgba(219,234,254,0.5)]"
       }
-      ${shapeOfContainer === 1 ? "flex gap-x-[1vh]" : " relative"}
-      `}
+    ${shapeOfContainer === 1 ? "flex gap-x-[1vh]" : " relative"}
+    `}
     >
       <p ref={MessageElement} className={`${shapeOfContainer === 1 ? "" : ""}`}>
         {message.message}
@@ -66,4 +53,4 @@ function Message({
   );
 }
 
-export default Message;
+export default TextMessage;

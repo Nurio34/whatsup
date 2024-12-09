@@ -67,8 +67,6 @@ function ScreenClient() {
           message.senderId !== userId ? message.senderId : null;
         if (nonConnectionUserId) {
           if (!connectWith?.includes(nonConnectionUserId)) {
-            console.log("works");
-
             dispatch(addToConnectWith(nonConnectionUserId));
           }
         }

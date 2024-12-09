@@ -2,6 +2,8 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import { MediaPreviewType } from "../../..";
 import Image from "next/image";
 import { GrFormClose } from "react-icons/gr";
+import { useAppSelector } from "@/store/hooks";
+import { selectIsMoile } from "@/store/slices/user";
 
 function MediaItem({
   index,
@@ -20,7 +22,10 @@ function MediaItem({
   currentMedia: MediaPreviewType;
   mediaPreview: MediaPreviewType[];
 }) {
-  const [isDeleteButtonVisible, setIsDeleteButtonVisible] = useState(false);
+  const isMobile = useAppSelector(selectIsMoile);
+  const [isDeleteButtonVisible, setIsDeleteButtonVisible] = useState(
+    isMobile && index === 0 ? true : false
+  );
 
   const handleCurrentMedia = (media: MediaPreviewType) => {
     setCurrentMedia(media);
@@ -51,7 +56,7 @@ function MediaItem({
 
   return (
     <li
-      className="aspect-square basis-9 relative grid place-content-center rounded-sm overflow-hidden"
+      className="aspect-square basis-16 relative grid place-content-center rounded-sm overflow-hidden"
       style={{
         boxShadow:
           currentMedia.url === media.url
@@ -61,14 +66,34 @@ function MediaItem({
       onMouseEnter={() => setIsDeleteButtonVisible(true)}
       onMouseLeave={() => setIsDeleteButtonVisible(false)}
     >
-      <button onClick={() => handleCurrentMedia(media)}>
-        {media.type === "image" && <Image src={media.url} fill alt="image" />}
+      <button
+        className=" relative w-16 aspect-square "
+        onClick={() => handleCurrentMedia(media)}
+      >
+        {media.type === "image" && (
+          <Image
+            src={media.url}
+            fill
+            sizes="(max-width: 768px) 50vw, 25vw"
+            alt="image"
+          />
+        )}
         {media.type === "video" && <video src={media.url}></video>}
         {media.type === "audio" && (
-          <Image src={"/audio_placeholder.webp"} fill alt="image" />
+          <Image
+            src={"/audio_placeholder.webp"}
+            fill
+            sizes="(max-width: 768px) 50vw, 25vw"
+            alt="image"
+          />
         )}
         {media.type === "application" && (
-          <Image src={"/application_placeholder.webp"} fill alt="image" />
+          <Image
+            src={"/application_placeholder.webp"}
+            fill
+            sizes="(max-width: 768px) 50vw, 25vw"
+            alt="image"
+          />
         )}
       </button>
       {isDeleteButtonVisible && (
