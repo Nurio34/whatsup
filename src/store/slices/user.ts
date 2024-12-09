@@ -9,7 +9,7 @@ type UserSliceType = {
   isUserDeletedFromFirebase: boolean;
   isMobile: boolean;
   token: string | null;
-  connectWith: string[] | null;
+  connectWith: string[];
   contacts: ContactType[];
 };
 
@@ -20,7 +20,7 @@ const initialState: UserSliceType = {
   isUserDeletedFromFirebase: false,
   isMobile: false,
   token: null,
-  connectWith: null,
+  connectWith: [""],
   contacts: [] as ContactType[],
 };
 
@@ -50,11 +50,7 @@ export const userSlice = createSlice({
       state.connectWith = action.payload;
     },
     addToConnectWith: (state, action: PayloadAction<string>) => {
-      if (state.connectWith) {
-        state.connectWith.push(action.payload);
-      } else {
-        state.connectWith = [action.payload];
-      }
+      state.connectWith.push(action.payload);
     },
     addToContacts: (state, action: PayloadAction<ContactType>) => {
       state.contacts.push(action.payload);

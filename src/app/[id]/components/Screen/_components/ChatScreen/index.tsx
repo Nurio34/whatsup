@@ -64,13 +64,14 @@ function ChatScreen({
       )}
       <ul className=" grid gap-y-[2vh] px-[2vw] py-[1vh] ">
         {chatOfSelectedConnection?.messages.map((message, index) => (
-          <Message
-            key={index}
-            index={index}
-            message={message}
-            userId={userId!}
-            chatOfSelectedConnection={chatOfSelectedConnection}
-          />
+          <li key={index}>
+            <Message
+              index={index}
+              message={message}
+              userId={userId!}
+              chatOfSelectedConnection={chatOfSelectedConnection}
+            />
+          </li>
         ))}
       </ul>
     </section>
