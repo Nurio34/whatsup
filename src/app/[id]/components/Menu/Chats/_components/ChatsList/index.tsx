@@ -60,10 +60,10 @@ function ChatsList() {
   };
 
   useEffect(() => {
-    if (user?.id && !Boolean(connectWith)) {
+    if (user?.id && connectWith.length === 1) {
       getConnections();
     }
-  }, [user, connectWith, dispatch]);
+  }, [user, dispatch]);
 
   if (isLoading) {
     return <Loading message="Connections" />;
@@ -92,7 +92,7 @@ function ChatsList() {
 
   return (
     <>
-      {connectWith && connectWith.length !== 0 ? (
+      {connectWith.length > 1 ? (
         <ul
           className="space-y-[1vh] overflow-y-auto customScrollbar"
           style={{ height: chatListHeight }}

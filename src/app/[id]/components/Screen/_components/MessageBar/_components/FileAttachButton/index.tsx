@@ -1,6 +1,10 @@
 import { ChangeEvent, useState } from "react";
 import { RiAttachment2 } from "react-icons/ri";
 import MediaMessagePreviewModal from "./_components/MediaMessagePreviewModal";
+import { useSendMediaMessage } from "./hooks/useSendMediaMessage";
+import { useAppSelector } from "@/store/hooks";
+import { selectUser } from "@/store/slices/user";
+import { selectSelectedConnection } from "@/store/slices/chat";
 
 export type TypeOfMediaType = "image" | "video" | "audio" | "application";
 export type MediaPreviewType = { type: string; url: string };
@@ -9,9 +13,22 @@ export const typeOfMedia = (file: File): TypeOfMediaType =>
   file.type.split("/")[0] as TypeOfMediaType;
 
 function FileAttachButton() {
+  const user = useAppSelector(selectUser);
+  const userId = user!.id;
+
+  const selectedConnection = useAppSelector(selectSelectedConnection);
+  const reciverId = selectedConnection!._id;
+
   const [mediaPreview, setMediaPreview] = useState<MediaPreviewType[]>([]);
   const [message, setMessage] = useState("");
   const [mediaFiles, setMediaFiles] = useState<File[]>([] as File[]);
+
+  const { isLoading, send } = useSendMediaMessage(
+    userId,
+    reciverId,
+    message,
+    mediaFiles
+  );
 
   const handleMediaSelect = (e: ChangeEvent<HTMLInputElement>) => {
     setMediaPreview([]);
@@ -62,6 +79,8 @@ function FileAttachButton() {
           setMediaPreview={setMediaPreview}
           mediaFiles={mediaFiles}
           setMediaFiles={setMediaFiles}
+          isLoading={isLoading}
+          send={send}
         />
       )}
     </div>

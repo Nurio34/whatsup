@@ -1,17 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
 import { logoutUser } from "./user";
-import { ChatType, MessageType } from "@/type/message";
+import { ChatType, MediaType, MessageType } from "@/type/message";
 import { ChatsUserType } from "@/type/user";
 
 type ChatSliceType = {
   selectedConnection: ChatsUserType | null;
   chat: ChatType[];
+  currentMedias: MediaType[] | null;
+  mediaToAnimate: MediaType | null;
 };
 
 const initialState: ChatSliceType = {
   selectedConnection: null,
   chat: [] as ChatType[],
+  currentMedias: null,
+  mediaToAnimate: null,
 };
 
 export const chatSlice = createSlice({
@@ -72,6 +76,12 @@ export const chatSlice = createSlice({
         });
       }
     },
+    setCurrenMedias: (state, action: PayloadAction<MediaType[]>) => {
+      state.currentMedias = action.payload;
+    },
+    setMediaToAnimate: (state, action: PayloadAction<MediaType>) => {
+      state.mediaToAnimate = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -85,8 +95,14 @@ export const {
   getChat,
   messageSeen,
   saveLostMessages,
+  setCurrenMedias,
+  setMediaToAnimate,
 } = chatSlice.actions;
 export const selectSelectedConnection = (state: RootState) =>
   state.chat.selectedConnection;
 export const selectChat = (state: RootState) => state.chat.chat;
+export const selectCurrentMedias = (state: RootState) =>
+  state.chat.currentMedias;
+export const selectMediaToAnimate = (state: RootState) =>
+  state.chat.mediaToAnimate;
 export default chatSlice.reducer;

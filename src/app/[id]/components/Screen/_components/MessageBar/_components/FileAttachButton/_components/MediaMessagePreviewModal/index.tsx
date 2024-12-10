@@ -4,6 +4,7 @@ import SingleMediaPreview from "./SingleMediaPreview";
 import MultipleMediaPreview from "./MultipleMediaPreview";
 import MessageBar from "./MessageBar";
 import { GrFormClose } from "react-icons/gr";
+import { AxiosResponse } from "axios";
 
 function MediaMessagePreviewModal({
   mediaPreview,
@@ -12,6 +13,8 @@ function MediaMessagePreviewModal({
   setMediaPreview,
   mediaFiles,
   setMediaFiles,
+  isLoading,
+  send,
 }: {
   mediaPreview: MediaPreviewType[];
   message: string;
@@ -19,6 +22,8 @@ function MediaMessagePreviewModal({
   setMediaPreview: Dispatch<SetStateAction<MediaPreviewType[]>>;
   mediaFiles: File[];
   setMediaFiles: Dispatch<SetStateAction<File[]>>;
+  isLoading: boolean;
+  send: () => Promise<AxiosResponse<any, any> | undefined>;
 }) {
   const MediaMessagePreviewModalRef = useRef<HTMLDivElement | null>(null);
 
@@ -36,6 +41,7 @@ function MediaMessagePreviewModal({
       <button
         type="button"
         className=" absolute top-0 right-0 -translate-x-1/2 translate-y-1/2 z-50 rounded-full shadow-md shadow-[red] border-[1px] border-[red]"
+        disabled={isLoading}
         onClick={deleteMediaMessage}
       >
         <GrFormClose size={20} color="red" />
@@ -47,6 +53,7 @@ function MediaMessagePreviewModal({
           mediaPreview={mediaPreview}
           setMediaPreview={setMediaPreview}
           setMediaFiles={setMediaFiles}
+          isLoading={isLoading}
         />
       )}
       <MessageBar
@@ -55,6 +62,8 @@ function MediaMessagePreviewModal({
         mediaFiles={mediaFiles}
         setMediaFiles={setMediaFiles}
         setMediaPreview={setMediaPreview}
+        isLoading={isLoading}
+        send={send}
       />
     </div>
   );

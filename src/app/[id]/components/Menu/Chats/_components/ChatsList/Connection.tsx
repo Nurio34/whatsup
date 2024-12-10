@@ -52,7 +52,7 @@ function Connection({ connectionId }: { connectionId: string }) {
         setIsLoading(false);
       }
     };
-    if (!Boolean(thisContact)) {
+    if (!Boolean(thisContact) && connectionId !== "") {
       getConnection();
     }
   }, [connectionId, thisContact, dispatch]);

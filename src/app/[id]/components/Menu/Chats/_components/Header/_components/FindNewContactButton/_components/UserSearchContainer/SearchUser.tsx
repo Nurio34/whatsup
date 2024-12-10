@@ -25,8 +25,6 @@ function SearchUser({
   const [searchedUser, setSearchedUser] = useState("");
 
   const findUser = async () => {
-    console.log("findUser");
-
     try {
       const response = await axiosInstance(`/user/find-user/${searchedUser}`);
       if (

@@ -7,10 +7,12 @@ function MultipleMediaPreview({
   mediaPreview,
   setMediaPreview,
   setMediaFiles,
+  isLoading,
 }: {
   mediaPreview: MediaPreviewType[];
   setMediaPreview: Dispatch<SetStateAction<MediaPreviewType[]>>;
   setMediaFiles: Dispatch<SetStateAction<File[]>>;
+  isLoading: boolean;
 }) {
   const [currentMedia, setCurrentMedia] = useState<MediaPreviewType>(
     mediaPreview[0]
@@ -61,6 +63,7 @@ function MultipleMediaPreview({
             setMediaFiles={setMediaFiles}
             currentMedia={currentMedia}
             mediaPreview={mediaPreview}
+            isLoading={isLoading}
           />
         ))}
       </ul>

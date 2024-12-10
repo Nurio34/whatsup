@@ -27,8 +27,12 @@ function Text({
           ? LastMessageElement
           : null
       }
-      className={` rounded-md py-1 px-[1vw] max-w-48 md:max-w-96 
-        ${shapeOfContainer === 1 ? "flex gap-x-[1vh]" : " relative"}
+      className={`justify-self-stretch rounded-md py-1  max-w-56 md:max-w-96 
+        ${
+          shapeOfContainer === 1
+            ? "flex gap-x-[1vh] justify-between"
+            : " relative"
+        }
     `}
     >
       <p ref={MessageElement} className={`${shapeOfContainer === 1 ? "" : ""}`}>

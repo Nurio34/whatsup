@@ -60,8 +60,6 @@ function ScreenClient() {
   useEffect(() => {
     if (socketState) {
       const handleMessage = (message: MessageType) => {
-        console.log({ message });
-
         //! *** CHECK IF MESSAGE COME FROM A  NON-CONNECTION USER ***
         const nonConnectionUserId =
           message.senderId !== userId ? message.senderId : null;

@@ -51,7 +51,7 @@ function FindNewContactButton() {
     <div
       id="FindNewContactButton"
       className={`relative rounded-md
-      ${!Boolean(connectWith) && "highlighted"}
+      ${connectWith.length === 1 && "highlighted"}
     `}
     >
       <button

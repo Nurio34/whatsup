@@ -47,11 +47,14 @@ export const userSlice = createSlice({
       state.token = action.payload;
     },
     setConnectWith: (state, action: PayloadAction<string[]>) => {
-      state.connectWith = action.payload;
+      if (state.connectWith.length === 1) {
+        state.connectWith = [...state.connectWith, ...action.payload];
+      }
     },
     addToConnectWith: (state, action: PayloadAction<string>) => {
       state.connectWith.push(action.payload);
     },
+
     addToContacts: (state, action: PayloadAction<ContactType>) => {
       state.contacts.push(action.payload);
     },

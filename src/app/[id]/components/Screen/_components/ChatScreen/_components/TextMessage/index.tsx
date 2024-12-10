@@ -27,7 +27,7 @@ function TextMessage({
           ? LastMessageElement
           : null
       }
-      className={` rounded-md py-1 px-[1vw] max-w-48 md:max-w-96 ${
+      className={` rounded-md py-1 px-[1vw] max-w-56 md:max-w-96 ${
         userId === message.senderId
           ? "justify-self-end bg-[rgba(220,252,231,0.5)]"
           : "justify-self-start bg-[rgba(219,234,254,0.5)]"

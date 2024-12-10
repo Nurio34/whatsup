@@ -4,8 +4,10 @@ import EmojiPicker from "emoji-picker-react";
 
 function EmojiButton({
   setMessage,
+  isLoading,
 }: {
   setMessage: Dispatch<SetStateAction<string>>;
+  isLoading: boolean;
 }) {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
@@ -32,7 +34,10 @@ function EmojiButton({
       ref={EmojiPickerElement}
       className=" relative grid place-content-center"
     >
-      <button onClick={() => setShowEmojiPicker((prev) => !prev)}>
+      <button
+        onClick={() => setShowEmojiPicker((prev) => !prev)}
+        disabled={isLoading}
+      >
         <BsEmojiSmile size={20} />
       </button>
       {showEmojiPicker && (

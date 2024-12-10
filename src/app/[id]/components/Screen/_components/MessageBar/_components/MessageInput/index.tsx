@@ -1,24 +1,19 @@
 import { Dispatch, KeyboardEvent, SetStateAction } from "react";
-import { useSendMessage } from "../../useSendMessage";
-import { useAppSelector } from "@/store/hooks";
-import { selectUser } from "@/store/slices/user";
-import { selectSelectedConnection } from "@/store/slices/chat";
+import { AxiosResponse } from "axios";
 
 function MessageInput({
   message,
   setMessage,
+  isLoading,
+  send,
 }: {
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
+  isLoading: boolean;
+  send: () => Promise<AxiosResponse<any, any> | undefined>;
 }) {
-  const user = useAppSelector(selectUser);
-
-  const selectedConnection = useAppSelector(selectSelectedConnection);
-
-  const { send } = useSendMessage(user!.id, selectedConnection!._id, message);
-
   const sendMessage = async (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !isLoading) {
       e.preventDefault();
       if (Boolean(message)) {
         const response = await send();
@@ -33,7 +28,9 @@ function MessageInput({
     <textarea
       name="message"
       id="message"
-      className="grow outline-none resize-none"
+      className={`grow outline-none resize-none
+        ${isLoading ? " text-sm text-gray-500" : ""}  
+      `}
       rows={1}
       onChange={(e) => {
         e.target.style.height = "auto";
@@ -41,7 +38,7 @@ function MessageInput({
         setMessage(e.target.value);
       }}
       onKeyDown={sendMessage}
-      value={message}
+      value={isLoading ? "Sending.." : message}
     ></textarea>
   );
 }

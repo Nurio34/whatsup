@@ -1,10 +1,7 @@
 import { Dispatch, KeyboardEvent, SetStateAction } from "react";
-import { useAppSelector } from "@/store/hooks";
-import { selectUser } from "@/store/slices/user";
-import { selectSelectedConnection } from "@/store/slices/chat";
-import { useSendMediaMessage } from "../../../hooks/useSendMediaMessage";
 import toast from "react-hot-toast";
 import { MediaPreviewType } from "../../..";
+import { AxiosResponse } from "axios";
 
 function MessageInput({
   message,
@@ -12,25 +9,19 @@ function MessageInput({
   mediaFiles,
   setMediaFiles,
   setMediaPreview,
+  isLoading,
+  send,
 }: {
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
   mediaFiles: File[];
   setMediaFiles: Dispatch<SetStateAction<File[]>>;
   setMediaPreview: React.Dispatch<React.SetStateAction<MediaPreviewType[]>>;
+  isLoading: boolean;
+  send: () => Promise<AxiosResponse<any, any> | undefined>;
 }) {
-  const user = useAppSelector(selectUser);
-  const selectedConnection = useAppSelector(selectSelectedConnection);
-
-  const { isLoading, send } = useSendMediaMessage(
-    user!.id,
-    selectedConnection!._id,
-    message,
-    mediaFiles
-  );
-
   const sendMessage = async (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !isLoading) {
       e.preventDefault();
       const response = await send();
       if (response?.data.status !== "success") {
@@ -58,7 +49,7 @@ function MessageInput({
         setMessage(e.target.value);
       }}
       onKeyDown={sendMessage}
-      value={isLoading ? "Sending the message ..." : message}
+      value={isLoading ? "Sending.." : message}
     ></textarea>
   );
 }

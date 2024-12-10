@@ -35,7 +35,7 @@ function Message({
 
   return (
     <>
-      {message.medias.length !== 0 ? (
+      {message.type === "media" ? (
         <MediaMessage
           message={message}
           userId={userId}

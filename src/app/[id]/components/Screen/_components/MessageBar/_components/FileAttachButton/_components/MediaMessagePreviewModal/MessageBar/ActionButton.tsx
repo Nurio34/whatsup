@@ -1,11 +1,8 @@
-import { useAppSelector } from "@/store/hooks";
-import { selectSelectedConnection } from "@/store/slices/chat";
-import { selectUser } from "@/store/slices/user";
 import { Dispatch, SetStateAction } from "react";
 import toast from "react-hot-toast";
 import { TbSend2 } from "react-icons/tb";
-import { useSendMediaMessage } from "../../../hooks/useSendMediaMessage";
 import { MediaPreviewType } from "../../..";
+import { AxiosResponse } from "axios";
 
 function ActionButton({
   message,
@@ -13,23 +10,17 @@ function ActionButton({
   mediaFiles,
   setMediaFiles,
   setMediaPreview,
+  isLoading,
+  send,
 }: {
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
   mediaFiles: File[];
   setMediaFiles: Dispatch<SetStateAction<File[]>>;
   setMediaPreview: React.Dispatch<React.SetStateAction<MediaPreviewType[]>>;
+  isLoading: boolean;
+  send: () => Promise<AxiosResponse<any, any> | undefined>;
 }) {
-  const user = useAppSelector(selectUser);
-  const selectedConnection = useAppSelector(selectSelectedConnection);
-
-  const { isLoading, send } = useSendMediaMessage(
-    user!.id,
-    selectedConnection!._id,
-    message,
-    mediaFiles
-  );
-
   const sendMessage = async () => {
     const response = await send();
     if (response?.data.status !== "success") {
@@ -45,6 +36,7 @@ function ActionButton({
     <button
       onClick={sendMessage}
       className=" transition-all hover:scale-110 active:scale-95 grid place-content-center"
+      disabled={isLoading}
     >
       {isLoading ? (
         <span className="loading loading-spinner loading-md"></span>

@@ -13,6 +13,7 @@ function MediaItem({
   setMediaFiles,
   currentMedia,
   mediaPreview,
+  isLoading,
 }: {
   index: number;
   media: MediaPreviewType;
@@ -21,6 +22,7 @@ function MediaItem({
   setMediaFiles: Dispatch<SetStateAction<File[]>>;
   currentMedia: MediaPreviewType;
   mediaPreview: MediaPreviewType[];
+  isLoading: boolean;
 }) {
   const isMobile = useAppSelector(selectIsMoile);
   const [isDeleteButtonVisible, setIsDeleteButtonVisible] = useState(
@@ -63,7 +65,11 @@ function MediaItem({
             ? "0 0 5px purple,0 0 10px purple,0 0 15px purple"
             : undefined,
       }}
-      onMouseEnter={() => setIsDeleteButtonVisible(true)}
+      onMouseEnter={() => {
+        if (!isLoading) {
+          setIsDeleteButtonVisible(true);
+        }
+      }}
       onMouseLeave={() => setIsDeleteButtonVisible(false)}
     >
       <button

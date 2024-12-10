@@ -7,6 +7,13 @@ export type CurrentMenuType = {
   index: number;
 };
 
+export type AnimatedMediaSizeType = {
+  width: number;
+  height: number;
+};
+
+export type AnimatedMediaPlaceOffsetType = { top: number; left: number };
+
 type ComponentsType = {
   screenHeight: number;
   headerHeight: number;
@@ -16,6 +23,9 @@ type ComponentsType = {
   renderedComponent: string;
   chatsMenuHeaderHeight: number;
   chatsSearchChatHeight: number;
+  isGaleryOpen: boolean;
+  animatedMediaSize: AnimatedMediaSizeType;
+  animatedMediaPlaceOffset: AnimatedMediaPlaceOffsetType;
 };
 
 const initialState: ComponentsType = {
@@ -30,6 +40,9 @@ const initialState: ComponentsType = {
   renderedComponent: "menu",
   chatsMenuHeaderHeight: 0,
   chatsSearchChatHeight: 0,
+  isGaleryOpen: false,
+  animatedMediaSize: { width: 0, height: 0 },
+  animatedMediaPlaceOffset: { top: 0, left: 0 },
 };
 
 export const componentsSlice = createSlice({
@@ -66,6 +79,21 @@ export const componentsSlice = createSlice({
     setChatsSearchChatHeight: (state, action: PayloadAction<number>) => {
       state.chatsSearchChatHeight = action.payload;
     },
+    setIsGaleryOpen: (state, action: PayloadAction<boolean>) => {
+      state.isGaleryOpen = action.payload;
+    },
+    setAnimatedMediaSize: (
+      state,
+      action: PayloadAction<AnimatedMediaSizeType>
+    ) => {
+      state.animatedMediaSize = action.payload;
+    },
+    setAnimatedMediaPlaceOffset: (
+      state,
+      action: PayloadAction<AnimatedMediaPlaceOffsetType>
+    ) => {
+      state.animatedMediaPlaceOffset = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(logoutUser, () => initialState); // Directly return initial state
@@ -81,6 +109,9 @@ export const {
   setRenderedComponent,
   setChatsMenuHeaderHeight,
   setChatsSearchChatHeight,
+  setIsGaleryOpen,
+  setAnimatedMediaSize,
+  setAnimatedMediaPlaceOffset,
 } = componentsSlice.actions;
 export default componentsSlice.reducer;
 
@@ -100,3 +131,9 @@ export const selectChatsMenuHeaderHeight = (state: RootState) =>
   state.components.chatsMenuHeaderHeight;
 export const selectChatsSearchChatHeight = (state: RootState) =>
   state.components.chatsSearchChatHeight;
+export const selectIsGaleryOpen = (state: RootState) =>
+  state.components.isGaleryOpen;
+export const selectAnimatedMediaSize = (state: RootState) =>
+  state.components.animatedMediaSize;
+export const selectAnimatedMediaPlaceOffset = (state: RootState) =>
+  state.components.animatedMediaPlaceOffset;

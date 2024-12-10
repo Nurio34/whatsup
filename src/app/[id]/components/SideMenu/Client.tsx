@@ -61,7 +61,7 @@ function SideMenuNavClient({
         <nav
           id="SideMenuNav"
           className={`py-[2vh] px-[1vw] min-w-[43.0312px] md:min-w-[69.1719px] bg-white
-            grid items-center transition-all h-screen
+            grid items-center transition-all h-screen z-50
             
             ${mobileMenuRenderedCondition ? "fixed  z-50 h-full" : ""}
             ${mobileScreenRenderedCondition ? " fixed " : ""}
