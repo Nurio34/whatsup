@@ -1,16 +1,28 @@
-import { MediaType } from "@/type/message";
+import { useAppDispatch } from "@/store/hooks";
+import { setCurrenMedias } from "@/store/slices/chat";
+import { setIsGaleryOpen } from "@/store/slices/components";
+import { MediaType, MessageType } from "@/type/message";
 import Image from "next/image";
 import { PiPlayFill } from "react-icons/pi";
 
 function Media({
   media,
   aspectRatio,
+  message,
 }: {
   media: MediaType;
   aspectRatio: number | undefined;
+  message: MessageType;
 }) {
+  const dispatch = useAppDispatch();
+
+  const openMediasInGalery = () => {
+    dispatch(setIsGaleryOpen(true));
+    dispatch(setCurrenMedias(message.medias));
+  };
+
   return (
-    <>
+    <div onClick={openMediasInGalery}>
       {media.format === "jpg" && (
         <figure className=" w-full h-full relative" style={{ aspectRatio }}>
           <Image
@@ -39,7 +51,7 @@ function Media({
           />
         </figure>
       )}
-    </>
+    </div>
   );
 }
 

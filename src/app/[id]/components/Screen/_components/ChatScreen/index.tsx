@@ -34,13 +34,13 @@ function ChatScreen({
     (item) => item.connectionId === connectionId
   )!;
 
+  const SectionElement = useRef<HTMLElement | null>(null);
   const [sectionState, setSectionState] = useState<SectionStateType>({
     width: 0,
     height: 0,
     top: 0,
     left: 0,
   });
-  const SectionElement = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const handleSectionHeight = () => {

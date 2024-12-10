@@ -42,7 +42,11 @@ function MediaPack({
                 key={media.asset_id}
                 className="bg-blue-200 rounded-md overflow-hidden relative "
               >
-                <Media media={media} aspectRatio={aspectRatio} />
+                <Media
+                  media={media}
+                  aspectRatio={aspectRatio}
+                  message={message}
+                />
               </li>
             );
           })}

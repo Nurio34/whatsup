@@ -34,7 +34,7 @@ function Message({
   }, [message]);
 
   return (
-    <>
+    <div>
       {message.type === "media" ? (
         <MediaMessage
           message={message}
@@ -56,7 +56,7 @@ function Message({
           MessageElement={MessageElement}
         />
       )}
-    </>
+    </div>
   );
 }
 

@@ -1,56 +1,85 @@
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { selectCurrentMedias } from "@/store/slices/chat";
-import {
-  selectAnimatedMediaSize,
-  selectIsGaleryOpen,
-  setIsGaleryOpen,
-} from "@/store/slices/components";
+import { selectCurrentMedias, setCurrenMedias } from "@/store/slices/chat";
+import { selectIsGaleryOpen, setIsGaleryOpen } from "@/store/slices/components";
 import { GrFormClose } from "react-icons/gr";
 import { SectionStateType } from "../..";
 import { useEffect, useRef, useState } from "react";
 import { MediaType } from "@/type/message";
+import Image from "next/image";
+import { selectIsMoile } from "@/store/slices/user";
 
 function Gallery({ sectionState }: { sectionState: SectionStateType }) {
   const { width, height, top, left } = sectionState;
 
   const isGaleryOpen = useAppSelector(selectIsGaleryOpen);
   const currentMedias = useAppSelector(selectCurrentMedias);
-  const animatedMediaSize = useAppSelector(selectAnimatedMediaSize);
+  const isMobile = useAppSelector(selectIsMoile);
 
   const [currentMedia, setCurrentMedia] = useState<MediaType | null>(null);
+  const [aspectRatio, setAspectRatio] = useState(0);
 
-  const AnimatedMediaPlaceRef = useRef<HTMLDivElement | null>(null);
-  const [animatedMediaPlaceOffset, setAnimatedMediaPlaceOffset] = useState({
-    top: 0,
-    left: 0,
-  });
+  const MediaElement = useRef<HTMLDivElement | null>(null);
+  const [mediaSize, setMediaSize] = useState({ height: 0, width: 0 });
 
-  console.log({ currentMedias, currentMedia, animatedMediaSize });
+  const [padding, setPadding] = useState({ x: 0, y: 0 });
+  console.log(padding);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (currentMedias) {
       setCurrentMedia(currentMedias[0]);
+    } else {
+      setCurrentMedia(null);
     }
   }, [currentMedias]);
 
   useEffect(() => {
-    if (AnimatedMediaPlaceRef.current) {
-      const top = AnimatedMediaPlaceRef.current.getBoundingClientRect().top;
-      const left = AnimatedMediaPlaceRef.current.getBoundingClientRect().left;
-      console.log({ top, left });
+    if (currentMedia) {
+      setAspectRatio(currentMedia.width / currentMedia.height);
     }
-  }, [animatedMediaSize]);
+  }, [currentMedia]);
 
-  const closeGalery = () => dispatch(setIsGaleryOpen(false));
+  useEffect(() => {
+    if (MediaElement.current) {
+      const height = MediaElement.current.getBoundingClientRect().height;
+      const width = MediaElement.current.getBoundingClientRect().height;
+      setMediaSize({ height, width });
+    }
+  }, [currentMedia]);
+
+  useEffect(() => {
+    const paddingX = isMobile
+      ? window.innerWidth / 100
+      : (window.innerWidth / 100) * 3;
+    const paddingY = isMobile
+      ? window.innerHeight / 100
+      : (window.innerHeight / 100) * 3;
+
+    const handlePadding = () => {
+      setPadding({ x: paddingX, y: paddingY });
+    };
+
+    handlePadding();
+
+    window.addEventListener("resize", handlePadding);
+
+    return () => {
+      window.removeEventListener("resize", handlePadding);
+    };
+  }, [isMobile]);
+
+  const closeGalery = () => {
+    dispatch(setIsGaleryOpen(false));
+    dispatch(setCurrenMedias(null));
+  };
 
   if (currentMedias) {
     return (
       <>
         {isGaleryOpen && (
           <section
-            className=" fixed w-full h-full bg-[rgba(107,114,128,0.8)]
+            className=" fixed w-full h-full bg-[rgba(107,114,128,0.5)]
               grid grid-rows-[auto,1fr]
             "
             style={{ width, height, top, left }}
@@ -63,18 +92,23 @@ function Gallery({ sectionState }: { sectionState: SectionStateType }) {
               <GrFormClose />
             </button>
             <div
-              ref={AnimatedMediaPlaceRef}
-              className="bg-red-400 opacity-30
-              grid place-content-center
-            "
+              ref={MediaElement}
+              className="grid place-content-center overflow-hidden"
             >
               <div
-                className=" bg-purple-500"
+                className=" relative"
                 style={{
-                  width: animatedMediaSize.width,
-                  height: animatedMediaSize.height,
+                  height:
+                    aspectRatio <= 1 ? mediaSize.height - padding.y : undefined,
+                  width:
+                    aspectRatio > 1 ? mediaSize.width - padding.x : undefined,
+                  aspectRatio: aspectRatio,
                 }}
-              ></div>
+              >
+                {currentMedia?.format === "jpg" && (
+                  <Image src={currentMedia.url} fill priority alt="image" />
+                )}
+              </div>
             </div>
           </section>
         )}
