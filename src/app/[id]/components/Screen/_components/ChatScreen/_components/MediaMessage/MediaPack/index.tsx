@@ -40,7 +40,8 @@ function MediaPack({
             return (
               <li
                 key={media.asset_id}
-                className="bg-blue-200 rounded-md overflow-hidden relative "
+                className="rounded-md overflow-hidden relative
+                "
               >
                 <Media
                   media={media}
@@ -58,7 +59,6 @@ function MediaPack({
         chatOfSelectedConnection={chatOfSelectedConnection}
         index={index}
         LastMessageElement={LastMessageElement}
-        userId={userId}
         message={message}
         shapeOfContainer={shapeOfContainer}
         MessageElement={MessageElement}

@@ -2,24 +2,20 @@ import { Dispatch, SetStateAction } from "react";
 import toast from "react-hot-toast";
 import { TbSend2 } from "react-icons/tb";
 import { MediaPreviewType } from "../../..";
-import { AxiosResponse } from "axios";
+import { SendReturnType } from "../../../../../useSendMessage";
 
 function ActionButton({
-  message,
   setMessage,
-  mediaFiles,
   setMediaFiles,
   setMediaPreview,
   isLoading,
   send,
 }: {
-  message: string;
   setMessage: Dispatch<SetStateAction<string>>;
-  mediaFiles: File[];
   setMediaFiles: Dispatch<SetStateAction<File[]>>;
   setMediaPreview: React.Dispatch<React.SetStateAction<MediaPreviewType[]>>;
   isLoading: boolean;
-  send: () => Promise<AxiosResponse<any, any> | undefined>;
+  send: () => Promise<SendReturnType>;
 }) {
   const sendMessage = async () => {
     const response = await send();

@@ -1,12 +1,11 @@
 import { Dispatch, KeyboardEvent, SetStateAction } from "react";
 import toast from "react-hot-toast";
 import { MediaPreviewType } from "../../..";
-import { AxiosResponse } from "axios";
+import { SendReturnType } from "../../../../../useSendMessage";
 
 function MessageInput({
   message,
   setMessage,
-  mediaFiles,
   setMediaFiles,
   setMediaPreview,
   isLoading,
@@ -14,11 +13,10 @@ function MessageInput({
 }: {
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
-  mediaFiles: File[];
   setMediaFiles: Dispatch<SetStateAction<File[]>>;
   setMediaPreview: React.Dispatch<React.SetStateAction<MediaPreviewType[]>>;
   isLoading: boolean;
-  send: () => Promise<AxiosResponse<any, any> | undefined>;
+  send: () => Promise<SendReturnType>;
 }) {
   const sendMessage = async (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !isLoading) {

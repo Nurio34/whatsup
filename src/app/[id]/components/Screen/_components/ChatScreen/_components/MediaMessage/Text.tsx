@@ -7,7 +7,6 @@ function Text({
   chatOfSelectedConnection,
   index,
   LastMessageElement,
-  userId,
   message,
   shapeOfContainer,
   MessageElement,
@@ -15,7 +14,6 @@ function Text({
   chatOfSelectedConnection: ChatType;
   index: number;
   LastMessageElement: React.MutableRefObject<HTMLDivElement | null>;
-  userId: string;
   message: MessageType;
   shapeOfContainer: number;
   MessageElement: React.MutableRefObject<HTMLParagraphElement | null>;

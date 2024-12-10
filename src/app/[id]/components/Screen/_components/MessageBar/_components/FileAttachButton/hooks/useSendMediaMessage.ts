@@ -2,6 +2,7 @@ import axiosInstance from "@/axios";
 import { AxiosError } from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { SendReturnType } from "../../../useSendMessage";
 
 export const useSendMediaMessage = (
   userId: string,
@@ -11,7 +12,7 @@ export const useSendMediaMessage = (
 ) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const send = async () => {
+  const send = async (): Promise<SendReturnType> => {
     if (!userId || !reciverId || mediaFiles.length === 0) {
       toast.error("Invalid data. Please try again.");
       return;
@@ -28,7 +29,7 @@ export const useSendMediaMessage = (
     });
 
     try {
-      const response = await axiosInstance.post(
+      const response: SendReturnType = await axiosInstance.post(
         "/chat/send-media-message",
         form,
         {

@@ -1,5 +1,5 @@
 import { Dispatch, KeyboardEvent, SetStateAction } from "react";
-import { AxiosResponse } from "axios";
+import { SendReturnType } from "../../useSendMessage";
 
 function MessageInput({
   message,
@@ -10,7 +10,7 @@ function MessageInput({
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
   isLoading: boolean;
-  send: () => Promise<AxiosResponse<any, any> | undefined>;
+  send: () => Promise<SendReturnType>;
 }) {
   const sendMessage = async (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !isLoading) {

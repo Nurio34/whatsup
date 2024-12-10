@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { TbSend2 } from "react-icons/tb";
 import { PiTimerBold } from "react-icons/pi";
-import { AxiosResponse } from "axios";
+import { SendReturnType } from "../../useSendMessage";
 
 function ActionButton({
   message,
@@ -12,7 +12,7 @@ function ActionButton({
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
   isLoading: boolean;
-  send: () => Promise<AxiosResponse<any, any> | undefined>;
+  send: () => Promise<SendReturnType>;
 }) {
   const sendMessage = async () => {
     if (Boolean(message)) {

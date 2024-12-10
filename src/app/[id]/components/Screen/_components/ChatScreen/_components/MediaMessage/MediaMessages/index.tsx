@@ -38,7 +38,6 @@ function MediaMessages({
             chatOfSelectedConnection={chatOfSelectedConnection}
             index={index}
             LastMessageElement={LastMessageElement}
-            userId={userId}
             message={message}
             shapeOfContainer={shapeOfContainer}
             MessageElement={MessageElement}

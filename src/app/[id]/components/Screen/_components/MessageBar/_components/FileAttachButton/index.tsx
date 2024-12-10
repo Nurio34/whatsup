@@ -77,7 +77,6 @@ function FileAttachButton() {
           message={message}
           setMessage={setMessage}
           setMediaPreview={setMediaPreview}
-          mediaFiles={mediaFiles}
           setMediaFiles={setMediaFiles}
           isLoading={isLoading}
           send={send}

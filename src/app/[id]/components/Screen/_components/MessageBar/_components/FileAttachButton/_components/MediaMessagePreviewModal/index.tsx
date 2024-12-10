@@ -4,14 +4,13 @@ import SingleMediaPreview from "./SingleMediaPreview";
 import MultipleMediaPreview from "./MultipleMediaPreview";
 import MessageBar from "./MessageBar";
 import { GrFormClose } from "react-icons/gr";
-import { AxiosResponse } from "axios";
+import { SendReturnType } from "../../../../useSendMessage";
 
 function MediaMessagePreviewModal({
   mediaPreview,
   message,
   setMessage,
   setMediaPreview,
-  mediaFiles,
   setMediaFiles,
   isLoading,
   send,
@@ -20,10 +19,9 @@ function MediaMessagePreviewModal({
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
   setMediaPreview: Dispatch<SetStateAction<MediaPreviewType[]>>;
-  mediaFiles: File[];
   setMediaFiles: Dispatch<SetStateAction<File[]>>;
   isLoading: boolean;
-  send: () => Promise<AxiosResponse<any, any> | undefined>;
+  send: () => Promise<SendReturnType>;
 }) {
   const MediaMessagePreviewModalRef = useRef<HTMLDivElement | null>(null);
 
@@ -59,7 +57,6 @@ function MediaMessagePreviewModal({
       <MessageBar
         message={message}
         setMessage={setMessage}
-        mediaFiles={mediaFiles}
         setMediaFiles={setMediaFiles}
         setMediaPreview={setMediaPreview}
         isLoading={isLoading}

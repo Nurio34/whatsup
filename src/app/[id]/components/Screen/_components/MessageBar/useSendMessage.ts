@@ -3,6 +3,9 @@ import { AxiosError } from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type SendReturnType = any;
+
 export const useSendMessage = (
   userId: string,
   reciverId: string,
@@ -10,16 +13,19 @@ export const useSendMessage = (
 ) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const send = async () => {
+  const send = async (): Promise<SendReturnType> => {
     setIsLoading(true);
 
     try {
-      const response = await axiosInstance.post("/chat/send-message", {
-        senderId: userId,
-        reciverId: reciverId,
-        message,
-        type: "text",
-      });
+      const response: SendReturnType = await axiosInstance.post(
+        "/chat/send-message",
+        {
+          senderId: userId,
+          reciverId: reciverId,
+          message,
+          type: "text",
+        }
+      );
 
       return response;
     } catch (error) {

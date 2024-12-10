@@ -5,12 +5,11 @@ import EmojiButton from "./EmojiButton";
 import MessageInput from "./MessageInput";
 import ActionButton from "./ActionButton";
 import { MediaPreviewType } from "../../..";
-import { AxiosResponse } from "axios";
+import { SendReturnType } from "../../../../../useSendMessage";
 
 function MessageBar({
   message,
   setMessage,
-  mediaFiles,
   setMediaFiles,
   setMediaPreview,
   isLoading,
@@ -18,11 +17,10 @@ function MessageBar({
 }: {
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
-  mediaFiles: File[];
   setMediaFiles: React.Dispatch<React.SetStateAction<File[]>>;
   setMediaPreview: React.Dispatch<React.SetStateAction<MediaPreviewType[]>>;
   isLoading: boolean;
-  send: () => Promise<AxiosResponse<any, any> | undefined>;
+  send: () => Promise<SendReturnType>;
 }) {
   const isMobile = useAppSelector(selectIsMoile);
 
@@ -34,16 +32,13 @@ function MessageBar({
       <MessageInput
         message={message}
         setMessage={setMessage}
-        mediaFiles={mediaFiles}
         setMediaFiles={setMediaFiles}
         setMediaPreview={setMediaPreview}
         isLoading={isLoading}
         send={send}
       />
       <ActionButton
-        message={message}
         setMessage={setMessage}
-        mediaFiles={mediaFiles}
         setMediaFiles={setMediaFiles}
         setMediaPreview={setMediaPreview}
         isLoading={isLoading}

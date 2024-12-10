@@ -18,11 +18,10 @@ function Gallery({ sectionState }: { sectionState: SectionStateType }) {
   const [currentMedia, setCurrentMedia] = useState<MediaType | null>(null);
   const [aspectRatio, setAspectRatio] = useState(0);
 
-  const MediaElement = useRef<HTMLDivElement | null>(null);
-  const [mediaSize, setMediaSize] = useState({ height: 0, width: 0 });
-
+  const MediaContainer = useRef<HTMLDivElement | null>(null);
+  const [mediaContainerSize, setMediaContainerSize] = useState({ w: 0, h: 0 });
+  const [mediaSize, setMediaSize] = useState({ w: 0, h: 0 });
   const [padding, setPadding] = useState({ x: 0, y: 0 });
-  console.log(padding);
 
   const dispatch = useAppDispatch();
 
@@ -41,23 +40,41 @@ function Gallery({ sectionState }: { sectionState: SectionStateType }) {
   }, [currentMedia]);
 
   useEffect(() => {
-    if (MediaElement.current) {
-      const height = MediaElement.current.getBoundingClientRect().height;
-      const width = MediaElement.current.getBoundingClientRect().height;
-      setMediaSize({ height, width });
-    }
-  }, [currentMedia]);
+    const handleMediaContainerSize = () => {
+      if (MediaContainer.current) {
+        const w = MediaContainer.current.getBoundingClientRect().width;
+        const h = MediaContainer.current.getBoundingClientRect().height;
+
+        setMediaContainerSize({ w, h });
+      }
+    };
+
+    handleMediaContainerSize();
+
+    window.addEventListener("resize", handleMediaContainerSize);
+
+    return () => {
+      window.removeEventListener("resize", handleMediaContainerSize);
+    };
+  }, [currentMedias]);
 
   useEffect(() => {
-    const paddingX = isMobile
-      ? window.innerWidth / 100
-      : (window.innerWidth / 100) * 3;
-    const paddingY = isMobile
-      ? window.innerHeight / 100
-      : (window.innerHeight / 100) * 3;
+    const w = (mediaContainerSize.w / 4) * 3.5;
+    const h = (mediaContainerSize.w / 4) * 3.5;
 
+    setMediaSize({ w, h });
+  }, [mediaContainerSize]);
+
+  useEffect(() => {
     const handlePadding = () => {
-      setPadding({ x: paddingX, y: paddingY });
+      const x = isMobile
+        ? (window.innerWidth / 100) * 2
+        : window.innerWidth / 100;
+      const y = isMobile
+        ? (window.innerHeight / 100) * 4
+        : (window.innerHeight / 100) * 2;
+
+      setPadding({ x, y });
     };
 
     handlePadding();
@@ -67,7 +84,7 @@ function Gallery({ sectionState }: { sectionState: SectionStateType }) {
     return () => {
       window.removeEventListener("resize", handlePadding);
     };
-  }, [isMobile]);
+  }, [currentMedias, isMobile]);
 
   const closeGalery = () => {
     dispatch(setIsGaleryOpen(false));
@@ -79,7 +96,7 @@ function Gallery({ sectionState }: { sectionState: SectionStateType }) {
       <>
         {isGaleryOpen && (
           <section
-            className=" fixed w-full h-full bg-[rgba(107,114,128,0.5)]
+            className=" fixed w-full h-full bg-black bg-[rgba(107,114,128,0.5)]
               grid grid-rows-[auto,1fr]
             "
             style={{ width, height, top, left }}
@@ -92,21 +109,28 @@ function Gallery({ sectionState }: { sectionState: SectionStateType }) {
               <GrFormClose />
             </button>
             <div
-              ref={MediaElement}
+              ref={MediaContainer}
               className="grid place-content-center overflow-hidden"
             >
               <div
-                className=" relative"
+                className=" relative bg-red-300"
                 style={{
-                  height:
-                    aspectRatio <= 1 ? mediaSize.height - padding.y : undefined,
-                  width:
-                    aspectRatio > 1 ? mediaSize.width - padding.x : undefined,
-                  aspectRatio: aspectRatio,
+                  height: aspectRatio <= 1 ? mediaSize.h : undefined,
+                  maxHeight: mediaContainerSize.h - padding.y,
+                  width: aspectRatio > 1 ? mediaSize.w : undefined,
+                  maxWidth: mediaContainerSize.w - padding.x,
+                  aspectRatio: aspectRatio ? aspectRatio : undefined,
                 }}
               >
                 {currentMedia?.format === "jpg" && (
                   <Image src={currentMedia.url} fill priority alt="image" />
+                )}
+                {currentMedia?.format === "mp4" && (
+                  <video
+                    src={currentMedia.url}
+                    className=" w-full h-full"
+                    controls
+                  ></video>
                 )}
               </div>
             </div>

@@ -22,7 +22,7 @@ function Media({
   };
 
   return (
-    <div onClick={openMediasInGalery}>
+    <div onClick={openMediasInGalery} className=" w-full h-full">
       {media.format === "jpg" && (
         <figure className=" w-full h-full relative" style={{ aspectRatio }}>
           <Image
@@ -34,7 +34,10 @@ function Media({
         </figure>
       )}
       {media.format === "mp4" && (
-        <div className="">
+        <div
+          className=" w-full h-full grid place-content-center"
+          style={{ backgroundImage: "url('/chat-bg.jpg')" }}
+        >
           <video src={media.url} className={``}></video>
           <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 aspect-square rounded-full bg-white grid place-content-center shadow-md">
             <PiPlayFill size={26} />
@@ -42,9 +45,25 @@ function Media({
         </div>
       )}
       {media.format === "mp3" && (
-        <figure className=" w-full h-full relative" style={{ aspectRatio }}>
+        <figure
+          className=" w-full aspect-square relative"
+          style={{ aspectRatio }}
+        >
           <Image
             src={"/audio_placeholder.webp"}
+            fill
+            sizes="(max-width: 768px) 50vw, 25vw"
+            alt="image"
+          />
+        </figure>
+      )}
+      {media.resource_type === "raw" && (
+        <figure
+          className=" w-full aspect-square relative"
+          style={{ aspectRatio }}
+        >
+          <Image
+            src={"/application_placeholder.webp"}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
             alt="image"

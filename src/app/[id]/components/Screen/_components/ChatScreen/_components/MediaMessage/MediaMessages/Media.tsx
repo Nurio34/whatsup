@@ -16,6 +16,8 @@ function Media({
   const dispatch = useAppDispatch();
 
   const openMediasInGalery = () => {
+    console.log(media);
+
     dispatch(setIsGaleryOpen(true));
     dispatch(setCurrenMedias(message.medias));
   };
@@ -37,7 +39,6 @@ function Media({
           src={media.url}
           className={`${message.message ? " max-w-48" : "w-40"}`}
           style={{ aspectRatio }}
-          controls
         ></video>
       )}
       {media.format === "mp3" && <audio src={media.url} controls></audio>}
