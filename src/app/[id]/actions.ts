@@ -27,8 +27,7 @@ export const getUser = async (
     if (response.data.status === "success") {
       return { user: response.data.user, refreshToken: response.data.token };
     } else {
-      console.error("Failed to fetch user data: Invalid response status");
-      return null;
+      throw new Error("Failed to fetch user data: Invalid response status");
     }
   } catch (error) {
     // Optional: Log the actual error for debugging

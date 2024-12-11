@@ -20,6 +20,7 @@ function ChatsList() {
   const user = useAppSelector(selectUser); // Ensure this is always at the top
   const connectWith = useAppSelector(selectConnectWith);
   const dispatch = useAppDispatch();
+  console.log({ connectWith });
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
