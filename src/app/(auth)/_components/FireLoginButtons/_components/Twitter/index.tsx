@@ -3,12 +3,14 @@ import { fireAuth } from "@/utils/firebaseConfig";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import axiosInstance from "@/axios";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setToken, setUser } from "@/store/slices/user";
 import { useRouter } from "next/navigation";
 import { FaXTwitter } from "react-icons/fa6";
+import { selectIsLoading } from "@/store/slices/auth";
 
 function Google() {
+  const isLoading = useAppSelector(selectIsLoading);
   const dispatch = useAppDispatch();
 
   const router = useRouter();
@@ -75,6 +77,7 @@ function Google() {
       type="button"
       className="c-btn gap-[1vw] flex items-center justify-center w-full text-black border-2 border-white"
       onClick={handleTwitterLogin}
+      disabled={isLoading}
     >
       <FaXTwitter />
       Login with X

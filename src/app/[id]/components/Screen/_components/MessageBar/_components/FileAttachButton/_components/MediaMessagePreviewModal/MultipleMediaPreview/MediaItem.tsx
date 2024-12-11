@@ -2,8 +2,6 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import { MediaPreviewType } from "../../..";
 import Image from "next/image";
 import { GrFormClose } from "react-icons/gr";
-import { useAppSelector } from "@/store/hooks";
-import { selectIsMoile } from "@/store/slices/user";
 
 function MediaItem({
   index,
@@ -24,10 +22,7 @@ function MediaItem({
   mediaPreview: MediaPreviewType[];
   isLoading: boolean;
 }) {
-  const isMobile = useAppSelector(selectIsMoile);
-  const [isDeleteButtonVisible, setIsDeleteButtonVisible] = useState(
-    isMobile && index === 0 ? true : false
-  );
+  const [isDeleteButtonVisible, setIsDeleteButtonVisible] = useState(false);
 
   const handleCurrentMedia = (media: MediaPreviewType) => {
     setCurrentMedia(media);
@@ -107,6 +102,7 @@ function MediaItem({
           type="button"
           className=" absolute top-0 right-0"
           onClick={deleteMedia}
+          disabled={isLoading}
         >
           <GrFormClose size={20} color="red" />
         </button>

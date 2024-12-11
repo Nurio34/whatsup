@@ -1,12 +1,14 @@
 "use client";
 
 import { useAppSelector } from "@/store/hooks";
+import { selectIsLoading } from "@/store/slices/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 function FooterClient() {
   const { user } = useAppSelector((s) => s.user);
+  const isLoading = useAppSelector(selectIsLoading);
 
   const path = usePathname().split("/")[1];
 
@@ -28,7 +30,9 @@ function FooterClient() {
     >
       <Link
         href={"/"}
-        className="c-btn relative w-10 aspect-square rounded-full"
+        className={`c-btn relative w-10 aspect-square rounded-full ${
+          isLoading ? "pointer-events-none" : ""
+        } `}
       >
         <Image
           src={process.env.NEXT_PUBLIC_LOGO || "/logo-placeholder.svg"}
@@ -40,49 +44,65 @@ function FooterClient() {
       </Link>
       <Link
         href="/terms"
-        className="text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max"
+        className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
+          isLoading ? "pointer-events-none" : ""
+        } `}
       >
         Terms
       </Link>
       <Link
         href="/privacy"
-        className="text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max"
+        className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
+          isLoading ? "pointer-events-none" : ""
+        } `}
       >
         Privacy
       </Link>
       <Link
         href="/security"
-        className="text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max"
+        className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
+          isLoading ? "pointer-events-none" : ""
+        } `}
       >
         Security
       </Link>
       <Link
         href="/status"
-        className="text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max"
+        className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
+          isLoading ? "pointer-events-none" : ""
+        } `}
       >
         Status
       </Link>
       <Link
         href="/docs"
-        className="text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max"
+        className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
+          isLoading ? "pointer-events-none" : ""
+        } `}
       >
         Docs
       </Link>
       <Link
         href="/contact"
-        className="text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max"
+        className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
+          isLoading ? "pointer-events-none" : ""
+        } `}
       >
         Contact
       </Link>
       <Link
         href="/manage-cookies"
-        className="text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max"
+        className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
+          isLoading ? "pointer-events-none" : ""
+        } `}
       >
         Manage Cookies
       </Link>
       <Link
         href="/do-not-share"
-        className="text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max"
+        className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
+          isLoading ? "pointer-events-none" : ""
+        } `}
       >
         Do not share my personel information
       </Link>

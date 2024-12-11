@@ -34,7 +34,7 @@ function MediaMessagePreviewModal({
   return (
     <div
       ref={MediaMessagePreviewModalRef}
-      className=" absolute bottom-0 bg-gray-300 py-[1vh] px-[2vw] rounded-lg shadow-lg"
+      className=" absolute bottom-0 bg-gray-300 py-[1vh] px-[2vw] rounded-lg shadow-lg z-20"
     >
       <button
         type="button"

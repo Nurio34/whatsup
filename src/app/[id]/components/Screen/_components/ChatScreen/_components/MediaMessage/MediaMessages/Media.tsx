@@ -42,6 +42,19 @@ function Media({
         ></video>
       )}
       {media.format === "mp3" && <audio src={media.url} controls></audio>}
+      {media.resource_type === "raw" && (
+        <div
+          className="min-w-40 max-w-48 aspect-square relative"
+          style={{ aspectRatio }}
+        >
+          <Image
+            src={"/application_placeholder.webp"}
+            fill
+            sizes="(max-width: 768px) 50vw, 25vw"
+            alt="image"
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -5,6 +5,7 @@ export type MediaType = {
   height: number;
   resource_type: string;
   url: string;
+  secure_url: string;
   format: string;
 };
 

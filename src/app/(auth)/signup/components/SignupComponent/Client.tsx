@@ -3,6 +3,7 @@
 import axiosInstance from "@/axios";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
+  selectIsLoading,
   writeErrors,
   writeIsLoading,
   writeIsSubmitted,
@@ -18,6 +19,7 @@ import toast from "react-hot-toast";
 function SignupClientComponent() {
   const { user } = useAppSelector((s) => s.user);
   const { form, isSubmitted } = useAppSelector((s) => s.auth);
+  const isLoading = useAppSelector(selectIsLoading);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -75,12 +77,18 @@ function SignupClientComponent() {
           <div className="bg-blue-100 py-[1vh] px-[2vw] rounded-lg border-2 border-blue-200 shadow-md shadow-blue-200">
             <article className="flex items-center gap-[1vw]">
               <p>Already have an account ?</p>
-              <Link
-                href="/login"
-                className="text-purple-400 underline underline-offset-4"
-              >
-                Login
-              </Link>
+              {isLoading ? (
+                <p className="text-purple-400 underline underline-offset-4">
+                  Login
+                </p>
+              ) : (
+                <Link
+                  href="/login"
+                  className="text-purple-400 underline underline-offset-4"
+                >
+                  Login
+                </Link>
+              )}
             </article>
           </div>
         </section>
