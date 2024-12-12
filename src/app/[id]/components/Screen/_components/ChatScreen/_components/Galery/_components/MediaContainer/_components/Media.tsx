@@ -112,9 +112,10 @@ function Media({
   //! *** MOBILE SLIDE EVENT ***
   useEffect(() => {
     const diff = touchState.x.start - touchState.x.end;
-    if (diff > 0) {
+    if (diff > 30) {
       nextMedia();
-    } else {
+    }
+    if (diff < -30) {
       previouseMedia();
     }
   }, [touchState.x.end]);

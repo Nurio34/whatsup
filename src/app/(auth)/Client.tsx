@@ -11,181 +11,167 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { writeForm, writeIsSubmitted } from "@/store/slices/auth";
 import FireLoginButtons from "./_components/FireLoginButtons";
 import WhatsupGifLogo from "./_components/WhatsupGifLogo";
+import usePreventPullToRefresh from "@/hooks/usePreventPullToRefresh";
 
 export const formControl = [
-    {
-        name: "username",
-        label: "username",
-        type: "text",
-        icon: <FaUser />,
-        visiblePath: ["signup"],
-    },
-    {
-        name: "email",
-        label: "email",
-        type: "email",
-        icon: <MdEmail />,
-        visiblePath: ["login", "signup"],
-    },
-    {
-        name: "password",
-        label: "password",
-        type: "password",
-        icon: <RiLockPasswordFill />,
-        visiblePath: ["login", "signup"],
-    },
-    {
-        name: "passwordConfirm",
-        label: "comfirm password",
-        type: "password",
-        icon: <GiConfirmed />,
-        visiblePath: ["signup"],
-    },
+  {
+    name: "username",
+    label: "username",
+    type: "text",
+    icon: <FaUser />,
+    visiblePath: ["signup"],
+  },
+  {
+    name: "email",
+    label: "email",
+    type: "email",
+    icon: <MdEmail />,
+    visiblePath: ["login", "signup"],
+  },
+  {
+    name: "password",
+    label: "password",
+    type: "password",
+    icon: <RiLockPasswordFill />,
+    visiblePath: ["login", "signup"],
+  },
+  {
+    name: "passwordConfirm",
+    label: "comfirm password",
+    type: "password",
+    icon: <GiConfirmed />,
+    visiblePath: ["signup"],
+  },
 ];
 
 function AuthClient() {
-    const path = usePathname().split("/")[1];
+  usePreventPullToRefresh();
 
-    const [form, setForm] = useState<FormType>(initialFormData);
+  const path = usePathname().split("/")[1];
 
-    const { errors, isLoading } = useAppSelector((s) => s.auth);
-    const { user } = useAppSelector((s) => s.user);
-    const dispatch = useAppDispatch();
+  const [form, setForm] = useState<FormType>(initialFormData);
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setForm((pre) => {
-            return { ...pre, [e.target.name]: e.target.value };
-        });
-    };
+  const { errors, isLoading } = useAppSelector((s) => s.auth);
+  const { user } = useAppSelector((s) => s.user);
+  const dispatch = useAppDispatch();
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        dispatch(writeForm(form));
-        dispatch(writeIsSubmitted(true));
-    };
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setForm((pre) => {
+      return { ...pre, [e.target.name]: e.target.value };
+    });
+  };
 
-    const handleIconClick = (name: string) => {
-        if (name === "password") {
-            const passwordInput = document.querySelector(
-                "#password",
-            ) as HTMLInputElement;
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(writeForm(form));
+    dispatch(writeIsSubmitted(true));
+  };
 
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-            } else {
-                passwordInput.type = "password";
-            }
-        }
-        if (name === "passwordConfirm") {
-            const passwordInput = document.querySelector(
-                "#passwordConfirm",
-            ) as HTMLInputElement;
+  const handleIconClick = (name: string) => {
+    if (name === "password") {
+      const passwordInput = document.querySelector(
+        "#password"
+      ) as HTMLInputElement;
 
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-            } else {
-                passwordInput.type = "password";
-            }
-        }
-    };
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+      } else {
+        passwordInput.type = "password";
+      }
+    }
+    if (name === "passwordConfirm") {
+      const passwordInput = document.querySelector(
+        "#passwordConfirm"
+      ) as HTMLInputElement;
 
-    const pathCondition = path === "login" || path == "signup";
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+      } else {
+        passwordInput.type = "password";
+      }
+    }
+  };
 
-    return (
-        <>
-            {!user && pathCondition && (
-                <main className="  grid place-content-start justify-center pt-[2vh] md:pt-[4vh]">
-                    <WhatsupGifLogo />
-                    <form onSubmit={handleSubmit}>
-                        <fieldset>
-                            <legend className="py-[2vh] text-xl font-light tracking-wider text-center">
-                                {path === "login" ? "Login" : "Signup"} to the{" "}
-                                <span className=" capitalize">
-                                    {process.env.NEXT_PUBLIC_LOGO_NAME}
-                                </span>
-                            </legend>
-                            <div
-                                className=" bg-blue-100 py-[2vh] px-[2vw] rounded-lg border-2 border-blue-200 shadow-lg shadow-blue-200
+  const pathCondition = path === "login" || path == "signup";
+
+  return (
+    <>
+      {!user && pathCondition && (
+        <main className="  grid place-content-start justify-center pt-[2vh] md:pt-[4vh]">
+          <WhatsupGifLogo />
+          <form onSubmit={handleSubmit}>
+            <fieldset>
+              <legend className="py-[2vh] text-xl font-light tracking-wider text-center">
+                {path === "login" ? "Login" : "Signup"} to the{" "}
+                <span className=" capitalize">
+                  {process.env.NEXT_PUBLIC_LOGO_NAME}
+                </span>
+              </legend>
+              <div
+                className=" bg-blue-100 py-[2vh] px-[2vw] rounded-lg border-2 border-blue-200 shadow-lg shadow-blue-200
                         grid gap-[1vh]
                     "
-                            >
-                                {formControl.map((control) => (
-                                    <label
-                                        key={control.name}
-                                        htmlFor={control.name}
-                                        className={`space-y-[0.5vh] 
+              >
+                {formControl.map((control) => (
+                  <label
+                    key={control.name}
+                    htmlFor={control.name}
+                    className={`space-y-[0.5vh] 
                                     ${
-                                        !control.visiblePath.includes(path) &&
-                                        "hidden"
+                                      !control.visiblePath.includes(path) &&
+                                      "hidden"
                                     }    
                                 `}
-                                    >
-                                        <p className=" text-sm capitalize">
-                                            {control.label}
-                                        </p>
-                                        <div className=" relative">
-                                            <input
-                                                type={control.type}
-                                                name={control.name}
-                                                id={control.name}
-                                                className="w-full min-w-64 py-1 px-[1vw] rounded-md"
-                                                value={
-                                                    form[
-                                                        control.name as keyof FormType
-                                                    ]
-                                                }
-                                                onChange={handleChange}
-                                            />
-                                            <button
-                                                type="button"
-                                                className=" absolute right-0 top-1/2 -translate-y-1/2 -translate-x-2"
-                                                onClick={() =>
-                                                    handleIconClick(
-                                                        control.name,
-                                                    )
-                                                }
-                                            >
-                                                {control.icon}
-                                            </button>
-                                        </div>
-                                        {errors &&
-                                            errors[
-                                                control.name as keyof FormType
-                                            ]?.[0] && (
-                                                <p className=" text-[red] text-sm py-1">
-                                                    {
-                                                        errors[
-                                                            control.name as keyof FormType
-                                                        ]?.[0]
-                                                    }
-                                                </p>
-                                            )}
-                                    </label>
-                                ))}
-                                <button
-                                    type="submit"
-                                    className={`flex justify-center items-center gap-2
+                  >
+                    <p className=" text-sm capitalize">{control.label}</p>
+                    <div className=" relative">
+                      <input
+                        type={control.type}
+                        name={control.name}
+                        id={control.name}
+                        className="w-full min-w-64 py-1 px-[1vw] rounded-md"
+                        value={form[control.name as keyof FormType]}
+                        onChange={handleChange}
+                      />
+                      <button
+                        type="button"
+                        className=" absolute right-0 top-1/2 -translate-y-1/2 -translate-x-2"
+                        onClick={() => handleIconClick(control.name)}
+                      >
+                        {control.icon}
+                      </button>
+                    </div>
+                    {errors && errors[control.name as keyof FormType]?.[0] && (
+                      <p className=" text-[red] text-sm py-1">
+                        {errors[control.name as keyof FormType]?.[0]}
+                      </p>
+                    )}
+                  </label>
+                ))}
+                <button
+                  type="submit"
+                  className={`flex justify-center items-center gap-2
                                 ${
-                                    isLoading
-                                        ? "c-d-btn"
-                                        : "c-btn bg-green-500 hover:bg-[green] "
+                                  isLoading
+                                    ? "c-d-btn"
+                                    : "c-btn bg-green-500 hover:bg-[green] "
                                 }
                                 `}
-                                    disabled={isLoading}
-                                >
-                                    {path === "login" ? "Login" : "Signup"}
-                                    {isLoading && (
-                                        <span className="loading loading-spinner loading-md"></span>
-                                    )}
-                                </button>
-                                <FireLoginButtons />
-                            </div>
-                        </fieldset>
-                    </form>
-                </main>
-            )}
-        </>
-    );
+                  disabled={isLoading}
+                >
+                  {path === "login" ? "Login" : "Signup"}
+                  {isLoading && (
+                    <span className="loading loading-spinner loading-md"></span>
+                  )}
+                </button>
+                <FireLoginButtons />
+              </div>
+            </fieldset>
+          </form>
+        </main>
+      )}
+    </>
+  );
 }
 
 export default AuthClient;
