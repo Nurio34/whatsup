@@ -1,8 +1,10 @@
 import { useAppDispatch } from "@/store/hooks";
-import { setCurrenMedias } from "@/store/slices/chat";
+import { setCurrenMedias, setCurrenMessage } from "@/store/slices/chat";
 import { setIsGaleryOpen } from "@/store/slices/components";
 import { MediaType, MessageType } from "@/type/message";
+import { audioFormats } from "@/utils/cloudinaryFileFormats";
 import Image from "next/image";
+import { PiVideoCameraBold } from "react-icons/pi";
 
 function Media({
   media,
@@ -16,43 +18,56 @@ function Media({
   const dispatch = useAppDispatch();
 
   const openMediasInGalery = () => {
-    console.log(media);
-
     dispatch(setIsGaleryOpen(true));
     dispatch(setCurrenMedias(message.medias));
+    dispatch(setCurrenMessage(message.message));
   };
 
   return (
-    <div onClick={openMediasInGalery}>
-      {media.format === "jpg" && (
-        <div className="min-w-40 max-w-48 relative" style={{ aspectRatio }}>
-          <Image
+    <div onClick={openMediasInGalery} className=" relative">
+      <>
+        {media.format === "jpg" && (
+          <div className="min-w-40 max-w-48 relative" style={{ aspectRatio }}>
+            <Image
+              src={media.url}
+              fill
+              sizes="(max-width: 768px) 50vw, 25vw"
+              alt="image"
+            />
+          </div>
+        )}
+        {media.format === "mp4" && (
+          <video
             src={media.url}
-            fill
-            sizes="(max-width: 768px) 50vw, 25vw"
-            alt="image"
-          />
-        </div>
-      )}
+            className={`${message.message ? " max-w-48" : "w-40"}`}
+            style={{ aspectRatio }}
+          ></video>
+        )}
+        {audioFormats().includes(media.format) && (
+          <audio src={media.url} controls></audio>
+        )}
+        {media.resource_type === "raw" && (
+          <div
+            className="min-w-40 max-w-48 aspect-square relative"
+            style={{ aspectRatio }}
+          >
+            <Image
+              src={"/application_placeholder.webp"}
+              fill
+              sizes="(max-width: 768px) 50vw, 25vw"
+              alt="image"
+            />
+          </div>
+        )}
+      </>
       {media.format === "mp4" && (
-        <video
-          src={media.url}
-          className={`${message.message ? " max-w-48" : "w-40"}`}
-          style={{ aspectRatio }}
-        ></video>
-      )}
-      {media.format === "mp3" && <audio src={media.url} controls></audio>}
-      {media.resource_type === "raw" && (
         <div
-          className="min-w-40 max-w-48 aspect-square relative"
-          style={{ aspectRatio }}
+          className=" absolute left-1 bottom-1 text-xs text-white
+      flex items-center gap-1
+      "
         >
-          <Image
-            src={"/application_placeholder.webp"}
-            fill
-            sizes="(max-width: 768px) 50vw, 25vw"
-            alt="image"
-          />
+          <PiVideoCameraBold size={16} />
+          00:14
         </div>
       )}
     </div>

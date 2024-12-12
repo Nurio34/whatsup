@@ -1,7 +1,7 @@
 import { useAppDispatch } from "@/store/hooks";
 import { setCurrenMedias } from "@/store/slices/chat";
 import { setIsGaleryOpen } from "@/store/slices/components";
-import { GrFormClose } from "react-icons/gr";
+import { TbArrowBack } from "react-icons/tb";
 
 function CloseGaleryButton() {
   const dispatch = useAppDispatch();
@@ -14,10 +14,10 @@ function CloseGaleryButton() {
   return (
     <button
       type="button"
-      className=" justify-self-end self-start p-1 m-[1vw] border-[1px] border-[red] shadow-md shadow-[red] rounded-full"
+      className="p-[1px] m-[1vw] shadow-md "
       onClick={closeGalery}
     >
-      <GrFormClose />
+      <TbArrowBack color="white" size={24} />
     </button>
   );
 }

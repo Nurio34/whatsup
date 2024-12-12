@@ -1,9 +1,10 @@
 import { useAppDispatch } from "@/store/hooks";
-import { setCurrenMedias } from "@/store/slices/chat";
+import { setCurrenMedias, setCurrenMessage } from "@/store/slices/chat";
 import { setIsGaleryOpen } from "@/store/slices/components";
 import { MediaType, MessageType } from "@/type/message";
+import { audioFormats } from "@/utils/cloudinaryFileFormats";
 import Image from "next/image";
-import { PiPlayFill } from "react-icons/pi";
+import { PiPlayFill, PiVideoCameraBold } from "react-icons/pi";
 
 function Media({
   media,
@@ -19,10 +20,11 @@ function Media({
   const openMediasInGalery = () => {
     dispatch(setIsGaleryOpen(true));
     dispatch(setCurrenMedias(message.medias));
+    dispatch(setCurrenMessage(message.message));
   };
 
   return (
-    <div onClick={openMediasInGalery} className=" w-full h-full">
+    <div onClick={openMediasInGalery} className=" w-full h-full relative">
       {media.format === "jpg" && (
         <figure className=" w-full h-full relative" style={{ aspectRatio }}>
           <Image
@@ -36,7 +38,10 @@ function Media({
       {media.format === "mp4" && (
         <div
           className=" w-full h-full grid place-content-center"
-          style={{ backgroundImage: "url('/chat-bg.jpg')" }}
+          style={{
+            backgroundImage: "url('/dark_icons.jpg')",
+            backgroundPosition: "center",
+          }}
         >
           <video src={media.url} className={``}></video>
           <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 aspect-square rounded-full bg-white grid place-content-center shadow-md">
@@ -44,7 +49,7 @@ function Media({
           </div>
         </div>
       )}
-      {media.format === "mp3" && (
+      {audioFormats().includes(media.format) && (
         <figure
           className=" w-full aspect-square relative"
           style={{ aspectRatio }}
@@ -69,6 +74,16 @@ function Media({
             alt="image"
           />
         </figure>
+      )}
+      {media.format === "mp4" && (
+        <div
+          className=" absolute left-1 bottom-1 text-xs text-white
+      flex items-center gap-1
+      "
+        >
+          <PiVideoCameraBold size={16} />
+          00:14
+        </div>
       )}
     </div>
   );

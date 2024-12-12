@@ -54,3 +54,7 @@
     scrollbar-color: white rgba(7, 230, 118, 1); /* Sets thumb to white, track to green */
   }
 }
+
+.noScrollbar {
+  scrollbar-width: none;
+}
