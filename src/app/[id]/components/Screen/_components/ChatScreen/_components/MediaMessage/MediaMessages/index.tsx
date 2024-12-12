@@ -24,15 +24,27 @@ function MediaMessages({
     return (
       <div
         key={media.asset_id}
-        ref={LastMessageElement}
-        className={` rounded-md py-1 px-[1vw] mb-[1vh] grid   ${
+        className={` ${
           userId === message.senderId
-            ? "justify-self-end bg-[rgba(220,252,231,0.5)] justify-items-end "
-            : "justify-self-start  bg-[rgba(219,234,254,0.5)] justify-items-start "
-        }
-  `}
+            ? "justify-self-end"
+            : "justify-self-start"
+        }`}
       >
-        <Media media={media} aspectRatio={aspectRatio} message={message} />
+        <div
+          ref={LastMessageElement}
+          className={` rounded-md py-1 px-[1vw] ${
+            index !== message.medias.length - 1 ? "mb-[1vh]" : ""
+          } 
+          grid   
+          ${
+            userId === message.senderId
+              ? "justify-self-end bg-[rgba(220,252,231,0.5)] justify-items-end "
+              : " justify-self-start bg-[rgba(219,234,254,0.5)] justify-items-start "
+          }
+  `}
+        >
+          <Media media={media} aspectRatio={aspectRatio} message={message} />
+        </div>
         {index === message.medias.length - 1 && (
           <Text
             chatOfSelectedConnection={chatOfSelectedConnection}
@@ -41,6 +53,7 @@ function MediaMessages({
             message={message}
             shapeOfContainer={shapeOfContainer}
             MessageElement={MessageElement}
+            userId={userId}
           />
         )}
       </div>

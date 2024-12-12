@@ -62,6 +62,7 @@ function MediaPack({
         message={message}
         shapeOfContainer={shapeOfContainer}
         MessageElement={MessageElement}
+        userId={userId}
       />
     </div>
   );

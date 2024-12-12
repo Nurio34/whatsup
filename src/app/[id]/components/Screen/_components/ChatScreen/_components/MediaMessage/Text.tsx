@@ -10,6 +10,7 @@ function Text({
   message,
   shapeOfContainer,
   MessageElement,
+  userId,
 }: {
   chatOfSelectedConnection: ChatType;
   index: number;
@@ -17,6 +18,7 @@ function Text({
   message: MessageType;
   shapeOfContainer: number;
   MessageElement: React.MutableRefObject<HTMLParagraphElement | null>;
+  userId: string;
 }) {
   return (
     <div
@@ -25,7 +27,12 @@ function Text({
           ? LastMessageElement
           : null
       }
-      className={`justify-self-stretch rounded-md py-1  max-w-56 md:max-w-96 
+      className={`justify-self-stretch rounded-md py-1 px-[1vw]  max-w-56 md:max-w-96 
+         ${
+           userId === message.senderId
+             ? "justify-self-end bg-[rgba(220,252,231,0.5)] justify-items-end "
+             : " justify-self-start bg-[rgba(219,234,254,0.5)] justify-items-start "
+         }
         ${
           shapeOfContainer === 1
             ? "flex gap-x-[1vh] justify-between"

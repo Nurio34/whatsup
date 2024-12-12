@@ -6,6 +6,7 @@ import { useGaleryContext } from "../../Context";
 import { PiVideoCameraBold } from "react-icons/pi";
 import { useAppSelector } from "@/store/hooks";
 import { selectIsMoile } from "@/store/slices/user";
+import { videoDuration } from "@/utils/videoDuration";
 
 function Media({ media, index }: { media: MediaType; index: number }) {
   const isMobile = useAppSelector(selectIsMoile);
@@ -71,7 +72,7 @@ function Media({ media, index }: { media: MediaType; index: number }) {
       "
           >
             <PiVideoCameraBold size={12} />
-            00:14
+            {videoDuration(media.duration)}
           </div>
         )}
       </button>

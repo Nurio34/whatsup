@@ -1,4 +1,3 @@
-import React from "react";
 import { LiaChevronLeftSolid } from "react-icons/lia";
 import { useGaleryContext } from "../../../../Context";
 

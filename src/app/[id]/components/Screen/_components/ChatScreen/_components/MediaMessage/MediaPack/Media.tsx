@@ -3,6 +3,7 @@ import { setCurrenMedias, setCurrenMessage } from "@/store/slices/chat";
 import { setIsGaleryOpen } from "@/store/slices/components";
 import { MediaType, MessageType } from "@/type/message";
 import { audioFormats } from "@/utils/cloudinaryFileFormats";
+import { videoDuration } from "@/utils/videoDuration";
 import Image from "next/image";
 import { PiPlayFill, PiVideoCameraBold } from "react-icons/pi";
 
@@ -82,7 +83,7 @@ function Media({
       "
         >
           <PiVideoCameraBold size={16} />
-          00:14
+          {videoDuration(media.duration)}
         </div>
       )}
     </div>

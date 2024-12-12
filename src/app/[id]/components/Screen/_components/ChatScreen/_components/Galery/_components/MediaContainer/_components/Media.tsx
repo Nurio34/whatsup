@@ -2,9 +2,22 @@ import { useAppSelector } from "@/store/hooks";
 import { selectIsMoile } from "@/store/slices/user";
 import { audioFormats } from "@/utils/cloudinaryFileFormats";
 import Image from "next/image";
-import { MutableRefObject, useEffect, useState } from "react";
+import {
+  MouseEvent,
+  MutableRefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useGaleryContext } from "../../../Context";
 import { AnimatePresence, motion } from "framer-motion";
+
+export interface TouchStateType {
+  x: {
+    start: number;
+    end: number;
+  };
+}
 
 function Media({
   MediaContainerRef,
@@ -13,13 +26,35 @@ function Media({
 }) {
   const isMobile = useAppSelector(selectIsMoile);
 
-  const { currentMedia, isMediaRendered, renderFrom } = useGaleryContext();
+  const {
+    currentMedia,
+    isMediaRendered,
+    renderFrom,
+    nextMedia,
+    previouseMedia,
+  } = useGaleryContext();
 
   const [aspectRatio, setAspectRatio] = useState(0);
 
   const [mediaContainerSize, setMediaContainerSize] = useState({ w: 0, h: 0 });
   const [mediaSize, setMediaSize] = useState({ w: 0, h: 0 });
   const [padding, setPadding] = useState({ x: 0, y: 0 });
+
+  const VideoPlayerRef = useRef<HTMLVideoElement | null>(null);
+
+  const [touchState, setTouchState] = useState<TouchStateType>({
+    x: {
+      start: 0,
+      end: 0,
+    },
+  });
+
+  const zoomToggle = (e: MouseEvent<HTMLImageElement>) => {
+    if (e.currentTarget.classList.contains("scale-[2]")) {
+      return e.currentTarget.classList.remove("scale-[2]");
+    }
+    e.currentTarget.classList.add("scale-[2]");
+  };
 
   useEffect(() => {
     if (currentMedia) {
@@ -74,6 +109,17 @@ function Media({
     };
   }, [currentMedia, isMobile]);
 
+  //! *** MOBILE SLIDE EVENT ***
+  useEffect(() => {
+    const diff = touchState.x.start - touchState.x.end;
+    if (diff > 0) {
+      nextMedia();
+    } else {
+      previouseMedia();
+    }
+  }, [touchState.x.end]);
+  //! **************************
+
   if (currentMedia) {
     return (
       <AnimatePresence>
@@ -97,6 +143,18 @@ function Media({
               opacity: 0,
               transition: { duration: 0.15 },
             }}
+            onTouchStart={(e) => {
+              setTouchState((prev) => ({
+                ...prev,
+                x: { ...prev.x, start: e.touches[0].screenX },
+              }));
+            }}
+            onTouchEnd={(e) => {
+              setTouchState((prev) => ({
+                ...prev,
+                x: { ...prev.x, end: e.changedTouches[0].screenX },
+              }));
+            }}
           >
             {currentMedia.format === "jpg" && (
               <Image
@@ -105,14 +163,25 @@ function Media({
                 sizes="(max-width: 768px) 50vw, 25vw"
                 priority
                 alt="image"
+                className=" object-contain transition-all"
+                onClick={zoomToggle}
               />
             )}
             {currentMedia.format === "mp4" && (
-              <video
-                src={currentMedia.url}
-                className=" w-full h-full"
-                controls
-              ></video>
+              <>
+                <video
+                  ref={VideoPlayerRef}
+                  src={currentMedia.url}
+                  style={{
+                    height: aspectRatio <= 1 ? mediaSize.h : undefined,
+                    maxHeight: mediaContainerSize.h - padding.y,
+                    width: aspectRatio > 1 ? mediaSize.w : undefined,
+                    maxWidth: mediaContainerSize.w - padding.x,
+                    aspectRatio: aspectRatio ? aspectRatio : undefined,
+                  }}
+                  controls
+                ></video>
+              </>
             )}
             {audioFormats().includes(currentMedia.format) && (
               <audio src={currentMedia.url} controls></audio>

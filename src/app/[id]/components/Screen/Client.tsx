@@ -44,6 +44,8 @@ function ScreenClient() {
       const socket = io(process.env.NEXT_PUBLIC_SERVER_SOCKET_URL);
 
       socket.on("connect", () => {
+        console.log("Socket connected !");
+
         socket.emit("add-user", userId);
         setSocketState(socket);
       });
@@ -51,6 +53,8 @@ function ScreenClient() {
 
     return () => {
       if (socketState) {
+        console.log("Socket disconnected !");
+
         socketState.disconnect();
         setSocketState(undefined);
       }
@@ -60,6 +64,8 @@ function ScreenClient() {
   useEffect(() => {
     if (socketState) {
       const handleMessage = (message: MessageType) => {
+        console.log("New message !");
+
         //! *** CHECK IF MESSAGE COME FROM A  NON-CONNECTION USER ***
         const nonConnectionUserId =
           message.senderId !== userId ? message.senderId : null;

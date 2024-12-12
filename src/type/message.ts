@@ -7,7 +7,7 @@ export type MediaType = {
   url: string;
   secure_url: string;
   format: string;
-  duration: string;
+  duration: number;
 };
 
 export type MessageType = {
