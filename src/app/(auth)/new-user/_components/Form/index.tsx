@@ -8,14 +8,14 @@ function Form({ user, isMobile }: { user: UserType; isMobile: boolean }) {
   const [name, setName] = useState(user.username);
   const [about, setAbout] = useState("");
   const [avatar, setAvatar] = useState(
-    user.avatar.url ||
-      process.env.NEXT_PUBLIC_AVATAR_IMAGE! ||
-      "/avatar-placeholder.webp"
+    process.env.NEXT_PUBLIC_AVATAR_IMAGE! ||
+      "/avatar-placeholder.webp" ||
+      user.avatar.url
   );
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
   useEffect(() => {
-    if (Boolean(avatar)) {
+    if (avatar !== "") {
       const convertImageToFile = async () => {
         const blob = await fetch(avatar).then((res) => res.blob());
         const file = new File([blob], "avatar.png", {
@@ -25,6 +25,7 @@ function Form({ user, isMobile }: { user: UserType; isMobile: boolean }) {
       };
 
       convertImageToFile();
+      return;
     }
   }, [avatar]);
 
