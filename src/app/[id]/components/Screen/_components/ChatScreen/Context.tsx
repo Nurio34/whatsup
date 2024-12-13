@@ -31,14 +31,18 @@ interface ContextType {
       height: number;
     }>
   >;
-  socketState?: Socket<DefaultEventsMap, DefaultEventsMap>; // Add socketState
+  socketState?: Socket<DefaultEventsMap, DefaultEventsMap>;
+  isSelectCheckboxesVisible: boolean;
+  setIsSelectCheckboxesVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedMessages: MessageType[];
+  setSelectedMessages: React.Dispatch<React.SetStateAction<MessageType[]>>;
 }
 
 const Context = createContext<ContextType | undefined>(undefined);
 
 interface ContextProps {
   children: ReactNode;
-  socketState?: Socket<DefaultEventsMap, DefaultEventsMap>; // Add socketState
+  socketState?: Socket<DefaultEventsMap, DefaultEventsMap>;
 }
 
 export const ContextProvider: React.FC<ContextProps> = ({
@@ -79,6 +83,12 @@ export const ContextProvider: React.FC<ContextProps> = ({
     setRightClickedMessage(message);
   };
 
+  const [isSelectCheckboxesVisible, setIsSelectCheckboxesVisible] =
+    useState(false);
+  const [selectedMessages, setSelectedMessages] = useState<MessageType[]>(
+    [] as MessageType[]
+  );
+
   return (
     <Context.Provider
       value={{
@@ -89,6 +99,10 @@ export const ContextProvider: React.FC<ContextProps> = ({
         contextMenuSize,
         setContextMenuSize,
         socketState,
+        isSelectCheckboxesVisible,
+        setIsSelectCheckboxesVisible,
+        selectedMessages,
+        setSelectedMessages,
       }}
     >
       {children}

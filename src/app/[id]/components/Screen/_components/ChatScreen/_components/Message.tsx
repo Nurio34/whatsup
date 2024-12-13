@@ -2,6 +2,8 @@ import { ChatType, MessageType } from "@/type/message";
 import { useEffect, useRef, useState } from "react";
 import TextMessage from "./TextMessage";
 import MediaMessage from "./MediaMessage";
+import { ImCheckboxChecked, ImCheckboxUnchecked } from "react-icons/im";
+import { useChatScreenContext } from "../Context";
 
 function Message({
   index,
@@ -17,6 +19,9 @@ function Message({
   const MessageElement = useRef<HTMLParagraphElement | null>(null);
   const [shapeOfContainer, setShapeOfContainer] = useState(1);
   const LastMessageElement = useRef<HTMLDivElement | null>(null);
+
+  const { isSelectCheckboxesVisible, selectedMessages, setSelectedMessages } =
+    useChatScreenContext();
 
   useEffect(() => {
     if (MessageElement.current) {
@@ -34,28 +39,58 @@ function Message({
   }, [message]);
 
   return (
-    <div>
-      {message.type === "media" ? (
-        <MediaMessage
-          message={message}
-          userId={userId}
-          shapeOfContainer={shapeOfContainer}
-          chatOfSelectedConnection={chatOfSelectedConnection}
-          LastMessageElement={LastMessageElement}
-          index={index}
-          MessageElement={MessageElement}
-        />
-      ) : (
-        <TextMessage
-          message={message}
-          userId={userId}
-          chatOfSelectedConnection={chatOfSelectedConnection}
-          LastMessageElement={LastMessageElement}
-          index={index}
-          shapeOfContainer={shapeOfContainer}
-          MessageElement={MessageElement}
-        />
+    <div
+      className={`grid grid-cols-[auto,auto] justify-between
+      ${
+        selectedMessages.some((msg) => msg._id === message._id)
+          ? "bg-red-200"
+          : ""
+      }
+    `}
+      onClick={() => {
+        if (isSelectCheckboxesVisible) {
+          if (selectedMessages.some((msg) => msg._id === message._id)) {
+            setSelectedMessages((pre) => {
+              return pre.filter((msg) => msg._id !== message._id);
+            });
+          } else {
+            setSelectedMessages((pre) => [...pre, message]);
+          }
+        }
+      }}
+    >
+      {isSelectCheckboxesVisible && (
+        <button type="button" className=" ml-4">
+          {selectedMessages.some((msg) => msg._id === message._id) ? (
+            <ImCheckboxChecked />
+          ) : (
+            <ImCheckboxUnchecked />
+          )}
+        </button>
       )}
+      <div>
+        {message.type === "media" ? (
+          <MediaMessage
+            message={message}
+            userId={userId}
+            shapeOfContainer={shapeOfContainer}
+            chatOfSelectedConnection={chatOfSelectedConnection}
+            LastMessageElement={LastMessageElement}
+            index={index}
+            MessageElement={MessageElement}
+          />
+        ) : (
+          <TextMessage
+            message={message}
+            userId={userId}
+            chatOfSelectedConnection={chatOfSelectedConnection}
+            LastMessageElement={LastMessageElement}
+            index={index}
+            shapeOfContainer={shapeOfContainer}
+            MessageElement={MessageElement}
+          />
+        )}
+      </div>
     </div>
   );
 }

@@ -12,6 +12,7 @@ import Gallery from "./_components/Galery";
 import { ContextProvider } from "./Context";
 import { Socket } from "socket.io-client";
 import { DefaultEventsMap } from "@socket.io/component-emitter";
+import SelectedMessagesActions from "./_components/SelectedMessagesActions";
 
 export type SectionStateType = {
   width: number;
@@ -100,6 +101,8 @@ function ChatScreen({
           backgroundImage: "url('/chat-bg.jpg')",
         }}
       >
+        <SelectedMessagesActions />
+
         {isMobile && (
           <SideMenuNav desktop={false} height={sectionState.height} />
         )}

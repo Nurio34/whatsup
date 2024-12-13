@@ -5,6 +5,7 @@ import ChatScreen from "./_components/ChatScreen";
 import Header from "./_components/Header";
 import MessageBar from "./_components/MessageBar";
 import {
+  deleteMessage,
   messageSeen,
   saveSentMessage,
   selectSelectedConnection,
@@ -29,6 +30,7 @@ function ScreenClient() {
   const userId = user?.id;
 
   const selectedConnection = useAppSelector(selectSelectedConnection);
+
   const isMobile = useAppSelector(selectIsMoile);
   const renderedComponent = useAppSelector(selectRenderedComponent);
   const connectWith = useAppSelector(selectConnectWith);
@@ -115,6 +117,16 @@ function ScreenClient() {
     if (socketState) {
       socketState.on("message-seen", (message: MessageType) => {
         dispatch(messageSeen(message));
+      });
+    }
+  }, [socketState]);
+
+  useEffect(() => {
+    if (socketState) {
+      socketState.on("delete-message", (data) => {
+        const connectionId =
+          userId === data.userId ? data.connectionId : data.userId;
+        dispatch(deleteMessage({ connectionId, messageId: data.messageId }));
       });
     }
   }, [socketState]);

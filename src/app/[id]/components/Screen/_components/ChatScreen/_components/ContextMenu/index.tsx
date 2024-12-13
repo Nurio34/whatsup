@@ -15,6 +15,8 @@ import { MessageType } from "@/type/message";
 import { useAppSelector } from "@/store/hooks";
 import { selectSelectedConnection } from "@/store/slices/chat";
 import { selectUser } from "@/store/slices/user";
+import { copyMessage } from "./actions/copyMessage";
+import { handleSelect } from "./actions/handleSelect";
 
 const contextMenuItems = [
   {
@@ -81,11 +83,27 @@ function ContextMenu() {
     rightClickedMessage,
     setContextMenuSize,
     socketState,
+    setIsSelectCheckboxesVisible,
+    setSelectedMessages,
   } = useChatScreenContext();
 
   const ContextMenuRef = useRef<HTMLUListElement | null>(null);
 
-  const onClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const onClick = (e: MouseEvent<HTMLButtonElement>, itemName: string) => {
+    if (ContextMenuRef.current && rightClickedMessage !== ({} as MessageType)) {
+      const width = ContextMenuRef.current.getBoundingClientRect().width;
+      const height = ContextMenuRef.current.getBoundingClientRect().height;
+      setContextMenuSize({ width, height });
+    }
+
+    if (itemName === "Delete")
+      deleteMessage(rightClickedMessage, userId, connectionId, socketState);
+    else if (itemName === "Copy") copyMessage(rightClickedMessage.message);
+    else if (itemName === "Select") {
+      setIsSelectCheckboxesVisible(true);
+      setSelectedMessages([rightClickedMessage]);
+      handleSelect();
+    }
     handleContextMenu(e, {} as MessageType);
   };
 
@@ -119,24 +137,24 @@ function ContextMenu() {
       {contextMenuItems.map((item) => (
         <li
           key={item.name}
-          className={`px-[2vw] py-[0.5vw] ${
-            item.border ? "border-b" : ""
-          } transition-all hover:bg-gray-200`}
+          className={`px-[2vw] py-[0.5vw] ${item.border ? "border-b" : ""} `}
         >
           <button
             type="button"
-            className="flex items-center gap-[1vw]"
+            className={`flex items-center gap-[1vw] w-full rounded-md transition-all 
+                ${
+                  item.name === "Delete" &&
+                  rightClickedMessage.senderId !== userId
+                    ? "text-gray-400"
+                    : "hover:bg-gray-200"
+                }
+            `}
             onClick={async (e) => {
-              onClick(e);
-
-              if (item.name === "Delete")
-                deleteMessage(
-                  rightClickedMessage,
-                  userId,
-                  connectionId,
-                  socketState
-                );
+              onClick(e, item.name);
             }}
+            disabled={
+              item.name === "Delete" && rightClickedMessage.senderId !== userId
+            }
           >
             {item.icons}
             {item.name}
