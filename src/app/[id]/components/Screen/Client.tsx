@@ -23,11 +23,8 @@ import { DefaultEventsMap } from "@socket.io/component-emitter";
 import { MessageType } from "@/type/message";
 import { selectRenderedComponent } from "@/store/slices/components";
 import axiosInstance from "@/axios";
-import usePreventPullToRefresh from "@/hooks/usePreventPullToRefresh";
 
 function ScreenClient() {
-  usePreventPullToRefresh();
-
   const user = useAppSelector(selectUser);
   const userId = user?.id;
 
@@ -151,7 +148,10 @@ function ScreenClient() {
       {selectedConnection ? (
         <div className={`w-full h-screen flex flex-col`}>
           <Header selectedConnection={selectedConnection} />
-          <ChatScreen selectedConnection={selectedConnection} />
+          <ChatScreen
+            selectedConnection={selectedConnection}
+            socketState={socketState}
+          />
           <MessageBar />
         </div>
       ) : (

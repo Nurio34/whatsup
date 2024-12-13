@@ -20,28 +20,25 @@ function MultipleMediaPreview({
 
   return (
     <div className="min-w-80 md:min-w-96 aspect-square space-y-[1vh]">
-      <div className=" relative aspect-square flex justify-center overflow-hidden rounded-lg">
+      <div className=" relative aspect-square flex justify-center items-center  overflow-hidden rounded-lg ">
         {currentMedia.type === "image" && (
           <Image
             src={currentMedia.url}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
             alt="image"
+            className=" max-h-full object-contain"
           />
         )}
         {currentMedia.type === "video" && (
           <video
-            className=" absolute bottom-0 max-h-96"
+            className=" max-h-full"
             src={currentMedia.url}
             controls
           ></video>
         )}
         {currentMedia.type === "audio" && (
-          <audio
-            className=" absolute bottom-0 max-h-96"
-            src={currentMedia.url}
-            controls
-          ></audio>
+          <audio className=" " src={currentMedia.url} controls></audio>
         )}
         {currentMedia.type === "application" && (
           <Image

@@ -8,19 +8,24 @@ function SingleMediaPreview({
   mediaPreview: MediaPreviewType;
 }) {
   return (
-    <div className=" min-w-80 md:min-w-96 relative aspect-square rounded-lg overflow-hidden flex justify-center">
+    <div
+      className=" min-w-80 md:min-w-96 relative aspect-square rounded-lg overflow-hidden
+      flex justify-center items-center
+    "
+    >
       {mediaPreview.type === "image" && (
-        <Image src={mediaPreview.url} fill alt="image" />
+        <Image
+          src={mediaPreview.url}
+          fill
+          alt="image"
+          className="object-contain"
+        />
       )}
       {mediaPreview.type === "video" && (
-        <video src={mediaPreview.url} controls></video>
+        <video src={mediaPreview.url} className=" max-h-full" controls></video>
       )}
       {mediaPreview.type === "audio" && (
-        <audio
-          className=" absolute bottom-0 max-h-96"
-          src={mediaPreview.url}
-          controls
-        ></audio>
+        <audio src={mediaPreview.url} controls></audio>
       )}
       {mediaPreview.type === "application" && (
         <Image src={"/application_placeholder.webp"} fill alt="image" />

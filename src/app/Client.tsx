@@ -6,14 +6,11 @@ import Main from "./components/Main";
 import { selectToken, selectUser } from "@/store/slices/user";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import usePreventPullToRefresh from "@/hooks/usePreventPullToRefresh";
 
 function HomeUnauthClient() {
   const user = useAppSelector(selectUser);
   const token = useAppSelector(selectToken);
   const router = useRouter();
-
-  usePreventPullToRefresh();
 
   useEffect(() => {
     if (user) {

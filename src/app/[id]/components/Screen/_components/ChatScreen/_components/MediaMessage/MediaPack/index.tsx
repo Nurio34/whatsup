@@ -1,6 +1,7 @@
 import { ChatType, MessageType } from "@/type/message";
 import Text from "../Text";
 import Media from "./Media";
+import { useChatScreenContext } from "../../../Context";
 
 function MediaPack({
   message,
@@ -19,6 +20,7 @@ function MediaPack({
   shapeOfContainer: number;
   MessageElement: React.MutableRefObject<HTMLParagraphElement | null>;
 }) {
+  const { handleContextMenu } = useChatScreenContext();
   return (
     <div
       className={`w-64 md:w-80 aspect-square pt-[1vw] px-[1vw] rounded-lg 
@@ -27,7 +29,8 @@ function MediaPack({
             ? "justify-self-end bg-[rgba(220,252,231,0.5)]"
             : "justify-self-start bg-[rgba(219,234,254,0.5)]"
         }
-    `}
+      `}
+      onContextMenu={(e) => handleContextMenu(e, message)}
     >
       <ul className="  h-full grid grid-cols-2 grid-rows-2 gap-[1vw] relative">
         {message.medias

@@ -9,6 +9,9 @@ import { useEffect, useRef, useState } from "react";
 import { date } from "@/utils/date";
 import { time } from "@/utils/time";
 import Gallery from "./_components/Galery";
+import { ContextProvider } from "./Context";
+import { Socket } from "socket.io-client";
+import { DefaultEventsMap } from "@socket.io/component-emitter";
 
 export type SectionStateType = {
   width: number;
@@ -19,8 +22,10 @@ export type SectionStateType = {
 
 function ChatScreen({
   selectedConnection,
+  socketState,
 }: {
   selectedConnection: ChatsUserType;
+  socketState: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
 }) {
   const isMobile = useAppSelector(selectIsMoile);
 
@@ -62,36 +67,64 @@ function ChatScreen({
     };
   }, []);
 
+  //! *** PREVENT DEFAULT CONTEXT MENU EVENT ***
+  useEffect(() => {
+    if (SectionElement.current) {
+      const handleContextMenuEvenet = (e: MouseEvent) => {
+        e.preventDefault();
+      };
+
+      SectionElement.current.addEventListener(
+        "contextmenu",
+        handleContextMenuEvenet
+      );
+
+      return () => {
+        if (SectionElement.current) {
+          SectionElement.current.removeEventListener(
+            "contextmenu",
+            handleContextMenuEvenet
+          );
+        }
+      };
+    }
+  }, []);
+  //! ******************************************
+
   return (
-    <section
-      ref={SectionElement}
-      className="grow relative overflow-y-auto customScrollbar"
-      style={{
-        backgroundImage: "url('/chat-bg.jpg')",
-      }}
-    >
-      {isMobile && <SideMenuNav desktop={false} height={sectionState.height} />}
-      {chatOfSelectedConnection.messages.length > 0 && (
-        <p className=" text-center text-sm font-semibold py-[1vh] text-gray-800">
-          {date(chatOfSelectedConnection.messages[0].createdAt)}
-          {" / "}
-          {time(chatOfSelectedConnection.messages[0].createdAt)}
-        </p>
-      )}
-      <ul className=" grid gap-y-[2vh] px-[2vw] py-[1vh] ">
-        {chatOfSelectedConnection?.messages.map((message, index) => (
-          <li key={index}>
-            <Message
-              index={index}
-              message={message}
-              userId={userId!}
-              chatOfSelectedConnection={chatOfSelectedConnection}
-            />
-          </li>
-        ))}
-      </ul>
-      <Gallery sectionState={sectionState} />
-    </section>
+    <ContextProvider socketState={socketState}>
+      <section
+        ref={SectionElement}
+        className="grow relative overflow-y-auto customScrollbar"
+        style={{
+          backgroundImage: "url('/chat-bg.jpg')",
+        }}
+      >
+        {isMobile && (
+          <SideMenuNav desktop={false} height={sectionState.height} />
+        )}
+        {chatOfSelectedConnection.messages.length > 0 && (
+          <p className=" text-center text-sm font-semibold py-[1vh] text-gray-800">
+            {date(chatOfSelectedConnection.messages[0].createdAt)}
+            {" / "}
+            {time(chatOfSelectedConnection.messages[0].createdAt)}
+          </p>
+        )}
+        <ul className=" grid gap-y-[2vh] px-[2vw] py-[1vh] ">
+          {chatOfSelectedConnection?.messages.map((message, index) => (
+            <li key={index}>
+              <Message
+                index={index}
+                message={message}
+                userId={userId!}
+                chatOfSelectedConnection={chatOfSelectedConnection}
+              />
+            </li>
+          ))}
+        </ul>
+        <Gallery sectionState={sectionState} />
+      </section>
+    </ContextProvider>
   );
 }
 

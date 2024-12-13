@@ -11,7 +11,6 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { writeForm, writeIsSubmitted } from "@/store/slices/auth";
 import FireLoginButtons from "./_components/FireLoginButtons";
 import WhatsupGifLogo from "./_components/WhatsupGifLogo";
-import usePreventPullToRefresh from "@/hooks/usePreventPullToRefresh";
 
 export const formControl = [
   {
@@ -45,8 +44,6 @@ export const formControl = [
 ];
 
 function AuthClient() {
-  usePreventPullToRefresh();
-
   const path = usePathname().split("/")[1];
 
   const [form, setForm] = useState<FormType>(initialFormData);

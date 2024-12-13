@@ -1,6 +1,7 @@
 import { ChatType, MessageType } from "@/type/message";
 import Media from "./Media";
 import Text from "../Text";
+import { useChatScreenContext } from "../../../Context";
 
 function MediaMessages({
   message,
@@ -17,6 +18,8 @@ function MediaMessages({
   shapeOfContainer: number;
   MessageElement: React.MutableRefObject<HTMLParagraphElement | null>;
 }) {
+  const { handleContextMenu } = useChatScreenContext();
+
   return message.medias.map((media, index) => {
     const aspectRatio =
       media.width && media.height ? media.width / media.height : undefined;
@@ -24,11 +27,14 @@ function MediaMessages({
     return (
       <div
         key={media.asset_id}
-        className={` ${
+        className={` relative ${
           userId === message.senderId
             ? "justify-self-end"
             : "justify-self-start"
         }`}
+        onContextMenu={(e) => {
+          handleContextMenu(e, message);
+        }}
       >
         <div
           ref={LastMessageElement}

@@ -2,6 +2,8 @@ import { ChatType, MessageType } from "@/type/message";
 import { time } from "@/utils/time";
 import React from "react";
 import MessageStatus from "./MessageStatus";
+import ContextMenu from "../ContextMenu";
+import { useChatScreenContext } from "../../Context";
 
 function Text({
   chatOfSelectedConnection,
@@ -20,6 +22,8 @@ function Text({
   MessageElement: React.MutableRefObject<HTMLParagraphElement | null>;
   userId: string;
 }) {
+  const { rightClickedMessage } = useChatScreenContext();
+
   return (
     <div
       ref={
@@ -54,6 +58,7 @@ function Text({
         <span>{time(message.createdAt)}</span>
         <MessageStatus status={message.status} senderId={message.senderId} />
       </p>
+      {rightClickedMessage._id === message._id && <ContextMenu />}
     </div>
   );
 }
