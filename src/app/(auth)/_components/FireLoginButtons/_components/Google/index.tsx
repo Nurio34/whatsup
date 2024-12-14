@@ -8,11 +8,13 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setToken, setUser } from "@/store/slices/user";
 import { useRouter } from "next/navigation";
 import {
+  selectIsLoading,
   selectThirdPartyLoginType,
   setThirdPartyLoginType,
 } from "@/store/slices/auth";
 
 function Google() {
+  const isLoading = useAppSelector(selectIsLoading);
   const thirdPartyLoginType = useAppSelector(selectThirdPartyLoginType);
 
   const dispatch = useAppDispatch();
@@ -86,7 +88,7 @@ function Google() {
       type="button"
       className="c-btn gap-[1vw] flex items-center justify-center w-full text-black border-2 border-white"
       onClick={handleGoogleLogin}
-      disabled={Boolean(thirdPartyLoginType)}
+      disabled={isLoading || Boolean(thirdPartyLoginType)}
     >
       {thirdPartyLoginType === "google" ? (
         <>

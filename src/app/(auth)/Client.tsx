@@ -6,9 +6,10 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { GiConfirmed } from "react-icons/gi";
 import { usePathname } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { initialFormData, FormType } from "@/type/form";
+import { FormType } from "@/type/form";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
+  selectForm,
   selectThirdPartyLoginType,
   writeForm,
   writeIsSubmitted,
@@ -49,9 +50,11 @@ export const formControl = [
 
 function AuthClient() {
   const thirdPartyLoginType = useAppSelector(selectThirdPartyLoginType);
+  const initialForm = useAppSelector(selectForm);
+
   const path = usePathname().split("/")[1];
 
-  const [form, setForm] = useState<FormType>(initialFormData);
+  const [form, setForm] = useState<FormType>(initialForm);
 
   const { errors, isLoading } = useAppSelector((s) => s.auth);
   const { user } = useAppSelector((s) => s.user);

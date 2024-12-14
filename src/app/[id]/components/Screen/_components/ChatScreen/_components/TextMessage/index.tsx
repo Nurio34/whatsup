@@ -43,7 +43,7 @@ function TextMessage({
       <p ref={MessageElement} className={`${shapeOfContainer === 1 ? "" : ""}`}>
         {message.message}
         {shapeOfContainer === 2 && (
-          <span className=" inline-block w-8 h-4 "></span>
+          <span className=" inline-block w-14 h-4 "></span>
         )}
       </p>
       <p

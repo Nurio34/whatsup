@@ -32,11 +32,17 @@ export type FormType = {
   passwordConfirm?: string;
 };
 
-export const initialFormData: FormType = {
+export const initialFormDataDev: FormType = {
   username: "hacerkaya",
   email: "hacerkaya1968a@gmail.com",
   password: "Cameuaifucan6_",
   passwordConfirm: "Cameuaifucan6_",
+};
+export const initialFormDataProd: FormType = {
+  username: "",
+  email: "",
+  password: "",
+  passwordConfirm: "",
 };
 
 export type ErrorsType = {

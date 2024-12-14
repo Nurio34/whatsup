@@ -1,4 +1,9 @@
-import { Dispatch, KeyboardEvent, SetStateAction } from "react";
+import {
+  Dispatch,
+  KeyboardEvent,
+  MutableRefObject,
+  SetStateAction,
+} from "react";
 import { SendReturnType } from "../../useSendMessage";
 
 function MessageInput({
@@ -6,11 +11,13 @@ function MessageInput({
   setMessage,
   isLoading,
   send,
+  TextArea,
 }: {
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
   isLoading: boolean;
   send: () => Promise<SendReturnType>;
+  TextArea: MutableRefObject<HTMLTextAreaElement | null>;
 }) {
   const sendMessage = async (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !isLoading) {
@@ -26,6 +33,7 @@ function MessageInput({
 
   return (
     <textarea
+      ref={TextArea}
       name="message"
       id="message"
       className={`grow outline-none resize-none

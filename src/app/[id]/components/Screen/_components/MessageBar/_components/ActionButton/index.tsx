@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { TbSend2 } from "react-icons/tb";
 import { PiTimerBold } from "react-icons/pi";
 import { SendReturnType } from "../../useSendMessage";
@@ -8,17 +8,22 @@ function ActionButton({
   setMessage,
   isLoading,
   send,
+  TextArea,
 }: {
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
   isLoading: boolean;
   send: () => Promise<SendReturnType>;
+  TextArea: MutableRefObject<HTMLTextAreaElement | null>;
 }) {
   const sendMessage = async () => {
     if (Boolean(message)) {
       const response = await send();
       if (response?.data.status === "success") {
         setMessage("");
+        if (TextArea.current) {
+          TextArea.current.focus();
+        }
       }
     }
   };

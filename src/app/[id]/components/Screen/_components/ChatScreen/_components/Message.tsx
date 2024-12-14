@@ -45,7 +45,14 @@ function Message({
       }
       ${userId === message.senderId ? "justify-between" : "justify-start"}
       ${
-        selectedMessages.some((msg) => msg._id === message._id)
+        selectedMessages.some((msg) => msg._id === message._id) &&
+        userId === message.senderId
+          ? "bg-green-200"
+          : ""
+      }
+      ${
+        selectedMessages.some((msg) => msg._id === message._id) &&
+        userId !== message.senderId
           ? "bg-red-200"
           : ""
       }

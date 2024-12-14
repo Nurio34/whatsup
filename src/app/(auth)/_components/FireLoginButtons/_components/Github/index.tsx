@@ -8,11 +8,13 @@ import { setToken, setUser } from "@/store/slices/user";
 import { useRouter } from "next/navigation";
 import { FaGithub } from "react-icons/fa";
 import {
+  selectIsLoading,
   selectThirdPartyLoginType,
   setThirdPartyLoginType,
 } from "@/store/slices/auth";
 
 function Github() {
+  const isLoading = useAppSelector(selectIsLoading);
   const thirdPartyLoginType = useAppSelector(selectThirdPartyLoginType);
 
   const dispatch = useAppDispatch();
@@ -86,7 +88,7 @@ function Github() {
       type="button"
       className="c-btn gap-[1vw] flex items-center justify-center w-full text-black border-2 border-white"
       onClick={handleGithubLogin}
-      disabled={Boolean(thirdPartyLoginType)}
+      disabled={isLoading || Boolean(thirdPartyLoginType)}
     >
       {thirdPartyLoginType === "github" ? (
         <>
