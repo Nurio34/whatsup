@@ -40,7 +40,10 @@ function Message({
 
   return (
     <div
-      className={`grid grid-cols-[auto,auto] justify-between
+      className={`${
+        isSelectCheckboxesVisible ? "grid grid-cols-[auto,auto] gap-[2vw]" : ""
+      }
+      ${userId === message.senderId ? "justify-between" : "justify-start"}
       ${
         selectedMessages.some((msg) => msg._id === message._id)
           ? "bg-red-200"
@@ -68,7 +71,7 @@ function Message({
           )}
         </button>
       )}
-      <div>
+      <div className="">
         {message.type === "media" ? (
           <MediaMessage
             message={message}

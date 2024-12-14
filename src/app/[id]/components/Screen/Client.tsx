@@ -6,6 +6,7 @@ import Header from "./_components/Header";
 import MessageBar from "./_components/MessageBar";
 import {
   deleteMessage,
+  deleteMessages,
   messageSeen,
   saveSentMessage,
   selectSelectedConnection,
@@ -127,6 +128,18 @@ function ScreenClient() {
         const connectionId =
           userId === data.userId ? data.connectionId : data.userId;
         dispatch(deleteMessage({ connectionId, messageId: data.messageId }));
+      });
+    }
+  }, [socketState]);
+
+  useEffect(() => {
+    if (socketState) {
+      socketState.on("delete-messages", (data) => {
+        const connectionId =
+          userId === data.userId ? data.connectionId : data.userId;
+        dispatch(
+          deleteMessages({ connectionId, messagesIds: data.messagesIds })
+        );
       });
     }
   }, [socketState]);

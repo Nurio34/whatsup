@@ -7,10 +7,14 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setToken, setUser } from "@/store/slices/user";
 import { useRouter } from "next/navigation";
 import { FaXTwitter } from "react-icons/fa6";
-import { selectIsLoading } from "@/store/slices/auth";
+import {
+  selectThirdPartyLoginType,
+  setThirdPartyLoginType,
+} from "@/store/slices/auth";
 
-function Google() {
-  const isLoading = useAppSelector(selectIsLoading);
+function Twitter() {
+  const thirdPartyLoginType = useAppSelector(selectThirdPartyLoginType);
+
   const dispatch = useAppDispatch();
 
   const router = useRouter();
@@ -18,6 +22,8 @@ function Google() {
   const provider = new TwitterAuthProvider();
 
   const handleTwitterLogin = async () => {
+    dispatch(setThirdPartyLoginType("twitter"));
+
     signInWithPopup(fireAuth, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
@@ -54,6 +60,8 @@ function Google() {
             if (error instanceof AxiosError) {
               toast.error(error.response?.data.message);
             }
+          } finally {
+            dispatch(setThirdPartyLoginType(null));
           }
         };
 
@@ -69,6 +77,7 @@ function Google() {
         const credential = TwitterAuthProvider.credentialFromError(error);
         // ...
         console.log({ errorCode, errorMessage, email, credential });
+        dispatch(setThirdPartyLoginType(null));
       });
   };
 
@@ -77,12 +86,21 @@ function Google() {
       type="button"
       className="c-btn gap-[1vw] flex items-center justify-center w-full text-black border-2 border-white"
       onClick={handleTwitterLogin}
-      disabled={isLoading}
+      disabled={Boolean(thirdPartyLoginType)}
     >
-      <FaXTwitter />
-      Login with X
+      {thirdPartyLoginType === "twitter" ? (
+        <>
+          <span className="loading loading-spinner loading-md"></span>
+          <span>Please wait ..</span>
+        </>
+      ) : (
+        <>
+          <FaXTwitter />
+          Login with X
+        </>
+      )}
     </button>
   );
 }
 
-export default Google;
+export default Twitter;

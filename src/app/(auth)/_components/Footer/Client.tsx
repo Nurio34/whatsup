@@ -1,7 +1,10 @@
 "use client";
 
 import { useAppSelector } from "@/store/hooks";
-import { selectIsLoading } from "@/store/slices/auth";
+import {
+  selectIsLoading,
+  selectThirdPartyLoginType,
+} from "@/store/slices/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -9,6 +12,7 @@ import { usePathname } from "next/navigation";
 function FooterClient() {
   const { user } = useAppSelector((s) => s.user);
   const isLoading = useAppSelector(selectIsLoading);
+  const thirdPartyLoginType = useAppSelector(selectThirdPartyLoginType);
 
   const path = usePathname().split("/")[1];
 
@@ -31,7 +35,7 @@ function FooterClient() {
       <Link
         href={"/"}
         className={`c-btn relative w-10 aspect-square rounded-full ${
-          isLoading ? "pointer-events-none" : ""
+          isLoading || Boolean(thirdPartyLoginType) ? "pointer-events-none" : ""
         } `}
       >
         <Image
@@ -45,7 +49,7 @@ function FooterClient() {
       <Link
         href="/terms"
         className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
-          isLoading ? "pointer-events-none" : ""
+          isLoading || Boolean(thirdPartyLoginType) ? "pointer-events-none" : ""
         } `}
       >
         Terms
@@ -53,7 +57,7 @@ function FooterClient() {
       <Link
         href="/privacy"
         className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
-          isLoading ? "pointer-events-none" : ""
+          isLoading || Boolean(thirdPartyLoginType) ? "pointer-events-none" : ""
         } `}
       >
         Privacy
@@ -61,7 +65,7 @@ function FooterClient() {
       <Link
         href="/security"
         className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
-          isLoading ? "pointer-events-none" : ""
+          isLoading || Boolean(thirdPartyLoginType) ? "pointer-events-none" : ""
         } `}
       >
         Security
@@ -69,7 +73,7 @@ function FooterClient() {
       <Link
         href="/status"
         className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
-          isLoading ? "pointer-events-none" : ""
+          isLoading || Boolean(thirdPartyLoginType) ? "pointer-events-none" : ""
         } `}
       >
         Status
@@ -77,7 +81,7 @@ function FooterClient() {
       <Link
         href="/docs"
         className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
-          isLoading ? "pointer-events-none" : ""
+          isLoading || Boolean(thirdPartyLoginType) ? "pointer-events-none" : ""
         } `}
       >
         Docs
@@ -85,7 +89,7 @@ function FooterClient() {
       <Link
         href="/contact"
         className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
-          isLoading ? "pointer-events-none" : ""
+          isLoading || Boolean(thirdPartyLoginType) ? "pointer-events-none" : ""
         } `}
       >
         Contact
@@ -93,7 +97,7 @@ function FooterClient() {
       <Link
         href="/manage-cookies"
         className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
-          isLoading ? "pointer-events-none" : ""
+          isLoading || Boolean(thirdPartyLoginType) ? "pointer-events-none" : ""
         } `}
       >
         Manage Cookies
@@ -101,7 +105,7 @@ function FooterClient() {
       <Link
         href="/do-not-share"
         className={`text-sm hover:text-purple-400 hover:underline hover:underline-offset-4 min-w-max ${
-          isLoading ? "pointer-events-none" : ""
+          isLoading || Boolean(thirdPartyLoginType) ? "pointer-events-none" : ""
         } `}
       >
         Do not share my personel information

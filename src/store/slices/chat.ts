@@ -97,6 +97,22 @@ export const chatSlice = createSlice({
         );
       }
     },
+    deleteMessages: (
+      state,
+      action: PayloadAction<{ connectionId: string; messagesIds: string[] }>
+    ) => {
+      const { connectionId, messagesIds } = action.payload;
+      const currentChat = state.chat.find(
+        (item) => item.connectionId === connectionId
+      );
+      if (currentChat) {
+        messagesIds.forEach((messageId) => {
+          currentChat.messages = currentChat.messages.filter(
+            (message) => message._id !== messageId
+          );
+        });
+      }
+    },
   },
 
   extraReducers: (builder) => {
@@ -113,6 +129,7 @@ export const {
   setCurrenMedias,
   setCurrenMessage,
   deleteMessage,
+  deleteMessages,
 } = chatSlice.actions;
 export const selectSelectedConnection = (state: RootState) =>
   state.chat.selectedConnection;

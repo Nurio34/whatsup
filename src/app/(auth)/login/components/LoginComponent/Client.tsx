@@ -3,6 +3,7 @@
 import axiosInstance from "@/axios";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
+  selectThirdPartyLoginType,
   writeErrors,
   writeIsLoading,
   writeIsSubmitted,
@@ -17,6 +18,9 @@ import toast from "react-hot-toast";
 function LoginClientComponent() {
   const { user } = useAppSelector((s) => s.user);
   const { form, isSubmitted, isLoading } = useAppSelector((s) => s.auth);
+
+  const thirdPartyLoginType = useAppSelector(selectThirdPartyLoginType);
+
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -64,7 +68,7 @@ function LoginClientComponent() {
           <div className=" bg-blue-100 py-[1vh] px-[2vw] rounded-lg border-2 border-blue-200 shadow-md shadow-blue-200  text-xs md:text-base space-y-[1vh] ">
             <article className="flex items-center justify-center gap-[1vw]">
               <p>Did you forget your password ?</p>
-              {isLoading ? (
+              {isLoading || Boolean(thirdPartyLoginType) ? (
                 <p className="text-purple-400 underline underline-offset-4">
                   Reset your password
                 </p>
@@ -81,7 +85,7 @@ function LoginClientComponent() {
               <p>
                 Are you new to {process.env.NEXT_PUBLIC_LOGO_NAME || "MyApp"} ?
               </p>
-              {isLoading ? (
+              {isLoading || Boolean(thirdPartyLoginType) ? (
                 <p className="text-purple-400 underline underline-offset-4">
                   Create an account
                 </p>

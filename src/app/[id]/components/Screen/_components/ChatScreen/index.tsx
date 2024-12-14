@@ -101,7 +101,7 @@ function ChatScreen({
           backgroundImage: "url('/chat-bg.jpg')",
         }}
       >
-        <SelectedMessagesActions />
+        <SelectedMessagesActions width={sectionState.width} />
 
         {isMobile && (
           <SideMenuNav desktop={false} height={sectionState.height} />

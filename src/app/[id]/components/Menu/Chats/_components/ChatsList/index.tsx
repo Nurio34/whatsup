@@ -35,6 +35,8 @@ function ChatsList() {
     setError("");
     setIsLoading(true);
 
+    if (connectWith.length === 1) {
+    }
     try {
       const response = await axiosInstance.get(
         `/contact/getConnections/${user?.id}`

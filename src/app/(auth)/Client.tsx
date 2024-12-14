@@ -8,7 +8,11 @@ import { usePathname } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { initialFormData, FormType } from "@/type/form";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { writeForm, writeIsSubmitted } from "@/store/slices/auth";
+import {
+  selectThirdPartyLoginType,
+  writeForm,
+  writeIsSubmitted,
+} from "@/store/slices/auth";
 import FireLoginButtons from "./_components/FireLoginButtons";
 import WhatsupGifLogo from "./_components/WhatsupGifLogo";
 
@@ -44,6 +48,7 @@ export const formControl = [
 ];
 
 function AuthClient() {
+  const thirdPartyLoginType = useAppSelector(selectThirdPartyLoginType);
   const path = usePathname().split("/")[1];
 
   const [form, setForm] = useState<FormType>(initialFormData);
@@ -154,7 +159,7 @@ function AuthClient() {
                                     : "c-btn bg-green-500 hover:bg-[green] "
                                 }
                                 `}
-                  disabled={isLoading}
+                  disabled={isLoading || Boolean(thirdPartyLoginType)}
                 >
                   {path === "login" ? "Login" : "Signup"}
                   {isLoading && (

@@ -5,10 +5,13 @@ import React, {
   ReactNode,
   MouseEvent,
   useRef,
+  useEffect,
 } from "react";
 import { Socket } from "socket.io-client";
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 import { MessageType } from "@/type/message";
+import { useAppSelector } from "@/store/hooks";
+import { selectSelectedConnection } from "@/store/slices/chat";
 
 interface ContextType {
   rightClickedMessage: MessageType;
@@ -31,11 +34,14 @@ interface ContextType {
       height: number;
     }>
   >;
+  transformOrigin: string;
   socketState?: Socket<DefaultEventsMap, DefaultEventsMap>;
   isSelectCheckboxesVisible: boolean;
   setIsSelectCheckboxesVisible: React.Dispatch<React.SetStateAction<boolean>>;
   selectedMessages: MessageType[];
   setSelectedMessages: React.Dispatch<React.SetStateAction<MessageType[]>>;
+  isDeleteLoading: boolean;
+  setIsDeleteLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Context = createContext<ContextType | undefined>(undefined);
@@ -49,14 +55,17 @@ export const ContextProvider: React.FC<ContextProps> = ({
   children,
   socketState,
 }) => {
+  const selectedConnection = useAppSelector(selectSelectedConnection);
+
   const [rightClickedMessage, setRightClickedMessage] = useState(
     {} as MessageType
   );
   const menuPosition = useRef({ x: 0, y: 0 });
   const [contextMenuSize, setContextMenuSize] = useState({
-    width: 0,
-    height: 0,
+    width: 208,
+    height: 316,
   });
+  const [transformOrigin, setTransformOrigin] = useState("top");
 
   const handleContextMenu = (
     e: MouseEvent<HTMLDivElement | HTMLButtonElement>,
@@ -70,24 +79,33 @@ export const ContextProvider: React.FC<ContextProps> = ({
 
     if (menuPosition.current) {
       menuPosition.current = {
-        x:
-          mouseX > pageWidth - contextMenuSize.width
-            ? mouseX - contextMenuSize.width
-            : mouseX,
-        y:
-          mouseY > pageHeight - contextMenuSize.height
-            ? mouseY - contextMenuSize.height
-            : mouseY,
+        x: mouseX > pageWidth - 208 ? mouseX - 208 : mouseX,
+        y: mouseY > pageHeight - 316 ? mouseY - 316 : mouseY,
       };
     }
     setRightClickedMessage(message);
+
+    if (mouseY > pageHeight - 316) {
+      setTransformOrigin("bottom");
+    } else {
+      setTransformOrigin("top");
+    }
   };
 
+  //! *** SELECTED MESSAGES ***
   const [isSelectCheckboxesVisible, setIsSelectCheckboxesVisible] =
     useState(false);
   const [selectedMessages, setSelectedMessages] = useState<MessageType[]>(
     [] as MessageType[]
   );
+
+  useEffect(() => {
+    setIsSelectCheckboxesVisible(false);
+    setSelectedMessages([]);
+  }, [selectedConnection]);
+  //! *************************
+
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
   return (
     <Context.Provider
@@ -98,11 +116,14 @@ export const ContextProvider: React.FC<ContextProps> = ({
         menuPosition,
         contextMenuSize,
         setContextMenuSize,
+        transformOrigin,
         socketState,
         isSelectCheckboxesVisible,
         setIsSelectCheckboxesVisible,
         selectedMessages,
         setSelectedMessages,
+        isDeleteLoading,
+        setIsDeleteLoading,
       }}
     >
       {children}

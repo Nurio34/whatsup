@@ -17,6 +17,7 @@ import { selectSelectedConnection } from "@/store/slices/chat";
 import { selectUser } from "@/store/slices/user";
 import { copyMessage } from "./actions/copyMessage";
 import { handleSelect } from "./actions/handleSelect";
+import { motion } from "framer-motion";
 
 const contextMenuItems = [
   {
@@ -85,6 +86,9 @@ function ContextMenu() {
     socketState,
     setIsSelectCheckboxesVisible,
     setSelectedMessages,
+    setIsDeleteLoading,
+    isDeleteLoading,
+    transformOrigin,
   } = useChatScreenContext();
 
   const ContextMenuRef = useRef<HTMLUListElement | null>(null);
@@ -97,7 +101,13 @@ function ContextMenu() {
     }
 
     if (itemName === "Delete")
-      deleteMessage(rightClickedMessage, userId, connectionId, socketState);
+      deleteMessage(
+        rightClickedMessage,
+        userId,
+        connectionId,
+        socketState,
+        setIsDeleteLoading
+      );
     else if (itemName === "Copy") copyMessage(rightClickedMessage.message);
     else if (itemName === "Select") {
       setIsSelectCheckboxesVisible(true);
@@ -126,13 +136,16 @@ function ContextMenu() {
   }, [rightClickedMessage]);
 
   return (
-    <ul
+    <motion.ul
       ref={ContextMenuRef}
-      className="fixed min-w-52 z-10 bg-gray-300 rounded-md py-[1.5vh]"
+      className="fixed min-w-52 z-10 bg-gray-300 rounded-md py-[1.5vh] overflow-hidden"
       style={{
         top: menuPosition.current.y,
         left: menuPosition.current.x,
+        transformOrigin: transformOrigin,
       }}
+      initial={{ scaleY: 0 }}
+      animate={{ scaleY: 1, transition: { type: "tween", duration: 0.1 } }}
     >
       {contextMenuItems.map((item) => (
         <li
@@ -153,7 +166,9 @@ function ContextMenu() {
               onClick(e, item.name);
             }}
             disabled={
-              item.name === "Delete" && rightClickedMessage.senderId !== userId
+              (item.name === "Delete" &&
+                rightClickedMessage.senderId !== userId) ||
+              isDeleteLoading
             }
           >
             {item.icons}
@@ -161,7 +176,7 @@ function ContextMenu() {
           </button>
         </li>
       ))}
-    </ul>
+    </motion.ul>
   );
 }
 

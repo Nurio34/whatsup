@@ -2,11 +2,7 @@ import Image from "next/image";
 import { AxiosError } from "axios";
 import axiosInstance from "@/axios";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import {
-  selectConnectWith,
-  selectUser,
-  setConnectWith,
-} from "@/store/slices/user";
+import { connectIt, selectConnectWith, selectUser } from "@/store/slices/user";
 import toast from "react-hot-toast";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { setIsUserSearchContainerVisible } from "@/store/slices/components";
@@ -42,9 +38,10 @@ function FoundUser({
       const response = await axiosInstance(
         `/contact/connect/${user?.id}/${foundUser?._id}`
       );
+      console.log(response);
 
       if (response.data.status === "success") {
-        dispatch(setConnectWith(response.data.connectWith));
+        dispatch(connectIt(response.data.connectWith));
         dispatch(setIsUserSearchContainerVisible(false));
         setFoundUser(null);
         toast.success(response.data.message);
