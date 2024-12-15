@@ -60,8 +60,8 @@ function FileAttachButton() {
 
   return (
     <div className=" relative">
-      <label htmlFor="file" className="cursor-pointer">
-        <RiAttachment2 size={20} />
+      <label htmlFor="file" className="block cursor-pointer p-2">
+        <RiAttachment2 size={24} />
         <input
           type="file"
           hidden

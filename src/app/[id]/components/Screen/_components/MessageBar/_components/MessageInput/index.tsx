@@ -46,7 +46,7 @@ function MessageInput({
         setMessage(e.target.value);
       }}
       onKeyDown={sendMessage}
-      value={isLoading ? "Sending.." : message}
+      value={message}
     ></textarea>
   );
 }

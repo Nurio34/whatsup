@@ -31,9 +31,13 @@ function ActionButton({
   return (
     <button
       onClick={sendMessage}
-      className=" transition-all hover:scale-110 active:scale-95"
+      className=" transition-all hover:scale-110 active:scale-95 bg-green-500 p-2 rounded-sm"
     >
-      {isLoading ? <PiTimerBold size={20} /> : <TbSend2 size={20} />}
+      {isLoading ? (
+        <PiTimerBold color="white" size={24} />
+      ) : (
+        <TbSend2 size={24} color="white" />
+      )}
     </button>
   );
 }

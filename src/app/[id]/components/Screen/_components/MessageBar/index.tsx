@@ -23,7 +23,7 @@ function MessageBar() {
   const TextArea = useRef<HTMLTextAreaElement | null>(null);
 
   return (
-    <div className=" flex items-end gap-x-[1vw] px-[1vw] py-[1vh]">
+    <div className=" flex items-center gap-x-[1vw] px-[1vw] py-[1vh]">
       {!isMobile && <EmojiButton setMessage={setMessage} />}
       <FileAttachButton />
       <MessageInput

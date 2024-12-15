@@ -102,15 +102,20 @@ export const chatSlice = createSlice({
       action: PayloadAction<{ connectionId: string; messagesIds: string[] }>
     ) => {
       const { connectionId, messagesIds } = action.payload;
+
+      // Find the current chat by connectionId
       const currentChat = state.chat.find(
         (item) => item.connectionId === connectionId
       );
+
       if (currentChat) {
-        messagesIds.forEach((messageId) => {
-          currentChat.messages = currentChat.messages.filter(
-            (message) => message._id !== messageId
-          );
-        });
+        // Use a Set for O(1) lookup performance
+        const messagesToDelete = new Set(messagesIds);
+
+        // Filter out messages whose _id is in the messagesIds array
+        currentChat.messages = currentChat.messages.filter(
+          (message) => !messagesToDelete.has(message._id)
+        );
       }
     },
   },

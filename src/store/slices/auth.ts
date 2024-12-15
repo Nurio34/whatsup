@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
-import { ErrorsType, FormType, initialFormDataDev } from "@/type/form";
+import { ErrorsType, FormType, initialFormDataProd } from "@/type/form";
 import { logoutUser } from "./user";
 
 export type ThirdPartyLoginTypeType = "google" | "github" | "twitter" | null;
@@ -14,7 +14,7 @@ type AuthType = {
 };
 
 const initialState: AuthType = {
-  form: initialFormDataDev,
+  form: initialFormDataProd,
   isLoading: false,
   errors: null,
   isSubmitted: false,
