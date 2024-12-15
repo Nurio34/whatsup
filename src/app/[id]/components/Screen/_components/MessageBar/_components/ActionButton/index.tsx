@@ -17,13 +17,13 @@ function ActionButton({
   TextArea: MutableRefObject<HTMLTextAreaElement | null>;
 }) {
   const sendMessage = async () => {
+    if (TextArea.current) {
+      TextArea.current.focus();
+    }
     if (Boolean(message)) {
       const response = await send();
       if (response?.data.status === "success") {
         setMessage("");
-        if (TextArea.current) {
-          TextArea.current.focus();
-        }
       }
     }
   };
