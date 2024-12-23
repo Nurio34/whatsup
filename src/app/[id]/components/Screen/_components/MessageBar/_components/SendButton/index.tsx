@@ -3,7 +3,7 @@ import { TbSend2 } from "react-icons/tb";
 import { PiTimerBold } from "react-icons/pi";
 import { SendReturnType } from "../../useSendMessage";
 
-function ActionButton({
+function SendButton({
   message,
   setMessage,
   isLoading,
@@ -42,4 +42,4 @@ function ActionButton({
   );
 }
 
-export default ActionButton;
+export default SendButton;

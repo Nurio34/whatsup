@@ -1,0 +1,9 @@
+.RecordingAnimation {
+  animation: pulsing 1.5s ease-in-out infinite;
+}
+
+@keyframes pulsing {
+  50% {
+    opacity: 0;
+  }
+}
