@@ -39,7 +39,7 @@ function Media({ media, index }: { media: MediaType; index: number }) {
         onClick={onClick}
       >
         <>
-          {media.format === "jpg" && (
+          {media.resource_type === "image" && (
             <Image
               src={media.url}
               fill

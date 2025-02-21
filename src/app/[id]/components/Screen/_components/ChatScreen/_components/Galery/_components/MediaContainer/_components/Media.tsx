@@ -157,7 +157,7 @@ function Media({
               }));
             }}
           >
-            {currentMedia.format === "jpg" && (
+            {currentMedia.resource_type === "image" && (
               <Image
                 src={currentMedia.url}
                 fill

@@ -82,7 +82,7 @@ function SearchUser({
         className={`grow py-1 outline-none
           ${isMobile && "pl-[3vw]"}  
         `}
-        placeholder="Find a chat ..."
+        placeholder="Find a friend ..."
         autoComplete="off"
         onFocus={() => setIsSearchFocused(true)}
         onBlur={() => setIsSearchFocused(false)}

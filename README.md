@@ -1,37 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Whatsup - A WhatsApp Clone
 
-## Getting Started
+Whatsup is a real-time messaging app that mimics the core functionalities of WhatsApp, including secure authentication, media sharing, and real-time message updates.
 
-First, run the development server:
+## 🔗 Live Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**App Live at** [https://whatsup-lime-rho.vercel.app](https://whatsup-lime-rho.vercel.app)
+
+## 📂 Repositories
+
+- **Frontend**: [https://github.com/Nurio34/whatsup](https://github.com/Nurio34/whatsup)
+- **Backend**: [https://github.com/Nurio34/whatsup-server](https://github.com/Nurio34/whatsup-server)
+
+## 📜 Features
+
+- **Authentication**
+  - Email & Password login (Express & MongoDB)
+  - Google, GitHub, and X login (Firebase Authentication)
+  - Password reset via OTP (Nodemailer & Express)
+  - Account creation with OTP verification
+- **Messaging**
+
+  - Real-time messaging (Socket.io)
+  - Read receipts (single tick, double tick, blue tick)
+  - Right-click menu for message actions (copy, delete, multi-select)
+  - Timestamp formatting for messages
+
+- **Media Sharing**
+  - Upload & send images, videos, audio, and documents
+  - Preview files before sending
+  - Gallery view for viewing & downloading media
+
+## 🛠 Tech Stack
+
+### Frontend
+
+- **Framework**: Next.js (TypeScript)
+- **State Management**: Redux Toolkit & Redux Persist
+- **UI**: Tailwind CSS, DaisyUI
+- **Authentication**: Firebase
+- **Other Libraries**: Framer Motion, React Icons, Axios, Emoji Picker, File Saver
+
+### Backend
+
+- **Server**: Express.js
+- **Database**: MongoDB with Mongoose & Prisma
+- **Authentication**: JSON Web Token (JWT), bcrypt.js
+- **Email Service**: Nodemailer
+- **Real-time Messaging**: Socket.io
+- **Security**: Helmet, CORS, Express Rate Limit
+- **File Storage**: Cloudinary, Multer
+
+## 🚀 Getting Started
+
+### 🔧 Installation
+
+#### 1️⃣ Clone the repositories
+
+```sh
+git clone https://github.com/Nurio34/whatsup.git  # Frontend
+cd whatsup
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```sh
+git clone https://github.com/Nurio34/whatsup-server.git  # Backend
+cd whatsup-server
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### 2️⃣ Start the Development Servers
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+# Frontend
+npm run dev
+```
 
-## Learn More
+```sh
+# Backend
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 📬 Contact
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# whatsup
+For any inquiries or collaboration opportunities, feel free to reach out!

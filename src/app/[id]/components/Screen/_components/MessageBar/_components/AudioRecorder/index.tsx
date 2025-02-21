@@ -24,21 +24,21 @@ function AudioRecorder({
   };
 
   const startRecording = () => {
-    console.log("startRecording");
-
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-      const mediaRecorder = new MediaRecorder(stream);
-      MediaRecorderRef.current = mediaRecorder;
-
-      if (AudioRef.current) {
-        AudioRef.current.srcObject = stream;
-      }
-    });
-  };
-
-  useEffect(() => {
     setIsRecording(true);
-  }, []);
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        const mediaRecorder = new MediaRecorder(stream);
+        MediaRecorderRef.current = mediaRecorder;
+
+        if (AudioRef.current) {
+          AudioRef.current.srcObject = stream;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     let interval: NodeJS.Timeout;

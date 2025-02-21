@@ -37,7 +37,7 @@ function UserSearchContainer({
           exit={{
             y: "-12.5%",
             opacity: 0,
-            translateX: "-50%",
+            translateX: isMobile ? "-50%" : "0%",
             transition: { duration: 0.1 },
           }}
         >
@@ -50,6 +50,12 @@ function UserSearchContainer({
             )}
             <li>You have to know exact username fo find it.</li>
             <li>It is case sensetive</li>
+            <li className=" text-primary">
+              You can connect with me typing{" "}
+              <span className=" font-bold text-secondary">
+                &apos;&apos;Nuri&apos;&apos;
+              </span>{" "}
+            </li>
           </ul>
           <SearchUser setFoundUser={setFoundUser} />
           <FoundUser foundUser={foundUser} setFoundUser={setFoundUser} />

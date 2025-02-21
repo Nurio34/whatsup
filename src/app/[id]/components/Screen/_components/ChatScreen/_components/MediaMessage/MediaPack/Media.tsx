@@ -26,7 +26,7 @@ function Media({
 
   return (
     <div onClick={openMediasInGalery} className=" w-full h-full relative">
-      {media.format === "jpg" && (
+      {media.resource_type === "image" && (
         <figure className=" w-full h-full relative" style={{ aspectRatio }}>
           <Image
             src={media.url}

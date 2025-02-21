@@ -23,11 +23,11 @@ function Media({
     dispatch(setCurrenMedias(message.medias));
     dispatch(setCurrenMessage(message.message));
   };
-
+  console.log({ media });
   return (
     <div onClick={openMediasInGalery} className=" relative">
       <>
-        {media.format === "jpg" && (
+        {media.resource_type === "image" && (
           <div className="min-w-40 max-w-48 relative" style={{ aspectRatio }}>
             <Image
               src={media.url}

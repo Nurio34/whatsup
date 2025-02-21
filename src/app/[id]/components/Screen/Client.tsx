@@ -67,7 +67,7 @@ function ScreenClient() {
   useEffect(() => {
     if (socketState) {
       const handleMessage = (message: MessageType) => {
-        console.log("New message !");
+        console.log("New messag1e !", message);
 
         //! *** CHECK IF MESSAGE COME FROM A  NON-CONNECTION USER ***
         const nonConnectionUserId =
