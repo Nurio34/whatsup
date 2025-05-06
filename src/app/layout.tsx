@@ -7,6 +7,7 @@ import Header from "./components/Header";
 import DeviceDetector from "./components/DeviceDetector";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import Ping from "./components/Ping";
 // const geistSans = localFont({
 //     src: "./fonts/GeistVF.woff",
 //     variable: "--font-geist-sans",
@@ -44,6 +45,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Toaster />
+        <Ping />
         <Analytics />
         <SpeedInsights />
       </body>

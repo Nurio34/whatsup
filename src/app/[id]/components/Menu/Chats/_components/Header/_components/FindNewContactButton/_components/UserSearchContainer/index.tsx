@@ -53,7 +53,7 @@ function UserSearchContainer({
             <li className=" text-primary">
               You can connect with me typing{" "}
               <span className=" font-bold text-secondary">
-                &apos;&apos;Nuri&apos;&apos;
+                &apos;&apos;nurio34&apos;&apos;
               </span>{" "}
             </li>
           </ul>

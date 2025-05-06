@@ -43,7 +43,7 @@ function HeaderClient() {
             `}
         >
           <Logo />
-          {<LoginLinkButton />}
+          <LoginLinkButton />
         </header>
       )}
     </>
