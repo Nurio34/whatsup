@@ -38,7 +38,6 @@ export const useSendMediaMessage = (
           },
         }
       );
-      console.log(response);
       return response;
     } catch (error) {
       if (error instanceof AxiosError) {

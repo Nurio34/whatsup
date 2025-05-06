@@ -38,7 +38,6 @@ function FoundUser({
       const response = await axiosInstance(
         `/contact/connect/${user?.id}/${foundUser?._id}`
       );
-      console.log(response);
 
       if (response.data.status === "success") {
         dispatch(connectIt(response.data.connectWith));

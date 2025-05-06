@@ -23,7 +23,6 @@ function Media({
     dispatch(setCurrenMedias(message.medias));
     dispatch(setCurrenMessage(message.message));
   };
-  console.log({ media });
   return (
     <div onClick={openMediasInGalery} className=" relative">
       <>
